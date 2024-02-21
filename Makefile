@@ -9,3 +9,4 @@ build:
 mvn-init:
 	@echo "Initializing maven"
 	(cd scripts/; sh mvn-install.sh se.forsum.mc paper-nms 1.8 paper-nms.jar)
+	(cd SkyServerBase/; mvn clean install)
