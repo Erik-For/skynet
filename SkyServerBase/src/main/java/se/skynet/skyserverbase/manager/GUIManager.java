@@ -12,12 +12,12 @@ import java.util.HashMap;
 
 public class GUIManager implements Listener {
 
-    private final SkyServerBase plugin;
+    //private final SkyServerBase plugin;
 
     private static HashMap<String, Class<? extends GUI>> guis = new HashMap<>();
 
     public GUIManager(SkyServerBase plugin) {
-        this.plugin = plugin;
+        //this.plugin = plugin;
         Reflections reflections = new Reflections("se.skynet.skyserverbase.gui");
         for (Class<? extends GUI> listenerClass : reflections.getSubTypesOf(GUI.class)) {
             try {

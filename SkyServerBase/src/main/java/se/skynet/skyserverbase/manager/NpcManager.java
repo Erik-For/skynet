@@ -7,10 +7,6 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import net.minecraft.server.v1_8_R3.Packet;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityHeadRotation;
-import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
-import org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,7 +25,7 @@ public class NpcManager implements Listener {
 
     protected static List<NPC> npcs = new ArrayList<>();
     private final SkyServerBase plugin;
-//5.5 62 10.5 120 0
+
     public NpcManager(SkyServerBase plugin) {
         this.plugin = plugin;
 

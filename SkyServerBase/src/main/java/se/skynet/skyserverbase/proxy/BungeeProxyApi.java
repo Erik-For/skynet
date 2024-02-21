@@ -18,12 +18,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BungeeProxyApi extends Thread {
 
     private final String responseChannel;
-    private final SkyServerBase plugin;
+    //private final SkyServerBase plugin;
     private final Jedis redisPublisher;
     private final Jedis redisSubscriber;
 
     public BungeeProxyApi(SkyServerBase plugin) {
-        this.plugin = plugin;
+        //this.plugin = plugin;
         this.redisPublisher = new Jedis(System.getenv("REDIS_HOST"), 6379);
         this.redisSubscriber = new Jedis(System.getenv("REDIS_HOST"), 6379);
         this.responseChannel = UUID.randomUUID().toString().split("-")[0];

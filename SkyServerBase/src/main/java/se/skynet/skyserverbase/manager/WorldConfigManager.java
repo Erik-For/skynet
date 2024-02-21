@@ -14,18 +14,16 @@ import se.skynet.skyserverbase.npc.NPCClick;
 import se.skynet.skyserverbase.npc.NPCClickEvent;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Paths;
-import java.util.Map;
 import java.util.UUID;
 
 public class WorldConfigManager implements Listener {
 
-    private final SkyServerBase plugin;
+    //private final SkyServerBase plugin;
     private Location spawn = null;
 
     public WorldConfigManager(SkyServerBase plugin) {
-        this.plugin = plugin;
+        //this.plugin = plugin;
 
 
         File config = null;

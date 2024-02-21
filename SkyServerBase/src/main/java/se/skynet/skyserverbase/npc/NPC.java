@@ -25,12 +25,6 @@ import java.util.UUID;
 
 public class NPC {
 
-    private final SkyServerBase plugin;
-    private final String name;
-    private final UUID uuid;
-    private final String texture;
-    private final String signature;
-    private final Location location;
     private final int id;
     private final PacketPlayOutPlayerInfo info;
     private final PacketPlayOutNamedEntitySpawn spawn;
@@ -40,21 +34,12 @@ public class NPC {
 
     private final NPCClick clickHandler;
     public NPC(SkyServerBase plugin, String name, String displayName, UUID uuid, String texture, String signature, Location location, NPCClick clickHandler) {
-        this.plugin = plugin;
-        this.name = name;
-        this.uuid = uuid;
-        this.texture = texture;
-        this.signature = signature;
-        this.location = location;
         this.clickHandler = clickHandler;
 
-        PacketPlayOutNamedEntitySpawn packet = new PacketPlayOutNamedEntitySpawn();
         MinecraftServer minecraftserver = MinecraftServer.getServer();
         GameProfile gameprofile = new GameProfile(uuid, displayName);
         gameprofile.getProperties().put("textures", new Property("textures", texture, signature));
-
         WorldServer worldserver = ((CraftWorld) location.getWorld()).getHandle();
-
         EntityPlayer npc = new EntityPlayer(minecraftserver, worldserver, gameprofile, new PlayerInteractManager(worldserver));
 
         id = npc.getId();

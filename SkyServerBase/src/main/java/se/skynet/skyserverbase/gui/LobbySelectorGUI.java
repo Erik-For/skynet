@@ -9,7 +9,6 @@ import org.bukkit.inventory.ItemStack;
 import se.skynet.skyserverbase.SkyServerBase;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 
 public class LobbySelectorGUI implements GUI {

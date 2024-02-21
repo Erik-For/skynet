@@ -1,6 +1,5 @@
 package se.skynet.skyserverbase.packet;
 
-import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
 import net.minecraft.server.v1_8_R3.PacketPlayOutScoreboardTeam;
 import net.minecraft.server.v1_8_R3.ScoreboardTeamBase;
 import org.bukkit.entity.Player;

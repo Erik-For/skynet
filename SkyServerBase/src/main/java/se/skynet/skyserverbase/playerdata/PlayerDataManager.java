@@ -32,13 +32,14 @@ public class PlayerDataManager implements Listener {
         Player player = event.getPlayer();
         DatabaseMethods cursor = new DatabaseMethods(plugin.getDatabaseConnectionManager());
         CustomPlayerData data = cursor.getPlayerData(player.getUniqueId());
-        data.setPermissonAttachment(player.addAttachment(plugin));
 
-        if(data.getRank().hasPriorityHigherThanOrEqual(Rank.ADMIN)){
-            player.setOp(true);
-        }
         if (data == null) {
             event.getPlayer().kickPlayer("An error occurred while fetching your player data");
+        }
+
+        data.setPermissonAttachment(player.addAttachment(plugin));
+        if(data.getRank().hasPriorityHigherThanOrEqual(Rank.ADMIN)){
+            player.setOp(true);
         }
         playerData.put(player.getUniqueId(), data);
     }

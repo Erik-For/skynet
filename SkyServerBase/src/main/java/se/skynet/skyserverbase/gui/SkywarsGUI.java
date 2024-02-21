@@ -9,10 +9,10 @@ import se.skynet.skyserverbase.SkyServerBase;
 
 public class SkywarsGUI implements GUI {
 
-    private final SkyServerBase plugin;
+    //private final SkyServerBase plugin;
 
     public SkywarsGUI(SkyServerBase plugin) {
-        this.plugin = plugin;
+        //this.plugin = plugin;
     }
 
     @Override

@@ -10,7 +10,6 @@ public class CustomPlayerData {
 
     public CustomPlayerData(Rank rank) {
         this.rank = rank;
-        this.permissonAttachment = permissonAttachment;
     }
 
     public Rank getRank() {

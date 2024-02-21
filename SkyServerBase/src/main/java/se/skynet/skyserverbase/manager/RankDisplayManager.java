@@ -15,7 +15,6 @@ import se.skynet.skyserverbase.Rank;
 import se.skynet.skyserverbase.SkyServerBase;
 import se.skynet.skyserverbase.playerdata.CustomPlayerData;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 public class RankDisplayManager implements Listener {
