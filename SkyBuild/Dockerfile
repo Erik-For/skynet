@@ -1,4 +1,4 @@
-FROM skynet/build
+FROM skynet/server-base
 
 WORKDIR /server
 
