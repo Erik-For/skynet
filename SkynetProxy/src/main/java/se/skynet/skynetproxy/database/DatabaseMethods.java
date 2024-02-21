@@ -28,7 +28,8 @@ public class DatabaseMethods {
                             "rank ENUM('DEFAULT', 'MVP', 'MODERATOR', 'ADMIN', 'MANAGEMENT') DEFAULT 'DEFAULT'," +
                             "playtime INT DEFAULT 0," +
                             "first_join DATETIME DEFAULT NOW()," +
-                            "last_seen DATETIME DEFAULT NOW()" +
+                            "last_seen DATETIME DEFAULT NOW()," +
+                            "banned BOOLEAN DEFAULT false " +
                             ")"
             );
             ps.executeUpdate();
@@ -39,6 +40,40 @@ public class DatabaseMethods {
         }
     }
 
+    public boolean isBanned(UUID uuid){
+        PreparedStatement ps;
+        try {
+            ps = this.databaseManager.getConnection().prepareStatement(
+                    "SELECT banned FROM player WHERE UUID = ?"
+            );
+            ps.setString(1, uuid.toString());
+            ps.executeQuery();
+            ResultSet resultSet = ps.getResultSet();
+            if(!resultSet.next()){
+                return false;
+            }
+            return resultSet.getBoolean("banned");
+        } catch (SQLException e) {
+            System.out.println("FATAL: Could not get the player data");
+            System.exit(1);
+        }
+        return false;
+    }
+
+    public void setBanned(UUID uuid, boolean banned){
+        PreparedStatement ps;
+        try {
+            ps = this.databaseManager.getConnection().prepareStatement(
+                    "UPDATE player SET banned = ? WHERE UUID = ?"
+            );
+            ps.setBoolean(1, banned);
+            ps.setString(2, uuid.toString());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("FATAL: Could not get the player data");
+            System.exit(1);
+        }
+    }
     public void createPlayer(UUID uuid, String username) {
         // make a method that inserts a new player into the database
         PreparedStatement ps;
