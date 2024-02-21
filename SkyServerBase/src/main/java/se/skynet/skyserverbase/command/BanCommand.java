@@ -15,5 +15,6 @@ public class BanCommand extends Command {
     @Override
     protected boolean executeCommand(Player player, CustomPlayerData playerData, Command command, String s, String[] strings) {
         player.sendMessage(ChatColor.RED + "Use proxyban instead");
+        return true;
     }
 }
