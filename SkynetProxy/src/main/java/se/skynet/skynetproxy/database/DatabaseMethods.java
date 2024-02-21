@@ -25,7 +25,7 @@ public class DatabaseMethods {
                     "CREATE TABLE IF NOT EXISTS player " +
                             "(UUID VARCHAR(36) PRIMARY KEY, " +
                             "username VARCHAR(16), " +
-                            "rank ENUM('DEFAULT', 'MVP', 'MODERATOR', 'ADMIN', 'MANAGEMENT') DEFAULT 'DEFAULT'," +
+                            "rank ENUM('DEFAULT', 'MVP', 'MODERATOR', 'ADMIN', 'MANAGEMENT', 'WEAK_ADMIN') DEFAULT 'DEFAULT'," +
                             "playtime INT DEFAULT 0," +
                             "first_join DATETIME DEFAULT NOW()," +
                             "last_seen DATETIME DEFAULT NOW()," +
@@ -73,6 +73,27 @@ public class DatabaseMethods {
             System.out.println("FATAL: Could not get the player data");
             System.exit(1);
         }
+    }
+
+    public UUID getUUID(String username) {
+        // make a method that gets the UUID from the database
+        PreparedStatement ps;
+        try {
+            ps = this.databaseManager.getConnection().prepareStatement(
+                    "SELECT UUID FROM player WHERE username = ?"
+            );
+            ps.setString(1, username);
+            ps.executeQuery();
+            ResultSet resultSet = ps.getResultSet();
+            if(!resultSet.next()){
+                return null;
+            }
+            return UUID.fromString(resultSet.getString("UUID"));
+        } catch (SQLException e) {
+            System.out.println("FATAL: Could not get the player data");
+            System.exit(1);
+        }
+        return null;
     }
     public void createPlayer(UUID uuid, String username) {
         // make a method that inserts a new player into the database

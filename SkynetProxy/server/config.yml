@@ -6,13 +6,11 @@ player_limit: -1
 permissions:
   default:
   MODERATOR:
-  - bugneecord.command.kick
   - bungeecord.command.server
   - bungeecord.command.find
   - bungeecord.command.list
   ADMIN:
   - bungeecord.command.alert
-  - bungeecord.command.kick
   - bungeecord.command.send
   - bungeecord.command.find
   - bungeecord.command.list
@@ -24,7 +22,6 @@ permissions:
   - bungeecord.command.alert
   - bungeecord.command.end
   - bungeecord.command.ip
-  - bungeecord.command.reload
   - bungeecord.command.kick
   - bungeecord.command.send
 timeout: 30000

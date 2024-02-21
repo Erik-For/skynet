@@ -6,8 +6,9 @@ public enum Rank {
     DEFAULT("default", "", ChatColor.GRAY, 0),
     MVP("MVP", ChatColor.GOLD + "MVP", ChatColor.GOLD, 1),
     MODERATOR("Moderator", ChatColor.DARK_GREEN + "Moderator", ChatColor.DARK_GREEN, 2),
-    ADMIN("Admin", ChatColor.RED + "Admin", ChatColor.RED, 3),
-    MANAGEMENT("Management", ChatColor.LIGHT_PURPLE + "Management", ChatColor.LIGHT_PURPLE, 4);
+    WEAK_ADMIN("Weak Admin", ChatColor.RED + "Admin", ChatColor.RED, 3),
+    ADMIN("Admin", ChatColor.RED + "Admin", ChatColor.RED, 4),
+    MANAGEMENT("Management", ChatColor.LIGHT_PURPLE + "Management", ChatColor.LIGHT_PURPLE, 5);
     private final String displayName;
     private final String prefix;
 

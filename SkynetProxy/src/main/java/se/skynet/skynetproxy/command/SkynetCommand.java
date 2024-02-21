@@ -3,11 +3,15 @@ package se.skynet.skynetproxy.command;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.TabExecutor;
 import se.skynet.skynetproxy.Rank;
 import se.skynet.skynetproxy.SkyProxy;
 import se.skynet.skynetproxy.playerdata.CustomPlayerData;
 
-public abstract class SkynetCommand extends Command {
+import java.util.Arrays;
+import java.util.Collections;
+
+public abstract class SkynetCommand extends Command implements TabExecutor {
     private final Rank minRank;
     private final SkyProxy plugin;
     public SkynetCommand(String command, Rank minRank, SkyProxy plugin){
@@ -31,5 +35,19 @@ public abstract class SkynetCommand extends Command {
         executeCommand(player, data.getRank(), args);
     }
 
+    @Override
+    public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
+        if(!(sender instanceof ProxiedPlayer)){
+            return Collections.emptyList();
+        }
+        ProxiedPlayer player = (ProxiedPlayer) sender;
+        CustomPlayerData data = plugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
+        if(minRank.hasPriorityHigherThanOrEqual(data.getRank())){
+            return Collections.emptyList();
+        }
+        return tabComplete(player, data.getRank(), args);
+    }
+
     public abstract void executeCommand(ProxiedPlayer player, Rank rank, String[] args);
+    public abstract Iterable<String> tabComplete(ProxiedPlayer player, Rank rank, String[] args);
 }

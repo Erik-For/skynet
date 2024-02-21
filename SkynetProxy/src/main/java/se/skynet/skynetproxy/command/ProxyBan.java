@@ -8,6 +8,9 @@ import se.skynet.skynetproxy.Rank;
 import se.skynet.skynetproxy.SkyProxy;
 import se.skynet.skynetproxy.database.DatabaseMethods;
 
+import java.util.Collections;
+import java.util.UUID;
+
 public class ProxyBan extends SkynetCommand {
 
     private final SkyProxy proxy;
@@ -26,9 +29,15 @@ public class ProxyBan extends SkynetCommand {
         }
         String username = args[0];
         ProxiedPlayer targetPlayer = proxy.getProxy().getPlayer(username);
+        UUID targetUUID;
         if (targetPlayer == null || !targetPlayer.isConnected()){
-            player.sendMessage(ErrorMessages.noPlayer);
-            return;
+            targetUUID = new DatabaseMethods((proxy.getDatabaseConnectionManager())).getUUID(username);
+            if(targetUUID == null){
+                player.sendMessage(ErrorMessages.noPlayer);
+                return;
+            }
+        } else {
+            targetUUID = targetPlayer.getUniqueId();
         }
         Rank tagetPlayerRank = proxy.getPlayerDataManager().getPlayerData(targetPlayer.getUniqueId()).getRank();
         if(tagetPlayerRank.hasPriorityHigherThan(rank)){
@@ -37,5 +46,21 @@ public class ProxyBan extends SkynetCommand {
         }
         new DatabaseMethods(proxy.getDatabaseConnectionManager()).setBanned(targetPlayer.getUniqueId(), true);
         targetPlayer.disconnect(new ComponentBuilder("You have been banned from the server!").color(ChatColor.RED).create());
+    }
+
+    @Override
+    public Iterable<String> tabComplete(ProxiedPlayer player, Rank rank, String[] args) {
+        // tabcomplete player names of online players
+        if(args.length == 0){
+            return proxy.getProxy().getPlayers().stream().map(ProxiedPlayer::getName)::iterator;
+        } else if(args.length == 1) {
+            return proxy.getProxy().getPlayers().stream().filter((proxiedPlayer -> {
+                boolean a = proxiedPlayer.getName().toLowerCase().startsWith(args[0].toLowerCase());
+                boolean b = proxy.getPlayerDataManager().getPlayerData(proxiedPlayer.getUniqueId()).getRank().hasPriorityHigherThanOrEqual(rank);
+                return a && !b;
+            })).map(ProxiedPlayer::getName)::iterator;
+        }
+
+        return Collections.emptyList();
     }
 }
