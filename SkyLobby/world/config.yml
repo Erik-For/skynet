@@ -1,0 +1,36 @@
+spawn:
+  x: 4
+  y: 62
+  z: 9
+  yaw: 115
+  pitch: 0
+
+npcs:
+  skywars-npc:
+    displayname: '§a§lSkyWars'
+    skin:
+      signature: QqaZVztINRqTZvKqE9wcYUJG38mLBakVFMSI5naaGPGS+4YAunTJaA0aONGefi+ydfstG8zxIj83XdwIEEzb23IRH9emkF2BDQdb3a7A9XLjFn/FI9R+EU0PwujRYS/EDDJ35biUh6GG92r1ZBQOVrQgB+x+4RCXXzx2UedBfDKYZJQT5oPX1GK1gQm06mgaPKKYPsXFinyVcrzzrhoueEOKvplZRXgv9Tt/Wvw5pU5N/e3pQnrnzU0DNZ6LNaCQoRQsOdPNja8wB7cPoDGjFSogBIOqBHKub0FEI53zXqpT9ll+fAiMsUFC13kPWNFRnMKcRQgRXch6QcFYOGMA6glQoIH/OG7QVEFQhJH617lDod8KrcyxVh5iD1YUfZC3O/mwqMUkzCQo7Njnxbd0IHLi9b1i3ihwszPSBUX+SuMk1ssSEkeV8k9t/VmqC/XsWUQRunjrZDrIpctuhPG2QH9XgNVKl4ZSq47bqoljOjD3AEDarqKDWMbKx5oG5x9gRQpxlY9mCdNtUrwzl+MAr+8AvAszsmt9NYRcS04vxDDraTnmfUFG06+r/pEQtgosQ354SWqmIp0GMHJRHBhX/yT2W13wH+ZAhaXqyRxX+3r+EXBinV5i+R7LSxbEtghUDSLa6wWCnCNVYv7D5fo8K9B0hb+HDU1VWXoOrY7JM/c=
+      texture: ewogICJ0aW1lc3RhbXAiIDogMTU4ODczOTQ2NDM5MywKICAicHJvZmlsZUlkIiA6ICJhNmE3MzI2NjZhZTI0YjIwYWQyNmIzYWZkZWZjNmM1MCIsCiAgInByb2ZpbGVOYW1lIiA6ICJNeXN0aWNHYW1lck1hbiIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8xYzBkNWU3MDg0ZDNiNWJkNDllMTdkYTAzZjAwNTk3YzhmZDI3MTA1MWI3NjYwYTcyNTM0MTI0NDQ4MDM3NjZmIiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0=
+    location:
+      x: 5.5
+      y: 62
+      z: 10.5
+      yaw: 120
+      pitch: 0
+    click:
+      mouse: ANY
+      gui: 'SkywarsGUI'
+  lobby-selector:
+    displayname: '§a§lLobby'
+    skin:
+      signature: qSJBND+tmy4O/+m/N21yHl6kWbuUIsjgugLgELLhpoqc55cd6DAGl4seGV9qE7tFCrNU1MgiSIeGE/mgqdzcGLyVsXsywJxiJzaSLra63I2EdsITvA9gMZVvcMlkPOmYOCF37d0hfOUW5eIxL9sq52B4yPws4k5Mfcd4PPD3NbAoA8exH9bRqH+hx7+pbhjCdkxIxwFEHfsp7t/DGzhbUJFW3ulEUHJHddXGE1JuqYxGsk9UhmQu7sA4bLOQuHisZj0CYXlsDXIopVVSEN7nnajEvCE4e2yoW1kHUfOsADQGkD0kBBw5A+VHz15dKFaLjmyGz0GrKTPNlXcrGPiHbCVU+WxXGAljfIXLtUiKPJksAmQTlIt6bGnrZ/oDWbp7WXizo4qogD5TTHz2ZBQ+wPf1h7BTjv1tVWjVhjEpbj2AXveUHL6CVYEv0Eb4GCXRpJO83z5sGGhyVDRnRZYLIUBapJvpDCpGYkQAiW+go04s4R5/RKpHJ9kxnhILXpxY/3NBz8rPy7NNvVBAQJOiXVX9IJbZkoxQwSjDO+VdD0cEb/Ov5vHtTkzhQuVTOUwP0DgdluPB6jq6Ui3nMSi1PbBESGCwiU6xMXk0E96saxF5NAET+n06yU7Si2Jju5mQX8cphG8jIm4pLxYaYulOqyHLOYAEjZdSd3f26FAWtVc=
+      texture: eyJ0aW1lc3RhbXAiOjE1ODcyNDE1OTEyNzYsInByb2ZpbGVJZCI6IjRkNzA0ODZmNTA5MjRkMzM4NmJiZmM5YzEyYmFiNGFlIiwicHJvZmlsZU5hbWUiOiJzaXJGYWJpb3pzY2hlIiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS82ODY3MThkODVlMjViMDA2ZjJjOGYxNjBmNjE5YjIzYzhmZDZhZTc1ZGRmMWMwNjMwOGVjMGY1MzlkOTMxNzAzIn19fQ==
+    location:
+      x: 5.5
+      y: 62
+      z: 9.2
+      yaw: 100
+      pitch: 0
+    click:
+      mouse: ANY
+      gui: 'LobbySelectorGUI'

@@ -1,0 +1,6 @@
+name: Skywars
+version: '${project.version}'
+main: se.skynet.skywars._
+
+depend:
+  - SkyServerBase

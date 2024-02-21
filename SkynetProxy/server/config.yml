@@ -1,0 +1,67 @@
+server_connect_timeout: 5000
+enforce_secure_profile: false
+remote_ping_cache: -1
+forge_support: false
+player_limit: -1
+permissions:
+  default:
+  MODERATOR:
+  - bugneecord.command.kick
+  - bungeecord.command.server
+  - bungeecord.command.find
+  - bungeecord.command.list
+  ADMIN:
+  - bungeecord.command.alert
+  - bungeecord.command.kick
+  - bungeecord.command.send
+  - bungeecord.command.find
+  - bungeecord.command.list
+  - bungeecord.command.server
+  MANAGEMENT:
+  - bungeecord.command.server
+  - bungeecord.command.list
+  - bungeecord.command.find
+  - bungeecord.command.alert
+  - bungeecord.command.end
+  - bungeecord.command.ip
+  - bungeecord.command.reload
+  - bungeecord.command.kick
+  - bungeecord.command.send
+timeout: 30000
+log_commands: false
+network_compression_threshold: 256
+online_mode: true
+disabled_commands:
+- disabledcommandhere
+servers:
+  dont-touch-this:
+    address: localhost:25566
+    restricted: false
+
+listeners:
+- query_port: 25577
+  motd: '&1Skynet'
+  tab_list: GLOBAL_PING
+  query_enabled: false
+  proxy_protocol: false
+  forced_hosts:
+    pvp.md-5.net: lobby
+  ping_passthrough: false
+  priorities:
+  - dont-touch-this
+  bind_local_address: true
+  host: 0.0.0.0:25565
+  max_players: 1
+  tab_size: 60
+  force_default_server: false
+ip_forward: true
+remote_ping_timeout: 5000
+reject_transfers: false
+prevent_proxy_connections: true
+groups:
+  X608:
+  - admin
+connection_throttle: 4000
+stats: 24b6eec4-dc62-46b0-b201-af9da8deb1a8
+connection_throttle_limit: 3
+log_pings: true

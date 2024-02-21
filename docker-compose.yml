@@ -1,0 +1,106 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Q819!KJkaqi@
+      MYSQL_DATABASE: skynet
+      MYSQL_USER: skynet-server
+      MYSQL_PASSWORD: o{wc9SBQnF80
+    networks:
+      - backend
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports: [8080:80]
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: Q819!KJkaqi@
+    networks:
+      - backend
+
+  redis:
+    image: redis:alpine
+    networks:
+      - backend
+
+  server-base:
+    image: skynet/server-base
+    depends_on:
+      - db
+      - redis
+      - proxy
+    environment:
+      DB_HOST: db
+      DB_DATABASE: skynet
+      DB_USERNAME: skynet-server
+      DB_PASSWORD: o{wc9SBQnF80
+      REDIS_HOST: redis
+    networks:
+      - backend
+    deploy:
+      replicas: 0
+
+  proxy:
+    image: skynet/proxy
+    ports: [25565:25565]
+    environment:
+      DB_HOST: db
+      DB_DATABASE: skynet
+      DB_USERNAME: skynet-server
+      DB_PASSWORD: o{wc9SBQnF80
+      REDIS_HOST: redis
+    depends_on:
+      - db
+      - redis
+    networks:
+      - backend
+
+  lobby:
+    image: skynet/lobby
+    depends_on:
+      - db
+      - redis
+      - proxy
+    environment:
+      DB_HOST: db
+      DB_DATABASE: skynet
+      DB_USERNAME: skynet-server
+      DB_PASSWORD: o{wc9SBQnF80
+      REDIS_HOST: redis
+    networks:
+      - backend
+    deploy:
+      replicas: 1
+  skywars:
+    image: skynet/skywars
+    depends_on:
+      - db
+      - redis
+      - proxy
+    environment:
+      DB_HOST: db
+      DB_DATABASE: skynet
+      DB_USERNAME: skynet-server
+      DB_PASSWORD: o{wc9SBQnF80
+      REDIS_HOST: redis
+    networks:
+      - backend
+    deploy:
+      replicas: 1
+
+volumes:
+  db_data:
+
+networks:
+  backend:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.15.1.0/24

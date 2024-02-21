@@ -1,0 +1,10 @@
+name: SkyServerBase
+version: '${project.version}'
+main: se.skynet.skyserverbase.SkyServerBase
+
+depend:
+  - ProtocolLib
+
+commands:
+  fly:
+  build:
