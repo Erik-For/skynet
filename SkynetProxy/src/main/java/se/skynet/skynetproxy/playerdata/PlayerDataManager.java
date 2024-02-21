@@ -39,9 +39,7 @@ public class PlayerDataManager implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerQuit(PlayerDisconnectEvent event){
         ProxiedPlayer player = event.getPlayer();
-        for (String group : player.getGroups()) {
-            player.removeGroups(group);
-        }
+        player.getGroups().iterator().forEachRemaining(group -> player.removeGroups(group));
         playerData.remove(player.getUniqueId());
     }
 }
