@@ -11,6 +11,7 @@ import se.skynet.skynetproxy.SkyProxy;
 import se.skynet.skynetproxy.database.DatabaseMethods;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.UUID;
 
 public class PlayerDataManager implements Listener {
@@ -39,7 +40,10 @@ public class PlayerDataManager implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerQuit(PlayerDisconnectEvent event){
         ProxiedPlayer player = event.getPlayer();
-        player.getGroups().iterator().forEachRemaining(group -> player.removeGroups(group));
+        Iterator<String> iterator = player.getGroups().iterator();
+        while(iterator.hasNext()){
+            player.removeGroups(iterator.next());
+        }
         playerData.remove(player.getUniqueId());
     }
 }
