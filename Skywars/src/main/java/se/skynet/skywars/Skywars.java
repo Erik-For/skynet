@@ -7,9 +7,11 @@ public final class Skywars extends JavaPlugin {
 
 
     private final SkyServerBase parentPlugin = SkyServerBase.getPlugin(SkyServerBase.class);
-    
+
+    private GameManger gameManager;
     @Override
     public void onEnable() {
+        gameManager = new GameManger(this);
 
     }
 

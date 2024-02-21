@@ -59,6 +59,10 @@ public class LobbySelectorGUI implements GUI {
         if (!(event.getWhoClicked() instanceof Player)) {
             return;
         }
+        if(event.getCurrentItem().getType().equals(Material.DIAMOND)) {
+            ((Player) event.getWhoClicked()).sendMessage(ChatColor.RED + "You are already connected to this server");
+            return;
+        }
         Player player = (Player) event.getWhoClicked();
         if (slotServerMap.containsKey(event.getSlot())) {
             try {

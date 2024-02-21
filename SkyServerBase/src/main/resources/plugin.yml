@@ -9,3 +9,5 @@ commands:
   fly:
   build:
   ban:
+  kick:
+  configcreator:

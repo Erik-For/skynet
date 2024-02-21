@@ -87,7 +87,7 @@ public class NpcManager implements Listener {
                 public void run() {
                     PacketUtils.sendPacket(player, npc.getRemoveTab());
                 }
-            }.runTaskLater(plugin, 20);
+            }.runTaskLater(plugin, 20*3);
         }
     }
 
