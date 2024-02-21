@@ -13,8 +13,6 @@ public class ProxyBan extends SkynetCommand {
     private final SkyProxy proxy;
     public BaseComponent[] formatError = new ComponentBuilder("/proxyban <Player>").color(ChatColor.RED).create();
 
-
-
     public ProxyBan(SkyProxy proxy){
         super("proxyban", Rank.MODERATOR, proxy);
         this.proxy = proxy;
@@ -38,5 +36,6 @@ public class ProxyBan extends SkynetCommand {
             return;
         }
         new DatabaseMethods(proxy.getDatabaseConnectionManager()).setBanned(targetPlayer.getUniqueId(), true);
+        targetPlayer.disconnect(new ComponentBuilder("You have been banned from the server!").color(ChatColor.RED).create());
     }
 }
