@@ -8,3 +8,4 @@ depend:
 commands:
   fly:
   build:
+  ban:

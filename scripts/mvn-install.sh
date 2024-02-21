@@ -3,7 +3,7 @@
 # Check if exactly 4 arguments are provided
 if [ "$#" -ne 4 ]; then
     echo "Usage: $0 groupId artifactId version jarFilePath"
-    exit 1
+    exit 1ss
 fi
 
 # Assign arguments to variables for better readability
@@ -21,4 +21,4 @@ mvn install:install-file \
    -Dpackaging=jar \
    -DgeneratePom=true
 
-echo "Artifact installed successfully."
+echo "Artifact installed successfully.";
