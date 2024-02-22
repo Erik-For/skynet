@@ -83,16 +83,12 @@ public class ChatManager {
     }
 
     public static String separator(){
-        // calculate length of sepeartor line
-        int length = 0;
-        for(DefaultFontInfo dFI : DefaultFontInfo.values()){
-            length += dFI.getLength();
-        }
-        length = length * 2;
+        // calculate width with -
+        int i = CENTER_PX / DefaultFontInfo.MINUS.getLength();
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < length; i++){
+        for(int j = 0; j < i; j++){
             sb.append("-");
         }
-        return ChatColor.AQUA + sb.toString();
+        return sb.toString();
     }
 }
