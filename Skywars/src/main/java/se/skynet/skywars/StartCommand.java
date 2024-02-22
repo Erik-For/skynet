@@ -14,7 +14,7 @@ public class StartCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        gameManager.setGameState(GameState.INGAME);
+        gameManager.setGameState(GameState.STARTING);
         return true;
     }
 }

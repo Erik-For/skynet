@@ -1,6 +1,8 @@
 package se.skynet.skywars;
 
+import org.bukkit.ChatColor;
 import se.skynet.skywars.loot.LootManger;
+import se.skynet.skywars.timing.Timer;
 
 public class GameManger {
 
@@ -25,6 +27,11 @@ public class GameManger {
             case LOBBY:
 
             case STARTING:
+                new Timer(5, seconds -> {
+                    plugin.getServer().broadcastMessage(ChatColor.YELLOW + "Game starting in " + ChatColor.RED + Integer.toString(seconds));
+                },seconds -> {
+                    setGameState(GameState.CAGE_DESTRUCTION);
+                });
                 break;
             case CAGE_DESTRUCTION:
                 lootManger.fillChests();
