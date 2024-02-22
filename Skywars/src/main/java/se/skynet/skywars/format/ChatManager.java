@@ -1,6 +1,5 @@
 package se.skynet.skywars.format;
 
-import com.google.gson.GsonBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import se.skynet.skywars.Skywars;
@@ -16,15 +15,11 @@ public class ChatManager {
     public static String constructWinMessage(Map<UUID, Integer> kills, List<Player> players, Player winner, Skywars plugin) {
         StringBuilder sb = new StringBuilder();
         sb.append(ChatColor.GOLD).append("Game over!").append("\n");
-        sb.append(ChatColor.GOLD).append("Winner: ").append(ChatColor.GREEN).append(winner.getName()).append("\n");
-
-        // sort kills map by value
-        // if there are more than 1 player, add 2nd place
-        // if there are more than 2 player add 3rd place
+        sb.append(separator()).append("\n");
+        sb.append(centerMessage(ChatColor.GOLD + "Winner: " + plugin.getParentPlugin().getPlayerDataManager().getPlayerData(winner.getUniqueId()).getRank().getRankColor() + winner.getName())).append("\n");
 
         Stream<Map.Entry<UUID, Integer>> sorted = kills.entrySet().stream().sorted((o1, o2) -> o2.getValue());
 
-        // format: n:th place - (rankcolors) playername - kills
         AtomicInteger i = new AtomicInteger(1);
         sorted.forEach(entry -> {
             String place = i.get() == 1 ? "1st" : i.get() == 2 ? "2nd" : "3rd";
@@ -43,6 +38,8 @@ public class ChatManager {
             sb.append(centerMessage(stringBuilder.toString())).append("\n");
             i.getAndIncrement();
         });
+        sb.append("\n");
+        sb.append(separator()).append("\n");
 
         return sb.toString();
     }
@@ -83,5 +80,9 @@ public class ChatManager {
             compensated += spaceLength;
         }
         return (sb.toString() + message);
+    }
+
+    public static String separator(){
+        return ChatColor.AQUA + "----------------------------------------";
     }
 }
