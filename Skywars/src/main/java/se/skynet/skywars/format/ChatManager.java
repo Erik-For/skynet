@@ -84,9 +84,8 @@ public class ChatManager {
 
     public static String separator(){
         // calculate width with -
-        int i = CENTER_PX*2 / DefaultFontInfo.MINUS.getLength();
         StringBuilder sb = new StringBuilder();
-        for(int j = 0; j < i-1; j++){
+        for(int j = 0; j < 53; j++){
             sb.append("-");
         }
         return sb.toString();
