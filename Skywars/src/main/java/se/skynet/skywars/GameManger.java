@@ -11,7 +11,7 @@ public class GameManger {
     private final ConfigManager configManager;
     private final PlayerManager playerJoinManager;
     private final CageManager cageManager;
-    private GameState gameState;
+    private GameState gameState = GameState.LOBBY;
     public GameManger(Skywars plugin) {
         this.plugin = plugin;
         this.lootManger = new LootManger(this);
