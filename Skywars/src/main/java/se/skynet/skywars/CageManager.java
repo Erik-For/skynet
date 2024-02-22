@@ -38,7 +38,7 @@ public class CageManager implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageEvent event){
-        if(gameManger.getGameState() == GameState.STARTING){
+        if(gameManger.getGameState() == GameState.CAGE_DESTRUCTION){
             event.setCancelled(true);
         }
     }

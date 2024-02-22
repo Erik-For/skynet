@@ -9,13 +9,13 @@ public class GameManger {
     private final Skywars plugin;
     private final LootManger lootManger;
     private final ConfigManager configManager;
-    private final PlayerManager playerJoinManager;
+    private final PlayerManager playerManager;
     private final CageManager cageManager;
     private GameState gameState = GameState.LOBBY;
     public GameManger(Skywars plugin) {
         this.plugin = plugin;
         this.lootManger = new LootManger(this);
-        this.playerJoinManager = new PlayerManager(this);
+        this.playerManager = new PlayerManager(this);
         this.cageManager = new CageManager(this);
         this.configManager = new ConfigManager(this);
         setGameState(GameState.LOBBY);
@@ -39,8 +39,12 @@ public class GameManger {
             case CAGE_DESTRUCTION:
                 lootManger.fillChests();
                 this.cageManager.removeCages();
+                new Timer(2, seconds -> {}, seconds -> {
+                    setGameState(GameState.INGAME);
+                });
                 break;
             case INGAME:
+                
                 break;
             case ENDING:
                 break;
@@ -48,8 +52,8 @@ public class GameManger {
     }
 
 
-    public PlayerManager getPlayerJoinManager() {
-        return playerJoinManager;
+    public PlayerManager getPlayerManager() {
+        return playerManager;
     }
 
     public GameState getGameState() {

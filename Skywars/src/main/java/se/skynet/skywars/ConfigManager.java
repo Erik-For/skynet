@@ -1,7 +1,5 @@
 package se.skynet.skywars;
 
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.GsonBuilder;
 import net.minecraft.server.v1_8_R3.Tuple;
 import org.apache.commons.lang3.EnumUtils;
 import org.bukkit.Location;
@@ -14,7 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -72,7 +69,7 @@ public class ConfigManager {
             int y = (int) map.get("y");
             int z = (int) map.get("z");
             Location location = new Location(manger.getPlugin().getServer().getWorlds().get(0), x + 0.5, y, z + 0.5, 0, 0);
-            manger.getPlayerJoinManager().addSpawnLocation(location);
+            manger.getPlayerManager().addSpawnLocation(location);
             manger.getCageManager().addCageLocation(location);
         });
 
