@@ -27,18 +27,16 @@ public class ChatManager {
         sorted.forEach(entry -> {
             String place = i.get() == 1 ? "1st" : i.get() == 2 ? "2nd" : "3rd";
             Player player = plugin.getServer().getPlayer(entry.getKey());
-            if (player.getUniqueId().equals(entry.getKey())) {
-                sb
-                        .append(ChatColor.GOLD)
-                        .append(place)
-                        .append(" - ")
-                        .append(plugin.getParentPlugin().getPlayerDataManager().getPlayerData(player.getUniqueId()).getRank().getRankColor())
-                        .append(player.getName()).append(ChatColor.GOLD)
-                        .append(" - ")
-                        .append(ChatColor.GREEN)
-                        .append(entry.getValue())
-                        .append("\n");
-            }
+            sb
+                    .append(ChatColor.GOLD)
+                    .append(place)
+                    .append(" - ")
+                    .append(plugin.getParentPlugin().getPlayerDataManager().getPlayerData(player.getUniqueId()).getRank().getRankColor())
+                    .append(player.getName()).append(ChatColor.GOLD)
+                    .append(" - ")
+                    .append(ChatColor.GREEN)
+                    .append(entry.getValue())
+                    .append("\n");
             i.getAndIncrement();
         });
 
