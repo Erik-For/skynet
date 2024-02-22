@@ -31,7 +31,7 @@ public class GameManger {
                     plugin.getServer().broadcastMessage(ChatColor.YELLOW + "Game starting in " + ChatColor.RED + Integer.toString(seconds));
                 },seconds -> {
                     setGameState(GameState.CAGE_DESTRUCTION);
-                });
+                }).start(plugin);
                 break;
             case CAGE_DESTRUCTION:
                 lootManger.fillChests();
