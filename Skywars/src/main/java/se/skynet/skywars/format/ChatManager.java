@@ -1,5 +1,6 @@
 package se.skynet.skywars.format;
 
+import com.google.gson.GsonBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import se.skynet.skywars.Skywars;
@@ -22,6 +23,7 @@ public class ChatManager {
         // if there are more than 2 player add 3rd place
 
         Stream<Map.Entry<UUID, Integer>> sorted = kills.entrySet().stream().sorted((o1, o2) -> o2.getValue());
+        System.out.println("sorted: " + new GsonBuilder().setPrettyPrinting().create().toJson(sorted));
         // format: n:th place - (rankcolors) playername - kills
         AtomicInteger i = new AtomicInteger(1);
         sorted.forEach(entry -> {
