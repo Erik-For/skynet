@@ -53,7 +53,10 @@ public class GameManger {
             case INGAME:
 
                 break;
-            case ENDING:
+            case END:
+                // print win message, 1,2,3 place in kills and winner
+
+                
                 break;
         }
     }

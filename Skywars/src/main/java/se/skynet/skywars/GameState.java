@@ -5,5 +5,5 @@ public enum GameState {
     STARTING,
     CAGE_DESTRUCTION,
     INGAME,
-    ENDING;
+    END;
 }

@@ -59,9 +59,9 @@ public class PlayerManager implements Listener {
 
             Player killer = gameManger.getTagManager().getTaggedPlayer(player);
             if(killer == null){
-                gameManger.getPlugin().getServer().broadcastMessage(ChatColor.RED + player.getName() + ChatColor.YELLOW + "Died");
+                gameManger.getPlugin().getServer().broadcastMessage(ChatColor.RED + player.getName() + ChatColor.YELLOW + " Died");
             } else {
-                gameManger.getPlugin().getServer().broadcastMessage(ChatColor.RED + player.getName() + ChatColor.YELLOW + " was killed by" + ChatColor.RED + killer.getName());
+                gameManger.getPlugin().getServer().broadcastMessage(ChatColor.RED + player.getName() + ChatColor.YELLOW + " was killed by " + ChatColor.RED + killer.getName());
             }
 
             player.setHealth(20);
@@ -70,6 +70,10 @@ public class PlayerManager implements Listener {
             player.setAllowFlight(true);
             player.setFlying(true);
             hidePlayer(player);
+
+            if(playersAlive.size() == 1){
+                gameManger.setGameState(GameState.END);
+            }
         }
     }
 
@@ -156,4 +160,9 @@ public class PlayerManager implements Listener {
         }
 
     }
+
+    public Map<UUID, Integer> getKills() {
+        return kills;
+    }
 }
+
