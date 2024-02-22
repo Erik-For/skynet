@@ -1,6 +1,7 @@
 package se.skynet.skywars;
 
 import org.bukkit.ChatColor;
+import se.skynet.skywars.format.ChatManager;
 import se.skynet.skywars.loot.LootManger;
 import se.skynet.skywars.timing.Timer;
 
@@ -55,8 +56,8 @@ public class GameManger {
                 break;
             case END:
                 // print win message, 1,2,3 place in kills and winner
+                plugin.getServer().broadcastMessage(ChatManager.constructWinMessage(playerManager.getKills(), playerManager.getPlayersInGame(), playerManager.getPlayersAlive().get(0), plugin));
 
-                
                 break;
         }
     }

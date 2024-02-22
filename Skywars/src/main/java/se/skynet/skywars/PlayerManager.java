@@ -51,6 +51,10 @@ public class PlayerManager implements Listener {
             return;
         }
         Player player = (Player) event.getEntity();
+        if(!playersAlive.contains(player)){
+            event.setCancelled(true);
+            return;
+        }
         if(gameManger.getGameState() != GameState.INGAME){
             event.setCancelled(true);
         }
@@ -67,6 +71,7 @@ public class PlayerManager implements Listener {
             player.setHealth(20);
             playersAlive.remove(player);
             player.getInventory().clear();
+            player.teleport(new Location(player.getWorld(), 0, 100, 0));
             player.setAllowFlight(true);
             player.setFlying(true);
             hidePlayer(player);
@@ -163,6 +168,10 @@ public class PlayerManager implements Listener {
 
     public Map<UUID, Integer> getKills() {
         return kills;
+    }
+
+    public List<Player> getPlayersInGame() {
+        return playersInGame;
     }
 }
 
