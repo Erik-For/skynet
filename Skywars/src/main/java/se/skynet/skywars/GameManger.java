@@ -11,6 +11,7 @@ public class GameManger {
     private final ConfigManager configManager;
     private final PlayerManager playerManager;
     private final CageManager cageManager;
+    private final BukkitEventManager bukkitEventManager;
     private GameState gameState = GameState.LOBBY;
     public GameManger(Skywars plugin) {
         this.plugin = plugin;
@@ -18,6 +19,7 @@ public class GameManger {
         this.playerManager = new PlayerManager(this);
         this.cageManager = new CageManager(this);
         this.configManager = new ConfigManager(this);
+        this.bukkitEventManager = new BukkitEventManager(this);
         setGameState(GameState.LOBBY);
     }
 
@@ -44,7 +46,7 @@ public class GameManger {
                 });
                 break;
             case INGAME:
-                
+
                 break;
             case ENDING:
                 break;
