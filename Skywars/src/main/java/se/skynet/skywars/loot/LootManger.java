@@ -3,10 +3,12 @@ package se.skynet.skywars.loot;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
+import org.bukkit.inventory.ItemStack;
 import se.skynet.skywars.GameManger;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
 
 public class LootManger {
 
@@ -38,16 +40,25 @@ public class LootManger {
     }
 
     public void fillChests() {
+        int itemCount = 5;
         for (Location location : islandChests) {
-            if(location.getBlock().getType() == Material.CHEST){
+            if(location.getBlock().getType() == Material.CHEST) {
                 Chest chest = (Chest) location.getBlock().getState();
-                getIslandLootTable().generateItems(5).forEach(item -> chest.getInventory().addItem(item));
+                Iterator<ItemStack> itemStackIterator = getIslandLootTable().generateItems(itemCount).iterator();
+                PrimitiveIterator.OfInt iterator = Arrays.stream(ThreadLocalRandom.current().ints(0, chest.getInventory().getSize() - 1).distinct().limit(itemCount).toArray()).iterator();
+                while (iterator.hasNext()) {
+                    chest.getInventory().setItem(iterator.next(), itemStackIterator.next());
+                }
             }
         }
         for (Location location : middleChests) {
             if(location.getBlock().getType() == Material.CHEST){
                 Chest chest = (Chest) location.getBlock().getState();
-                getMiddleLootTable().generateItems(5).forEach(item -> chest.getInventory().addItem(item));
+                Iterator<ItemStack> itemStackIterator = getMiddleLootTable().generateItems(itemCount).iterator();
+                PrimitiveIterator.OfInt iterator = Arrays.stream(ThreadLocalRandom.current().ints(0, chest.getInventory().getSize() - 1).distinct().limit(itemCount).toArray()).iterator();
+                while (iterator.hasNext()) {
+                    chest.getInventory().setItem(iterator.next(), itemStackIterator.next());
+                }
             }
         }
     }

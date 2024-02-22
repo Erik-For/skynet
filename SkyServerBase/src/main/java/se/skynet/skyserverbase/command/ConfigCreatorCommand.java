@@ -16,10 +16,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.StringJoiner;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ConfigCreatorCommand extends Command {
@@ -70,9 +67,14 @@ public class ConfigCreatorCommand extends Command {
                 return false;
             }
             YamlConfiguration config = configs.get(activeConfig.get(player.getUniqueId()));
-            config.set(strings[1] + ".x", player.getLocation().getX());
-            config.set(strings[1] + ".y", player.getLocation().getY());
-            config.set(strings[1] + ".z", player.getLocation().getZ());
+            Map<String, Integer> coords = new HashMap<>();
+            coords.put("x", player.getLocation().getBlockX());
+            coords.put("y", player.getLocation().getBlockY());
+            coords.put("z", player.getLocation().getBlockZ());
+
+            List<Map<?, ?>> mapList = config.getMapList(strings[1]);
+            mapList.add(coords);
+            config.set(strings[1], mapList);
             player.sendMessage("§aAdded location to config");
             return true;
         } else if(strings[0].equalsIgnoreCase("remove")){
@@ -94,6 +96,7 @@ public class ConfigCreatorCommand extends Command {
                 return false;
             }
             String yamlString = configs.get(activeConfig.get(player.getUniqueId())).saveToString();
+
             try {
                 URL url = new URL("https://pastebin.com/api/api_post.php");
                 URLConnection con = url.openConnection();
@@ -107,6 +110,8 @@ public class ConfigCreatorCommand extends Command {
                 arguments.put("api_dev_key", "AyS5KTJ7psr07j9xEDrgAeRsmhApUaUe");
                 arguments.put("api_paste_code", yamlString);
                 arguments.put("api_option", "paste");
+                arguments.put("api_paste_format", "yaml");
+                arguments.put("api_paste_expire_date", "10M");
 
                 StringJoiner sj = new StringJoiner("&");
                 for(Map.Entry<String,String> entry : arguments.entrySet())

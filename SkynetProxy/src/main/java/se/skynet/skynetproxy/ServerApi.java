@@ -70,12 +70,14 @@ public class ServerApi extends Thread {
                         response.addProperty("type", "REGISTER_SERVER_RESPONSE");
                         response.addProperty("id", id);
                         response.addProperty("serverName", serverName);
+
                         jedisPublisher.publish(responseChannel, response.toString());
                         break;
                     }
                     case "UNREGISTER_SERVER": {
                         String serverName = json.get("serverName").getAsString();
                         proxy.getServerManager().removeServer(serverName);
+                        proxy.getProxy().getServers().remove(serverName);
                         break;
                     }
                 }

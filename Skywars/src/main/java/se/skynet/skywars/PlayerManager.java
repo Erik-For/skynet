@@ -30,7 +30,6 @@ public class PlayerManager implements Listener {
     public void addSpawnLocation(Location location){
         spawnLocations.add(location);
 
-
         // this makes people (prob admins) who join the game after not show up on tab
         registerHidePlayerPacketListener();
     }
