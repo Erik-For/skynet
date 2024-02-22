@@ -66,6 +66,7 @@ public class PlayerManager implements Listener {
                 gameManger.getPlugin().getServer().broadcastMessage(ChatColor.RED + player.getName() + ChatColor.YELLOW + " Died");
             } else {
                 gameManger.getPlugin().getServer().broadcastMessage(ChatColor.RED + player.getName() + ChatColor.YELLOW + " was killed by " + ChatColor.RED + killer.getName());
+                kills.put(killer.getUniqueId(), kills.getOrDefault(killer.getUniqueId(), 0) + 1);
             }
 
             player.setHealth(20);
