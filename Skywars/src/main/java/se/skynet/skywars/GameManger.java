@@ -27,6 +27,7 @@ public class GameManger {
             case LOBBY:
 
             case STARTING:
+                System.out.println("Timmer starting");
                 new Timer(5, seconds -> {
                     plugin.getServer().broadcastMessage(ChatColor.YELLOW + "Game starting in " + ChatColor.RED + Integer.toString(seconds));
                 },seconds -> {

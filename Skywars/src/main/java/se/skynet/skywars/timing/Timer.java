@@ -23,6 +23,7 @@ public class Timer {
         new BukkitRunnable() {
             @Override
             public void run() {
+                System.out.println(time);
                 if(time == 0){
                     runEnd.run(time);
                     this.cancel();
