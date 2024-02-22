@@ -27,14 +27,17 @@ public class TagManager implements Listener {
             Player damager = (Player) event.getDamager();
             Player damaged = (Player) event.getEntity();
             if(gameManager.getGameState() == GameState.INGAME){
-                Tag tag = new Tag(damaged);
-                taggedPlayers.put(damager.getUniqueId(), tag);
+                Tag tag = new Tag(damager);
+                taggedPlayers.put(damaged.getUniqueId(), tag);
             }
         }
     }
 
     public Player getTaggedPlayer(Player player){
         Tag tag = taggedPlayers.get(player.getUniqueId());
+        if(tag == null) {
+            return null;
+        }
         if(tag.isVaid()) {
             return tag.getTagger();
         }
