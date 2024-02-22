@@ -22,10 +22,12 @@ public class GameManger {
     }
 
     public void setGameState(GameState gameState) {
+        System.out.println(gameState);
         this.gameState = gameState;
         switch (gameState){
             case LOBBY:
-
+                
+                break;
             case STARTING:
                 System.out.println("Timmer starting");
                 new Timer(5, seconds -> {
