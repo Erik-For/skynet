@@ -25,6 +25,10 @@ public class TagManager implements Listener {
     public void entityDamageEvent(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
             Player damager = (Player) event.getDamager();
+            if (!gameManager.getPlayerManager().getPlayersAlive().contains(damager)) {
+                event.setCancelled(true);
+                return;
+            }
             Player damaged = (Player) event.getEntity();
             if(gameManager.getGameState() == GameState.INGAME){
                 Tag tag = new Tag(damager);

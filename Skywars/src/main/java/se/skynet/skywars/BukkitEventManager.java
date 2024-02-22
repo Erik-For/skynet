@@ -1,10 +1,12 @@
 package se.skynet.skywars;
 
+import org.bukkit.entity.Wither;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
 public class BukkitEventManager implements Listener {
@@ -15,6 +17,11 @@ public class BukkitEventManager implements Listener {
         gameManger.getPlugin().getServer().getPluginManager().registerEvents(this, gameManger.getPlugin());
         gameManger.getPlugin().getServer().getWorlds().get(0).setGameRuleValue("doDaylightCycle", "false");
         gameManger.getPlugin().getServer().getWorlds().get(0).setTime(0);
+        gameManger.getPlugin().getServer().getWorlds().get(0).getEntities().stream().forEach(entity -> {
+            if(entity instanceof Wither){
+                entity.remove();
+            }
+        });
     }
 
     // prevent weather changes
@@ -34,6 +41,9 @@ public class BukkitEventManager implements Listener {
     // prevent block breaking
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
+        if (!gameManger.getPlayerManager().getPlayersAlive().contains(event.getPlayer())){
+            event.setCancelled(true);
+        }
         if(gameManger.getGameState() != GameState.INGAME){
             event.setCancelled(true);
         }
@@ -42,7 +52,17 @@ public class BukkitEventManager implements Listener {
     // prevent block placing
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
+        if (!gameManger.getPlayerManager().getPlayersAlive().contains(event.getPlayer())){
+            event.setCancelled(true);
+        }
         if(gameManger.getGameState() != GameState.INGAME){
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void interactEvent(PlayerInteractEvent event) {
+        if (!gameManger.getPlayerManager().getPlayersAlive().contains(event.getPlayer())){
             event.setCancelled(true);
         }
     }
