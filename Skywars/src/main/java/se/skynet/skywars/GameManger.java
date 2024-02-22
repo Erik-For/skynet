@@ -41,9 +41,9 @@ public class GameManger {
             case CAGE_DESTRUCTION:
                 lootManger.fillChests();
                 this.cageManager.removeCages();
-                new Timer(2, seconds -> {}, seconds -> {
+                new Timer(1, seconds -> {}, seconds -> {
                     setGameState(GameState.INGAME);
-                });
+                }).start(plugin);
                 break;
             case INGAME:
 
