@@ -67,6 +67,7 @@ public class PlayerManager implements Listener {
             player.setHealth(20);
             playersAlive.remove(player);
             player.getInventory().clear();
+            player.setAllowFlight(true);
             player.setFlying(true);
             hidePlayer(player);
         }
@@ -89,7 +90,8 @@ public class PlayerManager implements Listener {
                 player.kickPlayer("The game is full");
             }
         } else {
-            event.getPlayer().setFlying(true);
+            player.setAllowFlight(true);
+            player.setFlying(true);
         }
     }
 
@@ -143,13 +145,15 @@ public class PlayerManager implements Listener {
     }
 
     private void hidePlayer(Player player) {
-        ProtocolManager protocolManager = gameManger.getPlugin().getParentPlugin().getProtocolManager();
-
         // construct packet to remove player from tab
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
         PacketPlayOutPlayerInfo packetPlayerInfo = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, entityPlayer);
         PacketPlayOutEntityDestroy packetDestroy = new PacketPlayOutEntityDestroy(entityPlayer.getId());
-        PacketUtils.sendPacketAll(packetPlayerInfo, gameManger.getPlugin().getParentPlugin());
-        PacketUtils.sendPacketAll(packetDestroy, gameManger.getPlugin().getParentPlugin());
+
+        for (Player onlinePlayer : gameManger.getPlugin().getServer().getOnlinePlayers()) {
+            PacketUtils.sendPacket(onlinePlayer, packetPlayerInfo);
+            PacketUtils.sendPacket(onlinePlayer, packetDestroy);
+        }
+
     }
 }
