@@ -1,21 +1,31 @@
 package se.skynet.skywars;
 
 import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
+import net.md_5.bungee.api.ChatColor;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import se.skynet.skyserverbase.packet.PacketUtils;
 
 import java.util.*;
 
 public class PlayerManager implements Listener {
 
+    private final Map<UUID, Integer> kills = new HashMap<>();
     private Set<Location> spawnLocations = new HashSet<>();
     private HashMap<UUID, Location> usedLocations = new HashMap<>();
     private final List<Player> playersAlive = new ArrayList<>();
@@ -36,6 +46,34 @@ public class PlayerManager implements Listener {
 
 
     @EventHandler
+    public void playerDamage(EntityDamageEvent event){
+        if(!(event.getEntity() instanceof Player)){
+            return;
+        }
+        Player player = (Player) event.getEntity();
+        if(gameManger.getGameState() != GameState.INGAME){
+            event.setCancelled(true);
+        }
+        if ((player.getHealth() - event.getFinalDamage()) <= 0){
+            event.setCancelled(true);
+
+            Player killer = gameManger.getTagManager().getTaggedPlayer(player);
+            if(killer == null){
+                gameManger.getPlugin().getServer().broadcastMessage(ChatColor.RED + player.getName() + ChatColor.YELLOW + "Died");
+            } else {
+                gameManger.getPlugin().getServer().broadcastMessage(ChatColor.RED + player.getName() + ChatColor.YELLOW + " was killed by" + ChatColor.RED + killer.getName());
+            }
+
+            player.setHealth(20);
+            playersAlive.remove(player);
+            player.getInventory().clear();
+            player.setFlying(true);
+            hidePlayer(player);
+        }
+    }
+
+
+    @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
@@ -51,7 +89,7 @@ public class PlayerManager implements Listener {
                 player.kickPlayer("The game is full");
             }
         } else {
-            event.getPlayer().setGameMode(GameMode.SPECTATOR);
+            event.getPlayer().setFlying(true);
         }
     }
 
@@ -102,5 +140,16 @@ public class PlayerManager implements Listener {
                 }
             }
         });
+    }
+
+    private void hidePlayer(Player player) {
+        ProtocolManager protocolManager = gameManger.getPlugin().getParentPlugin().getProtocolManager();
+
+        // construct packet to remove player from tab
+        EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
+        PacketPlayOutPlayerInfo packetPlayerInfo = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, entityPlayer);
+        PacketPlayOutEntityDestroy packetDestroy = new PacketPlayOutEntityDestroy(entityPlayer.getId());
+        PacketUtils.sendPacketAll(packetPlayerInfo, gameManger.getPlugin().getParentPlugin());
+        PacketUtils.sendPacketAll(packetDestroy, gameManger.getPlugin().getParentPlugin());
     }
 }

@@ -1,2 +1,44 @@
-package se.skynet.skywars;public class TagManager {
+package se.skynet.skywars;
+
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+public class TagManager implements Listener {
+
+    private final GameManger gameManager;
+
+    private final Map<UUID, Tag> taggedPlayers = new HashMap<>();
+
+    public TagManager(GameManger gameManager) {
+        this.gameManager = gameManager;
+        gameManager.getPlugin().getServer().getPluginManager().registerEvents(this, gameManager.getPlugin());
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void entityDamageEvent(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
+            Player damager = (Player) event.getDamager();
+            Player damaged = (Player) event.getEntity();
+            if(gameManager.getGameState() == GameState.INGAME){
+                Tag tag = new Tag(damaged);
+                taggedPlayers.put(damager.getUniqueId(), tag);
+            }
+        }
+    }
+
+    public Player getTaggedPlayer(Player player){
+        Tag tag = taggedPlayers.get(player.getUniqueId());
+        if(tag.isVaid()) {
+            return tag.getTagger();
+        }
+        return null;
+    }
+
 }

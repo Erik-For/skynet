@@ -4,7 +4,10 @@ import org.bukkit.ChatColor;
 import se.skynet.skywars.loot.LootManger;
 import se.skynet.skywars.timing.Timer;
 
+import java.util.UUID;
+
 public class GameManger {
+
 
     private final Skywars plugin;
     private final LootManger lootManger;
@@ -12,6 +15,7 @@ public class GameManger {
     private final PlayerManager playerManager;
     private final CageManager cageManager;
     private final BukkitEventManager bukkitEventManager;
+    private final TagManager tagManager;
     private GameState gameState = GameState.LOBBY;
     public GameManger(Skywars plugin) {
         this.plugin = plugin;
@@ -20,6 +24,7 @@ public class GameManger {
         this.cageManager = new CageManager(this);
         this.configManager = new ConfigManager(this);
         this.bukkitEventManager = new BukkitEventManager(this);
+        this.tagManager = new TagManager(this);
         setGameState(GameState.LOBBY);
     }
 
@@ -41,7 +46,7 @@ public class GameManger {
             case CAGE_DESTRUCTION:
                 lootManger.fillChests();
                 this.cageManager.removeCages();
-                new Timer(1, seconds -> {}, seconds -> {
+                new Timer(2, seconds -> {}, seconds -> {
                     setGameState(GameState.INGAME);
                 }).start(plugin);
                 break;
@@ -72,5 +77,9 @@ public class GameManger {
 
     public CageManager getCageManager() {
         return cageManager;
+    }
+
+    public TagManager getTagManager() {
+        return tagManager;
     }
 }
