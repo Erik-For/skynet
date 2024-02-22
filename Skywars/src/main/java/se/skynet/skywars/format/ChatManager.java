@@ -38,7 +38,7 @@ public class ChatManager {
                     .append(player.getName()).append(ChatColor.GOLD)
                     .append(" - ")
                     .append(ChatColor.GREEN)
-                    .append(entry.getValue())
+                    .append(entry.getValue());
 
             sb.append(centerMessage(stringBuilder.toString())).append("\n");
             i.getAndIncrement();
