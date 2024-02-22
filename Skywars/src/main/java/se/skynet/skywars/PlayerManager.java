@@ -161,6 +161,9 @@ public class PlayerManager implements Listener {
         PacketPlayOutEntityDestroy packetDestroy = new PacketPlayOutEntityDestroy(entityPlayer.getId());
 
         for (Player onlinePlayer : gameManger.getPlugin().getServer().getOnlinePlayers()) {
+            if (onlinePlayer == player) {
+                continue;
+            }
             PacketUtils.sendPacket(onlinePlayer, packetPlayerInfo);
             PacketUtils.sendPacket(onlinePlayer, packetDestroy);
         }
