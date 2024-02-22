@@ -29,7 +29,8 @@ public class ChatManager {
         sorted.forEach(entry -> {
             String place = i.get() == 1 ? "1st" : i.get() == 2 ? "2nd" : "3rd";
             Player player = plugin.getServer().getPlayer(entry.getKey());
-            sb
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder
                     .append(ChatColor.GOLD)
                     .append(place)
                     .append(" - ")
@@ -38,7 +39,8 @@ public class ChatManager {
                     .append(" - ")
                     .append(ChatColor.GREEN)
                     .append(entry.getValue())
-                    .append("\n");
+
+            sb.append(centerMessage(stringBuilder.toString())).append("\n");
             i.getAndIncrement();
         });
 
