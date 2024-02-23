@@ -13,7 +13,7 @@ public final class Skywars extends JavaPlugin {
     @Override
     public void onEnable() {
         gameManager = new GameManger(this);
-        this.getCommand("start").setExecutor(new StartCommand(gameManager));
+        this.getCommand("start").setExecutor(new StartCommand(this));
     }
 
     @Override
@@ -23,5 +23,9 @@ public final class Skywars extends JavaPlugin {
 
     public SkyServerBase getParentPlugin() {
         return parentPlugin;
+    }
+
+    public GameManger getGameManager() {
+        return gameManager;
     }
 }
