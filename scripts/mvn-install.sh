@@ -3,7 +3,7 @@
 # Check if exactly 4 arguments are provided
 if [ "$#" -ne 4 ]; then
     echo "Usage: $0 groupId artifactId version jarFilePath"
-    exit 1ss
+    exit 1
 fi
 
 # Assign arguments to variables for better readability
