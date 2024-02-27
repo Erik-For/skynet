@@ -37,7 +37,7 @@ public class LootManager {
     }
 
     public void fillChests() {
-        int itemCount = 5;
+        int itemCount = 7;
         for (Location location : islandChests) {
             if(location.getBlock().getType() == Material.CHEST) {
                 Chest chest = (Chest) location.getBlock().getState();
