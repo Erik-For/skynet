@@ -89,7 +89,7 @@ services:
       DB_USERNAME: skynet-server
       DB_PASSWORD: o{wc9SBQnF80
       REDIS_HOST: redis
-    networks:
+    networks: 
       - backend
     deploy:
       replicas: 1
