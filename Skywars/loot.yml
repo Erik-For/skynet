@@ -1,32 +1,127 @@
 island-chests:
-  - material: DIAMOND_SWORD
+  - material: STONE_SWORD
+    chance: 1
+    min: 1
+    max: 1
+  - material: LEATHER_CHESTPLATE
+    chance: 0.25
+    min: 1
+    max: 1
+  - material: COBBLESTONE
+    chance: 0.7
+    min: 32
+    max: 64
+    count-increment: 16
+  - material: BOW
+    chance: 0.15
+    min: 1
+    max: 1
+  - material: ARROW
+    chance: 0.3
+    min: 8
+    max: 16
+  - material: WOOD_PICKAXE
+    chance: 0.2
+    min: 1
+    max: 1
+  - material: COOKED_BEEF
+    chance: 0.3
+    min: 4
+    max: 8
+  - material: GOLDEN_APPLE
+    chance: 0.05
+    min: 1
+    max: 1
+  - material: STONE_PICKAXE
+    chance: 0.15
+    min: 1
+    max: 1
+  - material: IRON_BOOTS
     chance: 0.1
     min: 1
     max: 1
-  - material: DIAMOND_CHESTPLATE
-    chance: 0.1
+  - material: WATER_BUCKET
+    chance: 0.2
     min: 1
     max: 1
-  - material: WOOD
-    chance: 0.1
-    min: 16
-    max: 32
-    count-increment: 8
-    
+  - material: LAVA_BUCKET
+    chance: 0.0.5
+    min: 1
+    max: 1
+  - material: FISHING_ROD
+    chance: 0.15
+    min: 1
+    max: 1
+
+
 mid-chests:
   - material: DIAMOND_SWORD
-    chance: 0.5
-    min: 1
-    max: 1
-  - material: DIAMOND_CHESTPLATE
-    chance: 0.5
+    chance: 0.3
     min: 1
     max: 1
     enchantments:
       - type: DAMAGE_ALL
-        level: 10
-  - material: WOOD
+        level: 2
+  - material: DIAMOND_CHESTPLATE
+    chance: 0.2
+    min: 1
+    max: 1
+    enchantments:
+      - type: PROTECTION_ENVIRONMENTAL
+        level: 2
+  - material: ENDER_PEARL
     chance: 0.5
-    min: 16
-    max: 32
-    count-increment: 8
+    min: 1
+    max: 3
+  - material: GOLDEN_APPLE
+    chance: 0.3
+    min: 1
+    max: 3
+  - material: EXP_BOTTLE
+    chance: 0.6
+    min: 5
+    max: 15
+  - material: IRON_PICKAXE
+    chance: 0.25
+    min: 1
+    max: 1
+    enchantments:
+      - type: DIG_SPEED
+        level: 3
+  - material: TNT
+    chance: 0.2
+    min: 4
+    max: 8
+  - material: FLINT_AND_STEEL
+    chance: 0.3
+    min: 1
+    max: 1
+  - material: DIAMOND_PICKAXE
+    chance: 0.15
+    min: 1
+    max: 1
+    enchantments:
+      - type: DIG_SPEED
+        level: 2
+  - material: BOW
+    chance: 0.25
+    min: 1
+    max: 1
+    enchantments:
+      - type: ARROW_DAMAGE
+        level: 2
+  - material: DIAMOND_BOOTS
+    chance: 0.1
+    min: 1
+    max: 1
+    enchantments:
+      - type: PROTECTION_FALL
+        level: 4
+  - material: ANVIL
+    chance: 0.05
+    min: 1
+    max: 1
+  - material: ENCHANTMENT_TABLE
+    chance: 0.05
+    min: 1
+    max: 1

@@ -1,9 +1,9 @@
 package se.skynet.skywars;
 
 public enum GameState {
-    LOBBY,
+    WAITING,
     STARTING,
     CAGE_DESTRUCTION,
-    INGAME,
+    IN_GAME,
     END;
 }

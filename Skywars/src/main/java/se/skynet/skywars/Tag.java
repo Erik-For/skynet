@@ -1,24 +1,30 @@
 package se.skynet.skywars;
 
-import org.bukkit.entity.Player;
-
-import java.math.BigInteger;
+import java.util.UUID;
 
 public class Tag {
 
-    private BigInteger tagTime;
-    private Player tagger;
+    private final UUID source;
+    private final UUID target;
+    private final long time;
+    private final long expireTime;
 
-    public Tag(Player tagger) {
-        this.tagTime = BigInteger.valueOf(System.currentTimeMillis());
-        this.tagger = tagger;
+    public Tag(UUID source, UUID target, long expireTimeSeconds) {
+        this.source = source;
+        this.target = target;
+        this.time = System.currentTimeMillis();
+        this.expireTime = expireTimeSeconds * 1000L;
     }
 
-    public Player getTagger() {
-        return tagger;
+    public UUID getSource() {
+        return source;
     }
 
-    public boolean isVaid() {
-        return tagTime.add(BigInteger.valueOf(10000)).compareTo(BigInteger.valueOf(System.currentTimeMillis())) > 0;
+    public UUID getTarget() {
+        return target;
+    }
+
+    public boolean isValid(){
+        return System.currentTimeMillis() - time < expireTime;
     }
 }

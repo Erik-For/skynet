@@ -9,9 +9,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import se.skynet.skywars.Game;
 import se.skynet.skywars.GameState;
 import se.skynet.skywars.SkywarsPlayer;
+import se.skynet.skywars.Tag;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -21,14 +23,13 @@ import java.util.UUID;
 public class PlayerDeathManager implements Listener {
 
     private final Game game;
-    private final HashMap<UUID, Tag> tagedPlayers = new HashMap<>();
-    private final HashMap<UUID, SkywarsPlayer> playerKillsMap = new HashMap<>();
 
     public PlayerDeathManager(Game game) {
         this.game = game;
         game.getPlugin().getServer().getPluginManager().registerEvents(this, game.getPlugin());
     }
 
+    // cant damage players if not in game
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerDamage(EntityDamageEvent event) {
         if(!(event.getEntity() instanceof Player)) return;
@@ -39,11 +40,9 @@ public class PlayerDeathManager implements Listener {
             event.setCancelled(true);
             return;
         }
-        if(!game.getPlayerVisibilityManager().isShown(player)) {
-            event.setCancelled(true);
-        }
     }
 
+    // if a player is damaged by another player, the tag is updated
     @EventHandler
     public void onPlayerDamageByAnotherPlayer(EntityDamageByEntityEvent event){
         if(!(event.getEntity() instanceof Player) || !(event.getDamager() instanceof Player) ) return;
@@ -52,31 +51,22 @@ public class PlayerDeathManager implements Listener {
         Player source = (Player) event.getDamager();
 
         Tag tag = new Tag(source.getUniqueId(), target.getUniqueId(), 7);
-        tagedPlayers.put(target.getUniqueId(), tag);
+        game.getPlayerManager().getPlayer(target.getUniqueId()).setLatestTag(tag);
     }
 
+    // if a player dies, the tag is used to determine who killed who
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerDeath(EntityDamageEvent event){
         if(!(event.getEntity() instanceof Player)) return;
 
         Player player = (Player) event.getEntity();
         if(player.getHealth() - event.getFinalDamage() > 0) return;
-
         event.setCancelled(true);
-        Player tagger = this.getTagger(player);
-        if(tagger != null){
-            if(playerKillsMap.containsKey(tagger.getUniqueId())){
-                playerKillsMap.get(tagger.getUniqueId()).addKill();
-            } else {
-                SkywarsPlayer skywarsPlayer = new SkywarsPlayer(tagger, game);
-                skywarsPlayer.addKill();
-                playerKillsMap.put(tagger.getUniqueId(), skywarsPlayer);
-            }
-            game.getPlugin().getServer().broadcastMessage(
-                    ChatColor.RED + player.getName() + ChatColor.YELLOW + " was killed by " + ChatColor.RED + tagger.getName());
-        } else {
-            game.getPlugin().getServer().broadcastMessage(ChatColor.RED + player.getName() + ChatColor.YELLOW + " Died");
-        }
+
+        SkywarsPlayer skywarsPlayer = game.getPlayerManager().getPlayer(player.getUniqueId());
+        SkywarsPlayer tagger = game.getPlayerManager().getPlayer(skywarsPlayer.getLatestTag().getSource());
+
+        killPlayer(tagger, skywarsPlayer);
 
         player.setHealth(20);
         player.getInventory().clear();
@@ -85,40 +75,34 @@ public class PlayerDeathManager implements Listener {
         game.getPlayerVisibilityManager().hidePlayer(player);
     }
 
-    private Player getTagger(Player player){
-        Tag tag = tagedPlayers.get(player.getUniqueId());
-        if(tag == null || !tag.isValid()) return null;
-        return game.getPlugin().getServer().getPlayer(tag.getSource());
+
+    // if a player leaves the game, the tag is used to punish the player for combat logging, ew
+    @EventHandler
+    public void onPlayerLeave(PlayerQuitEvent event){
+        Player player = event.getPlayer();
+        if(game.getGameState() != GameState.IN_GAME) return;
+        SkywarsPlayer skywarsPlayer = game.getPlayerManager().getPlayer(player.getUniqueId());
+        if(!skywarsPlayer.isAlive()) return;
+
+        skywarsPlayer.setAlive(false);
+        killPlayer(
+                game.getPlayerManager().getPlayer(skywarsPlayer.getLatestTag().getSource()),
+                game.getPlayerManager().getPlayer(player.getUniqueId())
+                );
     }
 
-    public static class Tag {
-
-        private final UUID source;
-        private final UUID target;
-        private final long time;
-        private final long expireTime;
-
-        private Tag(UUID source, UUID target, long expireTimeSeconds) {
-            this.source = source;
-            this.target = target;
-            this.time = System.currentTimeMillis();
-            this.expireTime = expireTimeSeconds * 1000L;
+    private void killPlayer(SkywarsPlayer tagger, SkywarsPlayer player){
+        player.setAlive(false);
+        if(tagger != null){
+            tagger.addKill();
+            game.getPlugin().getServer().broadcastMessage(
+                    ChatColor.RED + player.getName() + ChatColor.YELLOW + " was killed by " + ChatColor.RED + tagger.getName());
+        } else {
+            game.getPlugin().getServer().broadcastMessage(ChatColor.RED + player.getName() + ChatColor.YELLOW + " Died");
         }
 
-        public UUID getSource() {
-            return source;
+        if(game.getPlayerManager().getPlayersAlive().size() == 1){
+            game.setGameState(GameState.END);
         }
-
-        public UUID getTarget() {
-            return target;
-        }
-
-        public boolean isValid(){
-            return System.currentTimeMillis() - time < expireTime;
-        }
-    }
-
-    public HashMap<UUID, SkywarsPlayer> getPlayerKills() {
-        return playerKillsMap;
     }
 }

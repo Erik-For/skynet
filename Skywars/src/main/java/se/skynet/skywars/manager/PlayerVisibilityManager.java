@@ -2,12 +2,11 @@ package se.skynet.skywars.manager;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
-import net.minecraft.server.v1_8_R3.EntityPlayer;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
+import com.mojang.authlib.GameProfile;
+import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import se.skynet.skyserverbase.packet.PacketUtils;
@@ -30,17 +29,18 @@ public class PlayerVisibilityManager {
 
     public void hidePlayer(Player player) {
         if(hiddenPlayers.contains(player.getUniqueId())) return;
-        hiddenPlayers.add(player.getUniqueId());
 
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
-        PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, entityPlayer);
+            PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, entityPlayer);
         PacketPlayOutEntityDestroy packet2 = new PacketPlayOutEntityDestroy(entityPlayer.getId());
 
         for (Player onlinePlayer : plugin.getServer().getOnlinePlayers()) {
             if(onlinePlayer.equals(player)) continue;
-            PacketUtils.sendPacketAll(packet, plugin.getParentPlugin());
-            PacketUtils.sendPacketAll(packet2, plugin.getParentPlugin());
+
+            PacketUtils.sendPacket(onlinePlayer, packet);
+            PacketUtils.sendPacket(onlinePlayer, packet2);
         }
+        hiddenPlayers.add(player.getUniqueId());
     }
 
     public void showPlayer(Player player) {
@@ -53,8 +53,9 @@ public class PlayerVisibilityManager {
 
         for (Player onlinePlayer : plugin.getServer().getOnlinePlayers()) {
             if(onlinePlayer.equals(player)) continue;
-            PacketUtils.sendPacketAll(packet, plugin.getParentPlugin());
-            PacketUtils.sendPacketAll(packet2, plugin.getParentPlugin());
+
+            PacketUtils.sendPacket(onlinePlayer, packet);
+            PacketUtils.sendPacket(onlinePlayer, packet2);
         }
     }
 
@@ -67,7 +68,7 @@ public class PlayerVisibilityManager {
     private void registerListeners() {
         ProtocolManager protocolManager = plugin.getParentPlugin().getProtocolManager();
         protocolManager.addPacketListener(
-                new PacketAdapter(plugin.getParentPlugin(), PacketType.Play.Server.PLAYER_INFO, PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
+                new PacketAdapter(plugin.getParentPlugin(), ListenerPriority.NORMAL, PacketType.Play.Server.PLAYER_INFO, PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
                     @Override
                     public void onPacketSending(PacketEvent event) {
                         PacketType packetType = event.getPacketType();

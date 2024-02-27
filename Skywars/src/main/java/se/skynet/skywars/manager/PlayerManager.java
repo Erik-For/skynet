@@ -9,15 +9,17 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import se.skynet.skyserverbase.playerdata.CustomPlayerData;
 import se.skynet.skywars.Game;
 import se.skynet.skywars.GameState;
+import se.skynet.skywars.SkywarsPlayer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class PlayerManager implements Listener {
 
-    private final List<Player> playersInGame = new ArrayList<>();
-    private final List<Player> playersAlive = new ArrayList<>();
-
+    private final HashMap<UUID, SkywarsPlayer> playersInGame = new HashMap<>();
     private final Game game;
 
     public PlayerManager(Game game) {
@@ -33,24 +35,29 @@ public class PlayerManager implements Listener {
             event.getPlayer().setGameMode(org.bukkit.GameMode.SPECTATOR);
             return;
         }
-        playersInGame.add(player);
-        playersAlive.add(player);
+        playersInGame.put(player.getUniqueId(), new SkywarsPlayer(player, game));
     }
 
     @EventHandler
     public void onLeaveEvent(PlayerQuitEvent event){
         Player player = event.getPlayer();
-        playersInGame.remove(player);
-        playersAlive.remove(player);
+        if (game.getGameState() == GameState.WAITING) {
+            playersInGame.remove(player.getUniqueId());
+            return;
+        }
         CustomPlayerData data = game.getPlugin().getParentPlugin().getPlayerDataManager().getPlayerData(player.getUniqueId());
         game.getPlugin().getServer().broadcastMessage(data.getRank().getPrefix() + player.getName() + ChatColor.YELLOW + " left the game");
     }
 
-    public List<Player> getPlayersAlive() {
-        return playersAlive;
+    public List<SkywarsPlayer> getPlayersAlive() {
+        return playersInGame.values().stream().filter(SkywarsPlayer::isAlive).collect(Collectors.toList());
     }
 
-    public List<Player> getPlayersInGame() {
-        return playersInGame;
+    public List<SkywarsPlayer> getPlayersInGame() {
+        return new ArrayList<>(playersInGame.values());
+    }
+
+    public SkywarsPlayer getPlayer(UUID uuid) {
+        return playersInGame.get(uuid);
     }
 }

@@ -29,7 +29,6 @@ public final class SkyServerBase extends JavaPlugin {
         this.databaseConnectionManager = new DatabaseConnectionManager();
         databaseConnectionManager.connect();
 
-
         this.playerDataManager = new PlayerDataManager(this);
 
         registerCommands();

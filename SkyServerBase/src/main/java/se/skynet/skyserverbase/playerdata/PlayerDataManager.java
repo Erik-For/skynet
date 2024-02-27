@@ -15,12 +15,17 @@ import java.util.UUID;
 
 public class PlayerDataManager implements Listener {
 
+    private boolean persistant = false;
     private SkyServerBase plugin;
     private HashMap<UUID, CustomPlayerData> playerData = new HashMap<>();
 
     public PlayerDataManager(SkyServerBase plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         this.plugin = plugin;
+    }
+
+    public void setPersistent(boolean persistant) {
+        this.persistant = persistant;
     }
 
     public CustomPlayerData getPlayerData(UUID uuid) {
@@ -47,6 +52,8 @@ public class PlayerDataManager implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerQuit(PlayerQuitEvent event) {
         event.getPlayer().setOp(false);
-        playerData.remove(event.getPlayer().getUniqueId());
+        if(!persistant){
+            playerData.remove(event.getPlayer().getUniqueId());
+        }
     }
 }

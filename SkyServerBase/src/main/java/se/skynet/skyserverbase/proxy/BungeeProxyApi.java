@@ -108,6 +108,14 @@ public class BungeeProxyApi extends Thread {
         redisPublisher.publish("BUNGEE_API", json.toString());
     }
 
+    public void sendAllToServerType(String serverType, String serverName){
+        Tuple<JsonObject, String> tuple = makeJson("SEND_ALL_TO_SERVER_TYPE");
+        JsonObject json = tuple.a();
+        json.addProperty("serverName", serverName);
+        json.addProperty("serverType", serverType);
+        redisPublisher.publish("BUNGEE_API", json.toString());
+    }
+
     @Override
     public void run() {
         redisSubscriber.subscribe(new JedisPubSub() {

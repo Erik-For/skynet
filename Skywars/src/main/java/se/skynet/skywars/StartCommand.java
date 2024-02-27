@@ -1,5 +1,6 @@
 package se.skynet.skywars;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import se.skynet.skyserverbase.Rank;
 import se.skynet.skyserverbase.command.Command;
@@ -17,15 +18,15 @@ public class StartCommand extends Command {
     @Override
     protected boolean executeCommand(Player player, CustomPlayerData playerData, Command command, String s, String[] strings) {
         // Start the game
-        if(plugin.getGameManager().getGameState() != GameState.LOBBY){
-            player.sendMessage("The game is not in the lobby state");
+        if(plugin.getGame().getGameState() != GameState.WAITING){
+            player.sendMessage(ChatColor.RED + "The game is not in the lobby state");
             return true;
         }
-        if(plugin.getGameManager().getPlayerManager().getPlayersInGame().size() < 2){
-            player.sendMessage("There are not enough players to start the game");
+        if(plugin.getGame().getPlayerManager().getPlayersInGame().size() < 2){
+            player.sendMessage(ChatColor.RED + "There are not enough players to start the game");
             return true;
         }
-        plugin.getGameManager().setGameState(GameState.STARTING);
+        plugin.getGame().setGameState(GameState.STARTING);
         return true;
     }
 }

@@ -12,7 +12,7 @@ import java.util.PrimitiveIterator;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class LootManger {
+public class LootManager {
 
     private final Set<Location> islandChests = new HashSet<>();
     private final Set<Location> middleChests = new HashSet<>();

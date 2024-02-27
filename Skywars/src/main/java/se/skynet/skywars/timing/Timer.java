@@ -1,7 +1,6 @@
 package se.skynet.skywars.timing;
 
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 import se.skynet.skywars.Skywars;
 
 public class Timer {
@@ -23,7 +22,6 @@ public class Timer {
         new BukkitRunnable() {
             @Override
             public void run() {
-                System.out.println(time);
                 if(time == 0){
                     runEnd.run(time);
                     this.cancel();
