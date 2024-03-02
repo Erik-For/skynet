@@ -1,4 +1,9 @@
 island-chests:
+  - material: SNOW_BALL
+    chance: 0.4
+    min: 8
+    max: 16
+    count-increment: 8
   - material: STONE_SWORD
     chance: 0.3
     min: 1
