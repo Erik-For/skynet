@@ -19,20 +19,20 @@ public class BlockManager implements Listener {
 
     @EventHandler
     public void interactEvent(PlayerInteractEvent event) {
-        if(!(game.getGameState() == GameState.IN_GAME) || (game.getGameState() == GameState.CAGE_DESTRUCTION)) {
+        if(!(game.getGameState() == GameState.IN_GAME || game.getGameState() == GameState.CAGE_DESTRUCTION)) {
             event.setCancelled(true);
         }
     }
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        if(!(game.getGameState() == GameState.IN_GAME) || (game.getGameState() == GameState.CAGE_DESTRUCTION)) {
+        if(!(game.getGameState() == GameState.IN_GAME || game.getGameState() == GameState.CAGE_DESTRUCTION)) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        if(!(game.getGameState() == GameState.IN_GAME) || (game.getGameState() == GameState.CAGE_DESTRUCTION)) {
+        if(!(game.getGameState() == GameState.IN_GAME || game.getGameState() == GameState.CAGE_DESTRUCTION)) {
             event.setCancelled(true);
         }
     }

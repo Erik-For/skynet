@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import se.skynet.skywars.Game;
 import se.skynet.skywars.GameState;
 import se.skynet.skywars.SkywarsPlayer;
@@ -72,7 +73,12 @@ public class PlayerDeathManager implements Listener {
         player.getInventory().clear();
         player.setGameMode(GameMode.SPECTATOR);
         player.teleport(new Location(player.getWorld(), 0, 150, 0));
-        game.getPlayerVisibilityManager().hidePlayer(player);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                game.getPlayerVisibilityManager().hidePlayer(player);
+            }
+        }.runTaskLater(game.getPlugin(), 20L);
     }
 
 
