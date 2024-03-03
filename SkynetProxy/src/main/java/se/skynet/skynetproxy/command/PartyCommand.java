@@ -71,7 +71,8 @@ public class PartyCommand extends SkynetCommand {
             } else {
                 party = plugin.getPartyManager().createParty(player);
             }
-            party.invitePlayer(player, target);
+
+            plugin.getPartyManager().addInvite(new PartyInvite(party, target, player, plugin));
         }
     }
 

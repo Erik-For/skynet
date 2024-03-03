@@ -21,6 +21,7 @@ public class Game {
         playerVisibilityManager = new PlayerVisibilityManager(plugin);
         new PlayerDeathManager(this);
         new BlockManager(this);
+        new HealthDispalyManager(this);
         cageManager = new CageManager(this);
         playerManager = new PlayerManager(this);
         lootManager = new LootManager();

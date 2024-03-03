@@ -55,6 +55,11 @@ public class PartyInvite {
     public ProxiedPlayer getInviter() {
         return inviter;
     }
+
+    public ProxiedPlayer getInvited() {
+        return invited;
+    }
+
     public void revokeDisband() {
         task.cancel();
         if (inviter != null) {

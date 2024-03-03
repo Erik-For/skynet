@@ -42,16 +42,15 @@ public class Party {
         return players.stream().filter(proxiedPlayer -> !proxiedPlayer.equals(leader)).collect(Collectors.toList());
     }
 
-    public void invitePlayer(ProxiedPlayer inviter, ProxiedPlayer invitee){
-        PartyInvite invite = new PartyInvite(this, invitee, inviter, plugin);
+    protected void invitePlayer(PartyInvite invite){
         invites.add(invite);
-        CustomPlayerData invitedData = plugin.getPlayerDataManager().getPlayerData(invitee.getUniqueId());
-        CustomPlayerData inviterData = plugin.getPlayerDataManager().getPlayerData(inviter.getUniqueId());
+        CustomPlayerData invitedData = plugin.getPlayerDataManager().getPlayerData(invite.getInvited().getUniqueId());
+        CustomPlayerData inviterData = plugin.getPlayerDataManager().getPlayerData(invite.getInvited().getUniqueId());
 
-        PartyChatFormatting.sendMessage(players, PartyChatFormatting.formatInvitedMessageToParty(invitee, invitedData, inviter,inviterData));
-        PartyChatFormatting.sendMessage(invitee, PartyChatFormatting.formatInvitedMessageToInvited(inviter, inviterData, invite.getId()));
+        PartyChatFormatting.sendMessage(players, PartyChatFormatting.formatInvitedMessageToParty(invite.getInvited(), invitedData, invite.getInviter(),inviterData));
+        PartyChatFormatting.sendMessage(invite.getInvited(), PartyChatFormatting.formatInvitedMessageToInvited(invite.getInviter(), inviterData, invite.getId()));
     }
-    public void addPlayer(ProxiedPlayer player){
+    protected void addPlayer(ProxiedPlayer player){
         CustomPlayerData playerData = plugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
         playerData.setParty(this);
 
@@ -61,7 +60,7 @@ public class Party {
         players.add(player);
     }
 
-    public void removePlayer(ProxiedPlayer player){
+    protected void removePlayer(ProxiedPlayer player){
         players.remove(player);
 
         for (PartyInvite invite : invites) {

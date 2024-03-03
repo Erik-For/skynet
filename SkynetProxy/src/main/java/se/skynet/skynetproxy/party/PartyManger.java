@@ -65,8 +65,8 @@ public class PartyManger implements Listener {
         partyInvites.remove(uniqueId);
     }
 
-    public void addInvite(UUID uniqueId, PartyInvite partyInvite) {
-        partyInvites.put(uniqueId, partyInvite);
+    public void addInvite(PartyInvite partyInvite) {
+        partyInvites.put(partyInvite.getId(), partyInvite);
     }
 
     public boolean isInParty(ProxiedPlayer target) {
