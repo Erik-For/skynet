@@ -75,4 +75,8 @@ public class PartyInvite {
         CustomPlayerData inviterData = plugin.getPlayerDataManager().getPlayerData(inviter.getUniqueId());
         PartyChatFormatting.sendMessage(inviter, PartyChatFormatting.formatInviterLeft(inviter, inviterData));
     }
+
+    protected Party getParty() {
+        return party;
+    }
 }
