@@ -102,7 +102,7 @@ public class PartyChatFormatting {
         componentBuilder.append(new ComponentBuilder(" seconds to accept! ").color(ChatColor.YELLOW).create());
         componentBuilder.append(new ComponentBuilder("Click here to join!").color(ChatColor.GOLD).underlined(true).event(
                 new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/party join " + partyId.toString())).create());
-
+        System.out.println(partyId);
         return componentBuilder.create();
     }
 

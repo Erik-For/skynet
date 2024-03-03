@@ -38,18 +38,20 @@ public class PartyCommand extends SkynetCommand {
                 return;
             }
             UUID inviteId = UUID.fromString(args[1]);
-
+            System.out.println("Invite id: " + args[1]);
+            System.out.println("Invite id: " + inviteId.toString());
             PartyInvite invite = plugin.getPartyManager().getInvite(inviteId);
             if(invite == null){
                 PartyChatFormatting.sendMessage(player, PartyChatFormatting.formatNotInvited());
+                System.out.println("Invite is null");
                 return;
             }
             Party party = invite.acceptInvite(player);
             if(party == null){
                 PartyChatFormatting.sendMessage(player, PartyChatFormatting.formatNotInvited());
+                System.out.println("Party is null");
                 return;
             }
-
             plugin.getPartyManager().addPlayerToParty(player, party);
 
         } else if (args[0].equalsIgnoreCase("invite")) {
