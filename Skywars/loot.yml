@@ -12,7 +12,7 @@ island-chests:
     chance: 0.15
     min: 1
     max: 1
-  - material: LEATHER_HELMENT
+  - material: LEATHER_HELMET
     chance: 0.15
     min: 1
     max: 1

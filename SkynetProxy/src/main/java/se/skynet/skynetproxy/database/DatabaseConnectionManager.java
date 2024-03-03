@@ -33,6 +33,13 @@ public class DatabaseConnectionManager {
         }
     }
     public Connection getConnection(){
+        try {
+            if(connection.isClosed()){
+                connect();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return connection;
     }
 
