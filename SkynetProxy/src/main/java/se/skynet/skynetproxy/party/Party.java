@@ -18,7 +18,7 @@ public class Party {
     public Party(ProxiedPlayer leader, SkyProxy plugin) {
         this.leader = leader;
         this.plugin = plugin;
-
+        players.add(leader);
     }
 
     public void disband(){
@@ -43,7 +43,7 @@ public class Party {
     }
 
     public void invitePlayer(ProxiedPlayer inviter, ProxiedPlayer invitee){
-        PartyInvite invite = new PartyInvite(this,inviter, invitee, plugin);
+        PartyInvite invite = new PartyInvite(this, invitee, inviter, plugin);
         invites.add(invite);
         CustomPlayerData invitedData = plugin.getPlayerDataManager().getPlayerData(invitee.getUniqueId());
         CustomPlayerData inviterData = plugin.getPlayerDataManager().getPlayerData(inviter.getUniqueId());

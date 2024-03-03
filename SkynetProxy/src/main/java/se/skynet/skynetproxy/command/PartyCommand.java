@@ -51,7 +51,7 @@ public class PartyCommand extends SkynetCommand {
             }
 
             plugin.getPartyManager().addPlayerToParty(player, party);
-            
+
         } else if (args[0].equalsIgnoreCase("invite")) {
             if (args.length < 2) {
                 player.sendMessage("Usage: /party invite <player>");
