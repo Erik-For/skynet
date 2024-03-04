@@ -1,4 +1,4 @@
 package se.skynet.skywars.loot;
 
-public class LootManager {
+public class LootCategory {
 }
