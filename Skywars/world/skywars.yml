@@ -1,3 +1,9 @@
+bounds:
+  xl: -140
+  yl: -140
+  xm: 140
+  ym: 140
+  
 islands:
   '1':
   - x: -52

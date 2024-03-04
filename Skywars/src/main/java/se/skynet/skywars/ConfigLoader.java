@@ -1,6 +1,7 @@
 package se.skynet.skywars;
 
 import org.bukkit.Location;
+import org.bukkit.WorldBorder;
 import org.bukkit.configuration.file.YamlConfiguration;
 import se.skynet.skywars.loot.EnchantmentPossibilities;
 import se.skynet.skywars.loot.LootCategory;
@@ -49,6 +50,17 @@ public class ConfigLoader {
             e.printStackTrace();
             System.out.println("Failed to load loot table or locations file");
             System.exit(0);
+        }
+
+        if(locationsConfig.contains("bounds")){
+            int xl = locationsConfig.getInt("bounds.xl");
+            int yl = locationsConfig.getInt("bounds.yl");
+            int ym = locationsConfig.getInt("bounds.ym");
+            int zl = locationsConfig.getInt("bounds.zl");
+
+            WorldBorder worldBorder = game.getPlugin().getServer().getWorlds().get(0).getWorldBorder();
+            worldBorder.setCenter(0, 0);
+            worldBorder.setSize(xl);
         }
 
         locationsConfig.getConfigurationSection("islands").getKeys(false).forEach(key -> {
