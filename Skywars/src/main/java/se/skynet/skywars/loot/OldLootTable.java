@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LootTable {
+public class OldLootTable {
 
     private final List<OldLootItem> lootItems  = new ArrayList<>();
 

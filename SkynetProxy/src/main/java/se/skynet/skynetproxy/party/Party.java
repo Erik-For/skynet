@@ -45,7 +45,7 @@ public class Party {
     protected void invitePlayer(PartyInvite invite){
         invites.add(invite);
         CustomPlayerData invitedData = plugin.getPlayerDataManager().getPlayerData(invite.getInvited().getUniqueId());
-        CustomPlayerData inviterData = plugin.getPlayerDataManager().getPlayerData(invite.getInvited().getUniqueId());
+        CustomPlayerData inviterData = plugin.getPlayerDataManager().getPlayerData(invite.getInviter().getUniqueId());
 
         PartyChatFormatting.sendMessage(players, PartyChatFormatting.formatInvitedMessageToParty(invite.getInvited(), invitedData, invite.getInviter(),inviterData));
         PartyChatFormatting.sendMessage(invite.getInvited(), PartyChatFormatting.formatInvitedMessageToInvited(invite.getInviter(), inviterData, invite.getId()));

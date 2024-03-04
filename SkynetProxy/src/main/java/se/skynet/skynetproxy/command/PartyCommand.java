@@ -78,6 +78,6 @@ public class PartyCommand extends SkynetCommand {
 
     @Override
     public Iterable<String> tabComplete(ProxiedPlayer player, Rank rank, String[] args) {
-        return null;
+        return Collections.emptyList();
     }
 }

@@ -1,12 +1,12 @@
 package se.skynet.skywars;
 
-import net.minecraft.server.v1_8_R3.Tuple;
-import org.apache.commons.lang3.EnumUtils;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.enchantments.Enchantment;
+import se.skynet.skywars.loot.EnchantmentPossibilities;
+import se.skynet.skywars.loot.LootCategory;
 import se.skynet.skywars.loot.LootItem;
+import se.skynet.skywars.loot.LootLocationSet;
+import se.skynet.skywars.loot.MaterialVariation;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,20 +51,37 @@ public class ConfigLoader {
             System.exit(0);
         }
 
-        locationsConfig.getMapList("island-chests").forEach(map -> {
-            int x = (int) map.get("x");
-            int y = (int) map.get("y");
-            int z = (int) map.get("z");
-            game.getLootManager().addIslandChest(new Location(game.getPlugin().getServer().getWorlds().get(0), x, y, z));
-        });
-        locationsConfig.getMapList("middle-chests").forEach(map -> {
-            int x = (int) map.get("x");
-            int y = (int) map.get("y");
-            int z = (int) map.get("z");
-            game.getLootManager().addMiddleChest(new Location(game.getPlugin().getServer().getWorlds().get(0), x, y, z));
+        locationsConfig.getConfigurationSection("islands").getKeys(false).forEach(key -> {
+            System.out.println(key);
+            List<Location> locations = new ArrayList<>();
+
+            ((List<?>) locationsConfig.get("islands." + key)).forEach(value -> {
+                Map<?, ?> islandLocation = (Map<?, ?>) value;
+
+                int x = (int) islandLocation.get("x");
+                int y = (int) islandLocation.get("y");
+                int z = (int) islandLocation.get("z");
+                locations.add(new Location(game.getPlugin().getServer().getWorlds().get(0), x, y, z));
+            });
+            game.getLootManager().addIslandLocations(new LootLocationSet(locations));
         });
 
-        locationsConfig.getMapList("spawn-points").forEach(map -> {
+        locationsConfig.getConfigurationSection("middle").getKeys(false).forEach(key -> {
+            System.out.println(key);
+            List<Location> locations = new ArrayList<>();
+
+            ((List<?>) locationsConfig.get("middle." + key)).forEach(value -> {
+                Map<?, ?> islandLocation = (Map<?, ?>) value;
+
+                int x = (int) islandLocation.get("x");
+                int y = (int) islandLocation.get("y");
+                int z = (int) islandLocation.get("z");
+                locations.add(new Location(game.getPlugin().getServer().getWorlds().get(0), x, y, z));
+            });
+            game.getLootManager().addMidLocations(new LootLocationSet(locations));
+        });
+
+        locationsConfig.getMapList("spawn").forEach(map -> {
             int x = (int) map.get("x");
             int y = (int) map.get("y");
             int z = (int) map.get("z");
@@ -72,56 +89,77 @@ public class ConfigLoader {
             game.getCageManager().addSpawnLocation(location);
         });
 
-        lootConfig.getMapList("island-chests").forEach(map -> {
-            game.getLootManager().getIslandLootTable().addLootItem(getLootItem(map));
+        lootConfig.getMapList("island-loot").forEach(map -> {
+            game.getLootManager().addIslandLootCategory(getLootCategory(map));
         });
 
         lootConfig.getMapList("mid-chests").forEach(map -> {
-            game.getLootManager().getMiddleLootTable().addLootItem(getLootItem(map));
+            game.getLootManager().addMidLootCategory(getLootCategory(map));
         });
 
         game.getPlugin().getLogger().info("Loaded loot table and locations");
     }
 
-    private LootItem getLootItem(Map<?, ?> map) {
-        String name = (String) map.get("material");
-        int min = (int) map.get("min");
-        int max = (int) map.get("max");
-        double chance = (double) map.get("chance");
+    private LootCategory getLootCategory(Map<?,?> map) {
+        String name = (String) map.get("name");
+        int min;
+        int max;
 
-        int countIncrement = 1;
-        if (map.containsKey("count-increment")){
-            countIncrement = (int) map.get("count-increment");
-        }
-        List<Map<?, ?>> enchantmentList = new ArrayList<>();
-        if(map.containsKey("enchantments")) {
-            enchantmentList = (List<Map<?, ?>>) map.get("enchantments");
-        }
-        List<Tuple<Enchantment, Integer>> enchantments = new ArrayList<>();
-        enchantmentList.forEach(enchantmentMap -> {
-            String enchantmentName = (String) enchantmentMap.get("type");
-            int level = (int) enchantmentMap.get("level");
-            if (Enchantment.getByName(enchantmentName) != null){
-                enchantments.add(new Tuple<>(Enchantment.getByName(enchantmentName), level));
-            } else {
-                System.out.println("Invalid enchantment in loot table");
-            }
-        });
-
-        Material material;
-        if (EnumUtils.isValidEnum(Material.class, name)){
-            material = Material.getMaterial(name);
+        if(map.containsKey("count")){
+            min = (int) map.get("count");
+            max = (int) map.get("count");
+        } else if(map.containsKey("min") && map.containsKey("max")) {
+            min = (int) map.get("min");
+            max =  (int) map.get("max");
         } else {
-            System.out.println("Invalid material in loot table");
-            material = Material.AIR;
+            min = 1;
+            max = 1;
         }
-        return new LootItem(
-                material,
-                chance,
-                min,
-                max,
-                countIncrement,
-                enchantments
-        );
+        List<LootItem> lootItems = new ArrayList<>();
+        for (Map<?,?> lootItemMap : (List<Map<?,?>>) map.get("items")){
+
+            String material = (String) lootItemMap.get("material");
+            int minAmount;
+            int maxAmount;
+            int step = lootItemMap.containsKey("step") ? (int) lootItemMap.get("step") : 1;
+
+            if(lootItemMap.containsKey("count")){
+                minAmount = (int) lootItemMap.get("count");
+                maxAmount = (int) lootItemMap.get("count");
+            } else if(lootItemMap.containsKey("min") && lootItemMap.containsKey("max")) {
+                minAmount = (int) lootItemMap.get("min");
+                maxAmount =  (int) lootItemMap.get("max");
+            } else {
+                minAmount = 1;
+                maxAmount = 1;
+            }
+
+            List<MaterialVariation> materialVariations = new ArrayList<>();
+            List<EnchantmentPossibilities> enchantmentPossibilities = new ArrayList<>();
+            if(lootItemMap.containsKey("types")){
+                for (String type : (List<String>) lootItemMap.get("types")){
+                    String[] split = type.split(":");
+                    String[] range = split[0].split("-");
+
+                    float minimum = Float.parseFloat(range[0]);
+                    float maximum = Float.parseFloat(range[1]);
+                    materialVariations.add(new MaterialVariation(split[1], minimum, maximum));
+                }
+            }
+
+            if(lootItemMap.containsKey("enchantments")){
+                for(String ench : (List<String>) lootItemMap.get("enchantments")){
+                    String[] split = ench.split(":");
+                    String[] range = split[0].split("-");
+
+                    float minimum = Float.parseFloat(range[0]);
+                    float maximum = Float.parseFloat(range[1]);
+                    enchantmentPossibilities.add(new EnchantmentPossibilities(split[1], minimum, maximum));
+                }
+            }
+
+            lootItems.add(new LootItem(material, materialVariations, enchantmentPossibilities, minAmount, maxAmount, step));
+        }
+        return new LootCategory(name, lootItems, min, max);
     }
 }

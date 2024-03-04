@@ -6,12 +6,10 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class LootItem {
+public class OldLootItem {
 
 
     private final Material material;
@@ -21,7 +19,7 @@ public class LootItem {
     private final int amountIncrement; // the smallest step in amount of items
     private final List<Tuple<Enchantment, Integer>> enchantments;
 
-    public LootItem(Material material, double chance, int minAmount, int maxAmount, int amountIncrement, List<Tuple<Enchantment, Integer>> enchantments) {
+    public OldLootItem(Material material, double chance, int minAmount, int maxAmount, int amountIncrement, List<Tuple<Enchantment, Integer>> enchantments) {
         this.material = material;
         this.chance = chance;
         this.minAmount = minAmount;

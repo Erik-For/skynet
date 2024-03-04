@@ -3,6 +3,7 @@ package se.skynet.skywars;
 import org.bukkit.ChatColor;
 import se.skynet.skywars.format.ChatMessageConstructors;
 import se.skynet.skywars.loot.LootManager;
+import se.skynet.skywars.loot.OldLootManager;
 import se.skynet.skywars.manager.*;
 import se.skynet.skywars.timing.Timer;
 

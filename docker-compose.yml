@@ -98,6 +98,10 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
 
 volumes:
   db_data:

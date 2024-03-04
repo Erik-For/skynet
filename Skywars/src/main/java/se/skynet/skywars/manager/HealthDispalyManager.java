@@ -5,13 +5,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scoreboard.Criterias;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import se.skynet.skywars.Game;
-
-import javax.imageio.stream.ImageInputStream;
 
 public class HealthDispalyManager implements Listener {
 
@@ -26,6 +25,12 @@ public class HealthDispalyManager implements Listener {
         Objective showHealthHead = mainScoreboard.registerNewObjective("showhealthhead", Criterias.HEALTH);
         showHealthHead.setDisplayName(ChatColor.DARK_RED + "❤");
         showHealthHead.setDisplaySlot(DisplaySlot.BELOW_NAME);
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event){
+        Player player = event.getPlayer();
+        game.getPlugin().getServer().getScoreboardManager().getMainScoreboard().getObjective("showhealthlist").getScore(player.getName()).setScore((int) player.getHealth());
     }
 
     @EventHandler

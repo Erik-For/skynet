@@ -74,7 +74,7 @@ public class ServerApi extends Thread {
                         response.addProperty("type", "REGISTER_SERVER_RESPONSE");
                         response.addProperty("id", id);
                         response.addProperty("serverName", serverName);
-
+                        System.out.println("Registered server: " + serverName);
                         jedisPublisher.publish(responseChannel, response.toString());
                         break;
                     }
@@ -82,6 +82,7 @@ public class ServerApi extends Thread {
                         String serverName = json.get("serverName").getAsString();
                         proxy.getServerManager().removeServer(serverName);
                         proxy.getProxy().getServers().remove(serverName);
+                        System.out.println("Removed server: " + serverName);
                         break;
                     }
                     case "SEND_ALL_TO_SERVER_TYPE": {
