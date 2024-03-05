@@ -1,23 +1,24 @@
 package se.skynet.skynetproxy.party;
 
+import com.google.gson.annotations.Expose;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import se.skynet.skynetproxy.SkyProxy;
-import se.skynet.skynetproxy.party.Party;
-import se.skynet.skynetproxy.party.PartyInvite;
+import se.skynet.skynetproxy.playerdata.CustomPlayerData;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 public class PartyManger implements Listener {
 
     private final SkyProxy plugin;
-    private final List<Party> partys = new ArrayList<>();
+    @Expose(serialize = true, deserialize = false)
+
     private final HashMap<UUID, Party> partyMap = new HashMap<>();
+    @Expose(serialize = true, deserialize = false)
+
     private final HashMap<UUID, PartyInvite> partyInvites = new HashMap<>();
 
     public PartyManger(SkyProxy plugin) {
@@ -25,40 +26,23 @@ public class PartyManger implements Listener {
     }
 
     public Party createParty(ProxiedPlayer leader) {
-        Party party = new Party(leader, plugin);
-        partys.add(party);
+        Party party = new Party(leader, this);
         partyMap.put(leader.getUniqueId(), party);
         return party;
     }
 
-    public void disbandParty(ProxiedPlayer leader) {
-        Party party = partyMap.get(leader.getUniqueId());
-        partys.remove(party);
-        partyMap.remove(leader.getUniqueId());
+    protected void disbandParty(Party party) {
+        for (ProxiedPlayer player : party.getPlayers()) {
+            partyMap.remove(player.getUniqueId());
+        }
+        partyMap.values().remove(party);
     }
 
     public Party getParty(ProxiedPlayer player) {
         return partyMap.get(player.getUniqueId());
     }
-
-    public void removePlayerFromParty(ProxiedPlayer player) {
-        Party party = partyMap.get(player.getUniqueId());
-        party.removePlayer(player);
-        partyMap.remove(player.getUniqueId());
-    }
-
-    public void addPlayerToParty(ProxiedPlayer player, Party party) {
-        partyMap.put(player.getUniqueId(), party);
-        party.addPlayer(player);
-    }
-
-    @EventHandler
-    public void onPlayerLeave(PlayerDisconnectEvent event) {
-        ProxiedPlayer player = event.getPlayer();
-        if(!partyMap.containsKey(player.getUniqueId())) return;
-        Party party = partyMap.get(player.getUniqueId());
-        party.removePlayer(player);
-        partyMap.remove(player.getUniqueId());
+    public boolean isInParty(ProxiedPlayer target) {
+        return partyMap.containsKey(target.getUniqueId());
     }
 
     public void removeInvite(UUID uniqueId) {
@@ -67,14 +51,33 @@ public class PartyManger implements Listener {
 
     public void addInvite(PartyInvite partyInvite) {
         partyInvites.put(partyInvite.getId(), partyInvite);
-        partyInvite.getParty().invitePlayer(partyInvite);
-    }
-
-    public boolean isInParty(ProxiedPlayer target) {
-        return partyMap.containsKey(target.getUniqueId());
     }
 
     public PartyInvite getInvite(UUID inviteId) {
         return partyInvites.get(inviteId);
+    }
+
+    protected void registerPlayerToMaps(ProxiedPlayer player, Party party) {
+        partyMap.put(player.getUniqueId(), party);
+    }
+
+    protected void unRegisterPlayerFromMaps(ProxiedPlayer player) {
+        partyMap.remove(player.getUniqueId());
+    }
+
+    @EventHandler
+    public void onPlayerLeave(PlayerDisconnectEvent event) {
+        ProxiedPlayer player = event.getPlayer();
+        CustomPlayerData playerData = plugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
+        if(!partyMap.containsKey(player.getUniqueId())) return;
+        Party party = partyMap.get(player.getUniqueId());
+        if(player == party.getLeader()){
+            PartyChatFormatting.sendMessage(party.getMembers(), PartyChatFormatting.formatPartyDisbandMessageToParty(player, playerData));
+            party.disband();
+
+        } else {
+            party.removePlayer(player);
+            PartyChatFormatting.sendMessage(party.getPlayers(), PartyChatFormatting.formatLeaveMessageToRemaining(player, playerData));
+        }
     }
 }

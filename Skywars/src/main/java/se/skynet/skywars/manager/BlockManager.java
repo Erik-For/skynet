@@ -1,7 +1,9 @@
 package se.skynet.skywars.manager;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -19,22 +21,31 @@ public class BlockManager implements Listener {
 
     @EventHandler
     public void interactEvent(PlayerInteractEvent event) {
-        if(!(game.getGameState() == GameState.IN_GAME || game.getGameState() == GameState.CAGE_DESTRUCTION)) {
-            event.setCancelled(true);
-        }
+        event.setCancelled(
+                !(game.getGameState() == GameState.IN_GAME ||
+                        game.getGameState() == GameState.CAGE_DESTRUCTION ||
+                        game.getGameState() == GameState.END
+                )
+        );
     }
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        if(!(game.getGameState() == GameState.IN_GAME || game.getGameState() == GameState.CAGE_DESTRUCTION)) {
-            event.setCancelled(true);
-        }
+        event.setCancelled(
+                !(game.getGameState() == GameState.IN_GAME ||
+                        game.getGameState() == GameState.CAGE_DESTRUCTION ||
+                        game.getGameState() == GameState.END
+                )
+        );
     }
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        if(!(game.getGameState() == GameState.IN_GAME || game.getGameState() == GameState.CAGE_DESTRUCTION)) {
-            event.setCancelled(true);
-        }
+        event.setCancelled(
+                !(game.getGameState() == GameState.IN_GAME ||
+                        game.getGameState() == GameState.CAGE_DESTRUCTION ||
+                        game.getGameState() == GameState.END
+                )
+        );
     }
 
 }

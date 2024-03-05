@@ -16,8 +16,7 @@ island-loot:
         types: ["0-0.60:LEATHER", "0.60-1:IRON"]
         count: 1
   - name: swords
-    min: 1
-    max: 1
+    count: 1
     items:
       - material: "{type}_SWORD"
         count: 1
@@ -37,7 +36,7 @@ island-loot:
       - material: "FISHING_ROD"
         min: 1
         max: 1
-      - material: SNOW_BALL
+      - material: "SNOW_BALL"
         min: 8
         max: 32
         step: 8
@@ -55,7 +54,7 @@ island-loot:
 
   - name: blocks
     min: 1
-    max: 3
+    max: 2
     items:
       - material: "WOOD"
         min: 16
@@ -65,7 +64,7 @@ island-loot:
         min: 16
         max: 32
         step: 16
-      
+        
 mid-loot:
   - name: armor
     min: 2
@@ -108,7 +107,7 @@ mid-loot:
       - material: "FISHING_ROD"
         min: 1
         max: 1
-      - material: SNOW_BALL
+      - material: "SNOW_BALL"
         min: 16
         max: 64
         step: 16
@@ -121,10 +120,9 @@ mid-loot:
         max: 32
         step: 8
   - name: blocks
-    min: 2
-    max: 5
+    count: 1
     items:
-      - material: STONE
+      - material: "STONE"
         min: 16
         max: 32
         step: 16

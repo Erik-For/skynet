@@ -1,11 +1,11 @@
 package se.skynet.skynetproxy.party;
 
-import jdk.internal.net.http.common.Pair;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import org.apache.commons.lang3.tuple.Pair;
 import se.skynet.skynetproxy.Rank;
 import se.skynet.skynetproxy.playerdata.CustomPlayerData;
 
@@ -121,8 +121,8 @@ public class PartyChatFormatting {
         componentBuilder.append(new ComponentBuilder("\n").create());
         componentBuilder.append(new ComponentBuilder("Party Members: ").color(ChatColor.YELLOW).create());
         for (Pair<ProxiedPlayer, CustomPlayerData> player : players) {
-            if(player.first.equals(partyLeader)) continue;
-            componentBuilder.append(new ComponentBuilder("\n").append(player.second.getRank().getPrefix()).append(" ").append(player.first.getName()).color(player.second.getRank().getRankColor()).create());
+            if(player.getLeft().equals(partyLeader)) continue;
+            componentBuilder.append(new ComponentBuilder("\n").append(player.getRight().getRank().getPrefix()).append(" ").append(player.getLeft().getName()).color(player.getRight().getRank().getRankColor()).create());
         }
         return componentBuilder.create();
     }
@@ -134,6 +134,11 @@ public class PartyChatFormatting {
         return componentBuilder.create();
     }
 
+    public static BaseComponent[] formatDisbandLeft() {
+        ComponentBuilder componentBuilder = new ComponentBuilder();
+        componentBuilder.append(new ComponentBuilder("The party has been disbanded due to everyone leaving!").color(ChatColor.RED).create());
+        return componentBuilder.create();
+    }
     public static BaseComponent[] formatNotAllowed() {
         ComponentBuilder componentBuilder = new ComponentBuilder();
         componentBuilder.append(new ComponentBuilder("You are not allowed to do that!").color(ChatColor.RED).create());

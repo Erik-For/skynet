@@ -1,19 +1,26 @@
 package se.skynet.skynetproxy.party;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.JsonAdapter;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
 import se.skynet.skynetproxy.SkyProxy;
+import se.skynet.skynetproxy.debug.PlayerJsonSerializer;
 import se.skynet.skynetproxy.playerdata.CustomPlayerData;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class PartyInvite {
-
+    @Expose(serialize = true, deserialize = false)
     private final UUID id;
     private final SkyProxy plugin;
     private final Party party;
+
+    @Expose(serialize = true, deserialize = false)
+
     private final ProxiedPlayer invited;
+    @Expose(serialize = true, deserialize = false)
     private final ProxiedPlayer inviter;
     private final ScheduledTask task;
     private long time;
@@ -48,6 +55,8 @@ public class PartyInvite {
             return null;
         } else {
             task.cancel();
+            this.time = 0;
+            party.getPartyManager().removeInvite(id);
             return party;
         }
     }

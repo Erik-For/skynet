@@ -2,6 +2,7 @@ package se.skynet.skywars.loot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LootCategory {
@@ -18,13 +19,19 @@ public class LootCategory {
 
     public List<ItemStack> getItems() {
         // return unique items
-        List<ItemStack> itemList = new ArrayList<>();
-        List<LootItem> itemSet = new ArrayList<>(items);
-        for (int i = 0; i < count; i++) {
-            LootItem lootItem = itemSet.get((int) (Math.random() * itemSet.size()));
-            itemSet.remove(lootItem);
-            itemList.add(lootItem.build());
+        try {
+            List<ItemStack> itemList = new ArrayList<>();
+            List<LootItem> itemSet = new ArrayList<>(items);
+            for (int i = 0; i < count; i++) {
+                LootItem lootItem = itemSet.get((int) (Math.random() * itemSet.size()));
+                itemSet.remove(lootItem);
+                itemList.add(lootItem.build());
+            }
+            return itemList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Failed to get items from " + name);
         }
-        return itemList;
+        return Collections.emptyList();
     }
 }

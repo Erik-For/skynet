@@ -26,6 +26,7 @@ public final class SkyProxy extends Plugin {
         databaseConnectionManager.connect();
 
         this.partyManager = new PartyManger(this);
+        this.getProxy().getPluginManager().registerListener(this, partyManager);
         this.playerDataManager = new PlayerDataManager(this);
 
         new DatabaseMethods(databaseConnectionManager).createPlayerTable();

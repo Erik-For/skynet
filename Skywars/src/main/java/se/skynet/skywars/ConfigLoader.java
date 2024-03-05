@@ -55,12 +55,12 @@ public class ConfigLoader {
         if(locationsConfig.contains("bounds")){
             int xl = locationsConfig.getInt("bounds.xl");
             int yl = locationsConfig.getInt("bounds.yl");
-            int ym = locationsConfig.getInt("bounds.ym");
-            int zl = locationsConfig.getInt("bounds.zl");
+            int xu = locationsConfig.getInt("bounds.xu");
+            int yu = locationsConfig.getInt("bounds.yu");
 
             WorldBorder worldBorder = game.getPlugin().getServer().getWorlds().get(0).getWorldBorder();
             worldBorder.setCenter(0, 0);
-            worldBorder.setSize(xl);
+            worldBorder.setSize(xu);
         }
 
         locationsConfig.getConfigurationSection("islands").getKeys(false).forEach(key -> {
@@ -105,7 +105,7 @@ public class ConfigLoader {
             game.getLootManager().addIslandLootCategory(getLootCategory(map));
         });
 
-        lootConfig.getMapList("mid-chests").forEach(map -> {
+        lootConfig.getMapList("mid-loot").forEach(map -> {
             game.getLootManager().addMidLootCategory(getLootCategory(map));
         });
 
