@@ -90,6 +90,7 @@ public class DatabaseMethods {
             }
             return UUID.fromString(resultSet.getString("UUID"));
         } catch (SQLException e) {
+            e.printStackTrace();
             System.out.println("FATAL: Could not get the player data");
             System.exit(1);
         }
