@@ -22,7 +22,7 @@ public class LobbyManager implements Listener {
     @EventHandler
     public void damageEvent(EntityDamageEvent event) {
         if (isLobby) {
-            if (event.getEntity()., instanceof Player) {
+            if (event.getEntity(), instanceof Player) {
                 event.setCancelled(true);
                 if (event.getCause() == EntityDamageEvent.DamageCause.VOID) {
                     event.getEntity().teleport(event.getEntity().getWorld().getSpawnLocation());
