@@ -21,6 +21,7 @@ public class PlayerRouter implements Listener {
 
     @EventHandler
     public void onPlayerJoin(ServerConnectEvent event) {
+
         if(event.getReason() != ServerConnectEvent.Reason.JOIN_PROXY) {
             return;
         }

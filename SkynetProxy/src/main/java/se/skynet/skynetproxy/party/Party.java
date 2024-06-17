@@ -9,19 +9,17 @@ import java.util.stream.Collectors;
 
 public class Party {
     @Expose(serialize = true, deserialize = false)
-
     private final String name;
-    private final PartyManger partyManger;
+    private final PartyManager partyManager;
     @Expose(serialize = true, deserialize = false)
-
     private ProxiedPlayer leader;
     @Expose(serialize = true, deserialize = false)
-
     private final List<ProxiedPlayer> players = new ArrayList<>();
-    public Party(ProxiedPlayer leader, PartyManger partyManger) {
+
+    public Party(ProxiedPlayer leader, PartyManager partyManager) {
         this.name = leader.getName();
         this.leader = leader;
-        this.partyManger = partyManger;
+        this.partyManager = partyManager;
         players.add(leader);
     }
 
@@ -34,29 +32,29 @@ public class Party {
     }
 
     public List<ProxiedPlayer> getMembers() {
-        return players.stream().filter(proxiedPlayer -> !proxiedPlayer.equals(leader)).collect(Collectors.toList());
+        return players.stream()
+                .filter(player -> !player.equals(leader))
+                .collect(Collectors.toList());
     }
 
-
-    protected PartyManger getPartyManager() {
-        return partyManger;
+    protected PartyManager getPartyManager() {
+        return partyManager;
     }
 
     public void removePlayer(ProxiedPlayer player) {
-        if(player == leader) {
+        if (player == leader) {
             disband();
         }
-
         players.remove(player);
-        partyManger.unRegisterPlayerFromMaps(player);
+        partyManager.unregisterPlayerFromMaps(player);
     }
 
     public void disband() {
-        partyManger.disbandParty(this);
+        partyManager.disbandParty(this);
     }
 
     public void addPlayer(ProxiedPlayer player) {
         players.add(player);
-        partyManger.registerPlayerToMaps(player, this);
+        partyManager.registerPlayerToMaps(player, this);
     }
 }

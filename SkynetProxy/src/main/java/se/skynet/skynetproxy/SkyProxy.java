@@ -6,7 +6,7 @@ import org.reflections.Reflections;
 import se.skynet.skynetproxy.command.SkynetCommand;
 import se.skynet.skynetproxy.database.DatabaseConnectionManager;
 import se.skynet.skynetproxy.database.DatabaseMethods;
-import se.skynet.skynetproxy.party.PartyManger;
+import se.skynet.skynetproxy.party.PartyManager;
 import se.skynet.skynetproxy.playerdata.PlayerDataManager;
 import se.skynet.skynetproxy.server.ServerManager;
 
@@ -17,7 +17,7 @@ public final class SkyProxy extends Plugin {
     private DatabaseConnectionManager databaseConnectionManager;
 
     private PlayerDataManager playerDataManager;
-    private PartyManger partyManager;
+    private PartyManager partyManager;
 
     @Override
     public void onEnable() {
@@ -25,7 +25,7 @@ public final class SkyProxy extends Plugin {
         this.databaseConnectionManager = new DatabaseConnectionManager();
         databaseConnectionManager.connect();
 
-        this.partyManager = new PartyManger(this);
+        this.partyManager = new PartyManager(this);
         this.getProxy().getPluginManager().registerListener(this, partyManager);
         this.playerDataManager = new PlayerDataManager(this);
 
@@ -75,7 +75,7 @@ public final class SkyProxy extends Plugin {
         return playerDataManager;
     }
 
-    public PartyManger getPartyManager() {
+    public PartyManager getPartyManager() {
         return partyManager;
     }
 }
