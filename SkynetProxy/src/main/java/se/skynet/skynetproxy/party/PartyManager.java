@@ -9,19 +9,17 @@ import se.skynet.skynetproxy.SkyProxy;
 import se.skynet.skynetproxy.playerdata.CustomPlayerData;
 
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.UUID;
 
-public class PartyManger implements Listener {
-
+public class PartyManager implements Listener {
     private final SkyProxy plugin;
     @Expose(serialize = true, deserialize = false)
-
     private final HashMap<UUID, Party> partyMap = new HashMap<>();
     @Expose(serialize = true, deserialize = false)
-
     private final HashMap<UUID, PartyInvite> partyInvites = new HashMap<>();
 
-    public PartyManger(SkyProxy plugin) {
+    public PartyManager(SkyProxy plugin) {
         this.plugin = plugin;
     }
 
@@ -32,15 +30,14 @@ public class PartyManger implements Listener {
     }
 
     protected void disbandParty(Party party) {
-        for (ProxiedPlayer player : party.getPlayers()) {
-            partyMap.remove(player.getUniqueId());
-        }
+        party.getPlayers().forEach(player -> partyMap.remove(player.getUniqueId()));
         partyMap.values().remove(party);
     }
 
-    public Party getParty(ProxiedPlayer player) {
-        return partyMap.get(player.getUniqueId());
+    public Optional<Party> getParty(ProxiedPlayer player) {
+        return Optional.ofNullable(partyMap.get(player.getUniqueId()));
     }
+
     public boolean isInParty(ProxiedPlayer target) {
         return partyMap.containsKey(target.getUniqueId());
     }
@@ -53,15 +50,15 @@ public class PartyManger implements Listener {
         partyInvites.put(partyInvite.getId(), partyInvite);
     }
 
-    public PartyInvite getInvite(UUID inviteId) {
-        return partyInvites.get(inviteId);
+    public Optional<PartyInvite> getInvite(UUID inviteId) {
+        return Optional.ofNullable(partyInvites.get(inviteId));
     }
 
     protected void registerPlayerToMaps(ProxiedPlayer player, Party party) {
         partyMap.put(player.getUniqueId(), party);
     }
 
-    protected void unRegisterPlayerFromMaps(ProxiedPlayer player) {
+    protected void unregisterPlayerFromMaps(ProxiedPlayer player) {
         partyMap.remove(player.getUniqueId());
     }
 
@@ -69,15 +66,14 @@ public class PartyManger implements Listener {
     public void onPlayerLeave(PlayerDisconnectEvent event) {
         ProxiedPlayer player = event.getPlayer();
         CustomPlayerData playerData = plugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
-        if(!partyMap.containsKey(player.getUniqueId())) return;
-        Party party = partyMap.get(player.getUniqueId());
-        if(player == party.getLeader()){
-            PartyChatFormatting.sendMessage(party.getMembers(), PartyChatFormatting.formatPartyDisbandMessageToParty(player, playerData));
-            party.disband();
-
-        } else {
-            party.removePlayer(player);
-            PartyChatFormatting.sendMessage(party.getPlayers(), PartyChatFormatting.formatLeaveMessageToRemaining(player, playerData));
-        }
+        getParty(player).ifPresent(party -> {
+            if (player == party.getLeader()) {
+                PartyChatFormatting.sendMessage(party.getMembers(), PartyChatFormatting.formatPartyDisbandMessageToParty(player, playerData));
+                party.disband();
+            } else {
+                party.removePlayer(player);
+                PartyChatFormatting.sendMessage(party.getPlayers(), PartyChatFormatting.formatLeaveMessageToRemaining(player, playerData));
+            }
+        });
     }
 }
