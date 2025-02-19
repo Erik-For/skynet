@@ -5,7 +5,9 @@ import com.google.gson.JsonParser;
 import net.minecraft.server.v1_8_R3.Tuple;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
+import se.skynet.skyserverbase.Rank;
 import se.skynet.skyserverbase.SkyServerBase;
+import se.skynet.skyserverbase.playerdata.Nick;
 
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
 public class BungeeProxyApi extends Thread {
 
@@ -31,6 +34,7 @@ public class BungeeProxyApi extends Thread {
     }
 
     private final ConcurrentHashMap<String, CompletableFuture<List<String>>> serverListResponseFuters = new ConcurrentHashMap<>();
+
 
     private Tuple<JsonObject, String> makeJson(String type){
         JsonObject json = new JsonObject();

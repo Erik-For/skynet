@@ -6,10 +6,24 @@ import se.skynet.skyserverbase.Rank;
 public class CustomPlayerData {
 
     private final Rank rank;
+    private Nick nick;
+
     private PermissionAttachment permissonAttachment;
 
     public CustomPlayerData(Rank rank) {
         this.rank = rank;
+    }
+
+    public void setNick(Nick nick) {
+        this.nick = nick;
+    }
+
+    public Nick getNick() {
+        return nick;
+    }
+
+    public boolean hasNick(){
+        return nick != null;
     }
 
     public Rank getRank() {
@@ -22,4 +36,5 @@ public class CustomPlayerData {
     public PermissionAttachment getPermissonAttachment() {
         return permissonAttachment;
     }
+
 }

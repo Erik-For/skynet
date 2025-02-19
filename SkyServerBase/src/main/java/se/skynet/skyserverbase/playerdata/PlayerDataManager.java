@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class PlayerDataManager implements Listener {
-
     private boolean persistant = false;
     private SkyServerBase plugin;
     private HashMap<UUID, CustomPlayerData> playerData = new HashMap<>();

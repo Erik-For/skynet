@@ -16,7 +16,7 @@ public class GetRankCommand extends SkynetCommand {
 
     @Override
     public void executeCommand(ProxiedPlayer player, Rank rank, String[] args) {
-        player.sendMessage(new ComponentBuilder().append("Your rank is: ").append(rank.getDisplayName()).create());
+        player.sendMessage(new ComponentBuilder().append("Your rank is: ").append(rank.getDisplayName()).color(rank.getRankColor()).create());
     }
 
     @Override

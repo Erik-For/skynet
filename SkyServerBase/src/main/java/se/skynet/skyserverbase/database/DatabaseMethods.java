@@ -3,6 +3,7 @@ package se.skynet.skyserverbase.database;
 import org.apache.commons.lang3.EnumUtils;
 import se.skynet.skyserverbase.Rank;
 import se.skynet.skyserverbase.playerdata.CustomPlayerData;
+import se.skynet.skyserverbase.playerdata.Nick;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,7 +22,7 @@ public class DatabaseMethods {
         PreparedStatement ps;
         try {
             ps = this.databaseManager.getConnection().prepareStatement(
-                    "SELECT rank FROM player WHERE UUID = ?"
+                    "SELECT rank, nickname, nicked_rank FROM player WHERE UUID = ?"
             );
             ps.setString(1, uuid.toString());
             ps.executeQuery();
@@ -30,9 +31,17 @@ public class DatabaseMethods {
                 return null;
             }
             String rankString = resultSet.getString("rank");
+            String nickString = resultSet.getString("nickname");
+            String nickRankString = resultSet.getString("nicked_rank");
+
+
             if (EnumUtils.isValidEnum(Rank.class, rankString)) {
                 Rank rank = Rank.valueOf(rankString);
-                return new CustomPlayerData(rank);
+                CustomPlayerData customPlayerData = new CustomPlayerData(rank);
+                if(nickString != null && nickRankString != null){
+                    customPlayerData.setNick(new Nick(nickString, Rank.valueOf(nickRankString)));
+                }
+                return customPlayerData;
             } else {
                 System.out.println("FATAL: Could not get the player data");
                 System.exit(1);

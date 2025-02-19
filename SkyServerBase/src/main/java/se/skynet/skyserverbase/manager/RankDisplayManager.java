@@ -16,6 +16,7 @@ import se.skynet.skyserverbase.SkyServerBase;
 import se.skynet.skyserverbase.playerdata.CustomPlayerData;
 
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 public class RankDisplayManager implements Listener {
 
@@ -31,22 +32,37 @@ public class RankDisplayManager implements Listener {
         Player player = event.getPlayer();
         CustomPlayerData data = plugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
         Rank rank = data.getRank();
-        event.setJoinMessage(rank.getPrefix() + rank.getRankColor() + player.getDisplayName() + ChatColor.GREEN + " [+]");
+        if(data.hasNick()){
+            rank = data.getNick().getNickRank();
+            event.setJoinMessage(rank.getPrefix() + rank.getRankColor() + data.getNick().getNickname() + ChatColor.GREEN + " [+]");
+        } else {
+            event.setJoinMessage(rank.getPrefix() + rank.getRankColor() + player.getDisplayName() + ChatColor.GREEN + " [+]");
+        }
     }
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event){
         Player player = event.getPlayer();
         CustomPlayerData data = plugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
         Rank rank = data.getRank();
-        event.setQuitMessage(rank.getPrefix() + rank.getRankColor() + player.getDisplayName() + ChatColor.RED + " [-]");
+        if(data.hasNick()){
+            rank = data.getNick().getNickRank();
+            event.setQuitMessage(rank.getPrefix() + rank.getRankColor() + data.getNick().getNickname() + ChatColor.RED + " [-]");
+        } else {
+            event.setQuitMessage(rank.getPrefix() + rank.getRankColor() + player.getDisplayName() + ChatColor.RED + " [-]");
+        }
     }
 
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent event){
+    public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
         CustomPlayerData data = plugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
         Rank rank = data.getRank();
-        event.setFormat(rank.getPrefix() + rank.getRankColor() + player.getDisplayName() + (rank.getPriority() == 0 ? ChatColor.GRAY : ChatColor.WHITE) + ": " + event.getMessage());
+        if (data.hasNick()) {
+            rank = data.getNick().getNickRank();
+            event.setFormat(rank.getPrefix() + rank.getRankColor() + data.getNick().getNickname() + (rank.getPriority() == 0 ? ChatColor.GRAY : ChatColor.WHITE) + ": " + event.getMessage());
+        } else {
+            event.setFormat(rank.getPrefix() + rank.getRankColor() + player.getDisplayName() + (rank.getPriority() == 0 ? ChatColor.GRAY : ChatColor.WHITE) + ": " + event.getMessage());
+        }
     }
 
     @EventHandler
@@ -65,8 +81,13 @@ public class RankDisplayManager implements Listener {
     public void quitEvent(PlayerQuitEvent event){
         Player player = event.getPlayer();
         CustomPlayerData data = plugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
+        Rank rank = data.getRank();
+
+        if(data.hasNick()){
+            rank = data.getNick().getNickRank();
+        }
         // construct team packet
-        String teamName = 9-data.getRank().getPriority() + player.getUniqueId().toString().split("-")[0];
+        String teamName = 9-rank.getPriority() + player.getUniqueId().toString().split("-")[0];
         PacketPlayOutScoreboardTeam packet = PacketConstructor.removeTeamPacket(
             teamName
         );
@@ -75,15 +96,21 @@ public class RankDisplayManager implements Listener {
 
     public PacketPlayOutScoreboardTeam makeTeamPacketForPlayer(Player player){
         CustomPlayerData data = plugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
+        Rank rank = data.getRank();
+        String username = player.getName();
+        if(data.hasNick()){
+            username = data.getNick().getNickname();
+            rank = data.getNick().getNickRank();
+        }
         // construct team packet
-        String teamName = 9-data.getRank().getPriority() + player.getUniqueId().toString().split("-")[0];
+        String teamName = 9-rank.getPriority() + player.getUniqueId().toString().split("-")[0];
         PacketPlayOutScoreboardTeam packet = PacketConstructor.createTeamPacket(
                 teamName,
                 teamName,
-                data.getRank().getPrefix(),
+                rank.getPrefix(),
                 "",
                 ScoreboardTeamBase.EnumNameTagVisibility.ALWAYS,
-                Collections.singletonList(player)
+                Collections.singletonList(username)
         );
         return packet;
     }

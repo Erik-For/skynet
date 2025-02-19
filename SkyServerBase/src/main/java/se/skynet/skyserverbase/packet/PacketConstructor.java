@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PacketConstructor {
 
-    public static PacketPlayOutScoreboardTeam createTeamPacket(String teamName, String displayName, String prefix, String suffix, ScoreboardTeamBase.EnumNameTagVisibility nameTagVisibility, List<Player> players) {
+    public static PacketPlayOutScoreboardTeam createTeamPacket(String teamName, String displayName, String prefix, String suffix, ScoreboardTeamBase.EnumNameTagVisibility nameTagVisibility, List<String> players) {
         try {
             if(prefix.length() > 16){
                 System.out.println("Prefix is too long, shortening it");
@@ -20,10 +20,12 @@ public class PacketConstructor {
                 suffix = suffix.substring(0, 16);
             }
             // turn players list into list of strings which are from player.getName()
+            /*
             List<String> playerNames = new ArrayList<>();
             for(Player player : players){
                 playerNames.add(player.getName());
             }
+             */
 
             PacketPlayOutScoreboardTeam packet = new PacketPlayOutScoreboardTeam();
             PacketUtils.setField(packet, "a", teamName);
@@ -32,7 +34,7 @@ public class PacketConstructor {
             PacketUtils.setField(packet, "d", suffix);
             PacketUtils.setField(packet, "e", nameTagVisibility.e);
             PacketUtils.setField(packet, "f", 0);
-            PacketUtils.setField(packet, "g", playerNames);
+            PacketUtils.setField(packet, "g", players);
 
             return packet;
         } catch (Exception e) {
@@ -40,6 +42,7 @@ public class PacketConstructor {
         }
         return null;
     }
+
 
     public static PacketPlayOutScoreboardTeam removeTeamPacket(String teamName) {
         PacketPlayOutScoreboardTeam packet = new PacketPlayOutScoreboardTeam();

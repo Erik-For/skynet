@@ -5,6 +5,9 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import se.skynet.skywars.Game;
@@ -25,6 +28,12 @@ public class CageManager implements Listener {
     public CageManager(Game game) {
         this.game = game;
         game.getPlugin().getServer().getPluginManager().registerEvents(this, game.getPlugin());
+    }
+
+    public void test(EntityDamageByEntityEvent event) {
+
+        // get the player that shot the arrow
+
     }
 
     @EventHandler

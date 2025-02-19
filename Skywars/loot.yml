@@ -1,4 +1,11 @@
 island-loot:
+  - name: food
+    count: 1
+    items:
+      - material: "COOKED_BEEF"
+        min: 16
+        max: 32
+        step: 16
   - name: armor
     min: 2
     max: 4

@@ -29,7 +29,9 @@ public class DatabaseMethods {
                             "playtime INT DEFAULT 0," +
                             "first_join DATETIME DEFAULT NOW()," +
                             "last_seen DATETIME DEFAULT NOW()," +
-                            "banned BOOLEAN DEFAULT false " +
+                            "banned BOOLEAN DEFAULT false," +
+                            "nickname VARCHAR(16) DEFAULT NULL," +
+                            "nicked_rank ENUM('DEFAULT', 'MVP', 'MODERATOR', 'ADMIN', 'MANAGEMENT', 'WEAK_ADMIN') DEFAULT NULL" +
                             ")"
             );
             ps.executeUpdate();

@@ -2,6 +2,9 @@ package se.skynet.skywars;
 
 import org.bukkit.entity.Player;
 import se.skynet.skyserverbase.playerdata.CustomPlayerData;
+import se.skynet.skywars.perks.SkywarsPerk;
+
+import java.util.HashMap;
 
 public class SkywarsPlayer {
 
@@ -12,6 +15,8 @@ public class SkywarsPlayer {
     private Tag latestTag;
     private final String name;
 
+    private final HashMap<SkywarsPerk, Integer> perks;
+
     public SkywarsPlayer(Player player, Game game) {
         this.alive = game.getGameState() == GameState.WAITING;
         CustomPlayerData data = game.getPlugin().getParentPlugin().getPlayerDataManager().getPlayerData(player.getUniqueId());
@@ -19,6 +24,7 @@ public class SkywarsPlayer {
         this.player = player;
         this.name = player.getName();
         this.latestTag = new Tag(null, null, 0);
+        this.perks = new HashMap<>();
     }
 
     public String getFormattedName() {
