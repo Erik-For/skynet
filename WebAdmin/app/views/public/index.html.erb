@@ -1,0 +1,81 @@
+<!-- app/views/players/index.html.erb -->
+<div class="container mx-auto p-8 bg-gray-50 min-h-screen">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">Player List</h1>
+    
+    <!-- Search Bar -->
+    <div class="mb-6">
+        <input type="text" 
+               id="searchInput" 
+               placeholder="Search players..." 
+               class="w-full md:w-1/3 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        >
+    </div>
+
+    <div class="overflow-x-auto rounded-lg shadow-lg">
+        <table id="playerTable" class="w-full bg-white">
+            <thead>
+                <tr class="bg-gray-800 text-white text-sm uppercase">
+                    <th class="py-4 px-6 cursor-pointer hover:bg-gray-700 transition-colors" data-sort="uuid">
+                        UUID
+                        <span class="ml-1">↕</span>
+                    </th>
+                    <th class="py-4 px-6 cursor-pointer hover:bg-gray-700 transition-colors" data-sort="username">
+                        Username
+                        <span class="ml-1">↕</span>
+                    </th>
+                    <th class="py-4 px-6 cursor-pointer hover:bg-gray-700 transition-colors" data-sort="rank">
+                        Rank
+                        <span class="ml-1">↕</span>
+                    </th>
+                    <th class="py-4 px-6 cursor-pointer hover:bg-gray-700 transition-colors" data-sort="playtime">
+                        Playtime
+                        <span class="ml-1">↕</span>
+                    </th>
+                    <th class="py-4 px-6 cursor-pointer hover:bg-gray-700 transition-colors" data-sort="first_join">
+                        First Join
+                        <span class="ml-1">↕</span>
+                    </th>
+                    <th class="py-4 px-6 cursor-pointer hover:bg-gray-700 transition-colors" data-sort="last_seen">
+                        Last Seen
+                        <span class="ml-1">↕</span>
+                    </th>
+                    <th class="py-4 px-6 cursor-pointer hover:bg-gray-700 transition-colors" data-sort="banned">
+                        Banned
+                        <span class="ml-1">↕</span>
+                    </th>
+                    <th class="py-4 px-6 cursor-pointer hover:bg-gray-700 transition-colors" data-sort="nickname">
+                        Nickname
+                        <span class="ml-1">↕</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-600 text-sm">
+                <% @players.each do |player| %>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors">
+                        <td class="py-4 px-6"><%= player.UUID %></td>
+                        <td class="py-4 px-6 font-medium"><%= player.username %></td>
+                        <td class="py-4 px-6">
+                            <span class="px-3 py-1 rounded-full text-xs
+                                <%= case player.rank
+                                    when 'Admin' then 'bg-red-100 text-red-800'
+                                    when 'Mod' then 'bg-blue-100 text-blue-800'
+                                    else 'bg-gray-100 text-gray-800'
+                                    end %>">
+                                <%= player.rank %>
+                            </span>
+                        </td>
+                        <td class="py-4 px-6"><%= player.playtime %></td>
+                        <td class="py-4 px-6"><%= player.first_join %></td>
+                        <td class="py-4 px-6"><%= player.last_seen %></td>
+                        <td class="py-4 px-6">
+                            <span class="px-3 py-1 rounded-full text-xs <%= player.banned ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800' %>">
+                                <%= player.banned ? 'Yes' : 'No' %>
+                            </span>
+                        </td>
+                        <td class="py-4 px-6"><%= player.nickname %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>
