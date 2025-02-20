@@ -4,10 +4,7 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import se.skynet.skyserverbase.command.BuildCommand;
-import se.skynet.skyserverbase.command.ConfigCreatorCommand;
-import se.skynet.skyserverbase.command.DisabledCommand;
-import se.skynet.skyserverbase.command.FlyCommand;
+import se.skynet.skyserverbase.command.*;
 import se.skynet.skyserverbase.database.DatabaseConnectionManager;
 import se.skynet.skyserverbase.playerdata.PlayerDataManager;
 import org.reflections.Reflections;
@@ -48,6 +45,8 @@ public final class SkyServerBase extends JavaPlugin {
         this.getCommand("build").setExecutor(new BuildCommand(this));
         this.getCommand("ban").setExecutor(new DisabledCommand(this));
         this.getCommand("kick").setExecutor(new DisabledCommand(this));
+        this.getCommand("nick").setExecutor(new NickCommand(this));
+        this.getCommand("unnick").setExecutor(new UnnickCommand(this));
         this.getCommand("configcreator").setExecutor(new ConfigCreatorCommand(this));
     }
 

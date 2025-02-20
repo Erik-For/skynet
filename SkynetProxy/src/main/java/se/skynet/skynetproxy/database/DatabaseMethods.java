@@ -31,7 +31,9 @@ public class DatabaseMethods {
                             "last_seen DATETIME DEFAULT NOW()," +
                             "banned BOOLEAN DEFAULT false," +
                             "nickname VARCHAR(16) DEFAULT NULL," +
-                            "nicked_rank ENUM('DEFAULT', 'MVP', 'MODERATOR', 'ADMIN', 'MANAGEMENT', 'WEAK_ADMIN') DEFAULT NULL" +
+                            "nicked_rank ENUM('DEFAULT', 'MVP', 'MODERATOR', 'ADMIN', 'MANAGEMENT', 'WEAK_ADMIN') DEFAULT NULL," +
+                            "nick_texture TEXT DEFAULT NULL," +
+                            "nick_signature TEXT DEFAULT NULL" +
                             ")"
             );
             ps.executeUpdate();

@@ -22,7 +22,7 @@ public class DatabaseMethods {
         PreparedStatement ps;
         try {
             ps = this.databaseManager.getConnection().prepareStatement(
-                    "SELECT rank, nickname, nicked_rank FROM player WHERE UUID = ?"
+                    "SELECT rank, nickname, nicked_rank, nick_signature, nick_texture FROM player WHERE UUID = ?"
             );
             ps.setString(1, uuid.toString());
             ps.executeQuery();
@@ -33,13 +33,15 @@ public class DatabaseMethods {
             String rankString = resultSet.getString("rank");
             String nickString = resultSet.getString("nickname");
             String nickRankString = resultSet.getString("nicked_rank");
+            String signature = resultSet.getString("nick_signature");
+            String texture = resultSet.getString("nick_texture");
 
 
             if (EnumUtils.isValidEnum(Rank.class, rankString)) {
                 Rank rank = Rank.valueOf(rankString);
                 CustomPlayerData customPlayerData = new CustomPlayerData(rank);
                 if(nickString != null && nickRankString != null){
-                    customPlayerData.setNick(new Nick(nickString, Rank.valueOf(nickRankString)));
+                    customPlayerData.setNick(new Nick(nickString, Rank.valueOf(nickRankString), signature, texture));
                 }
                 return customPlayerData;
             } else {
@@ -52,5 +54,41 @@ public class DatabaseMethods {
             System.exit(1);
         }
         return null;
+    }
+
+    public void setNick(UUID uuid, Nick nick) {
+        // make a method that sets the nickname for a player
+        PreparedStatement ps;
+        try {
+            ps = this.databaseManager.getConnection().prepareStatement(
+                    "UPDATE player SET nickname = ?, nicked_rank = ?, nick_signature = ?, nick_texture = ? WHERE UUID = ?"
+            );
+            ps.setString(1, nick.getNickname());
+            ps.setString(2, nick.getNickRank().name());
+            ps.setString(3, nick.getSignature());
+            ps.setString(4, nick.getTexture());
+            ps.setString(5, uuid.toString());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("FATAL: Could not set the nickname");
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    public void unnick(UUID uuid) {
+        // make a method that removes the nickname for a player
+        PreparedStatement ps;
+        try {
+            ps = this.databaseManager.getConnection().prepareStatement(
+                    "UPDATE player SET nickname = NULL, nicked_rank = NULL, nick_signature = NULL, nick_texture = NULL WHERE UUID = ?"
+            );
+            ps.setString(1, uuid.toString());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("FATAL: Could not unset the nickname");
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 }

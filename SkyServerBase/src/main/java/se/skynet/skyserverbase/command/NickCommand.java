@@ -1,11 +1,16 @@
 package se.skynet.skyserverbase.command;
 
+import net.minecraft.server.v1_8_R3.Packet;
+import net.minecraft.server.v1_8_R3.ScoreboardTeamBase;
 import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.json.JSONObject;
 import se.skynet.skyserverbase.Rank;
 import se.skynet.skyserverbase.SkyServerBase;
 import se.skynet.skyserverbase.database.DatabaseMethods;
+import se.skynet.skyserverbase.packet.PacketConstructor;
+import se.skynet.skyserverbase.packet.PacketUtils;
 import se.skynet.skyserverbase.playerdata.CustomPlayerData;
 import se.skynet.skyserverbase.playerdata.Nick;
 
@@ -13,6 +18,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -30,6 +37,12 @@ public class NickCommand extends Command {
             return false;
         }
         String nick = strings[0];
+        int priority = 0;
+        if(playerData.getNick() != null) {
+            priority = playerData.getNick().getNickRank().getPriority();
+        } else {
+            priority = playerData.getRank().getPriority();
+        }
         String signature = null;
         String texture = null;
         Rank nickRank = playerData.getRank();
@@ -39,7 +52,7 @@ public class NickCommand extends Command {
         }
         if(strings.length > 1) {
             try {
-                Rank rank = Rank.valueOf(strings[1]);
+                nickRank = Rank.valueOf(strings[1]);
             } catch (IllegalArgumentException e) {
                 player.sendMessage("§cInvalid rank.");
                 return false;
@@ -47,7 +60,7 @@ public class NickCommand extends Command {
         }
         UUID uuid;
         if(strings.length > 2) {
-            uuid = getUUID(strings[1]);
+            uuid = getUUID(strings[2]);
         } else {
             uuid = player.getUniqueId();
         }
@@ -63,13 +76,20 @@ public class NickCommand extends Command {
         signature = skin.a();
         texture = skin.b();
 
-        player.sendMessage("§aNickname set to " + nick + (nickRank != null ? " with rank " + nickRank : "") + (signature != null ? " with skin from " + strings[1] : ""));
+        player.sendMessage("§aNickname set to " + nick + (nickRank != null ? " with rank " + nickRank : "") + (signature != null ? " with skin from " + strings[2] : ""));
         playerData.setNick(new Nick(nick, nickRank, signature, texture));
-
+        new DatabaseMethods(getPlugin().getDatabaseConnectionManager()).setNick(player.getUniqueId(), new Nick(nick, nickRank, signature, texture));
+        List<Packet<?>> packets = PacketConstructor.renickPlayer(player, priority, nick, nickRank, signature, texture);
+        getPlugin().getServer().getOnlinePlayers().forEach((p) -> {
+            if(p.equals(player)) return;
+            PacketUtils.sendPacket(p, packets);
+        });
+        packets.remove(4);
+        PacketUtils.sendPacket(player, packets);
+        PacketUtils.sendPacket(player, PacketConstructor.fixPlayer(player));
         return true;
     }
 
-    // https://sessionserver.mojang.com/session/minecraft/profile/9fd34a9c-5c42-4d91-9e1a-f2901a8e909e?unsigned=false
     private Tuple<String, String> getSkin(UUID uuid) {
         try {
             URL url = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid.toString() + "?unsigned=false");

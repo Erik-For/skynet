@@ -11,3 +11,5 @@ commands:
   ban:
   kick:
   configcreator:
+  nick:
+  unnick:
