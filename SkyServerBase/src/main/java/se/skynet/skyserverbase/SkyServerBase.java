@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import se.skynet.skyserverbase.command.*;
 import se.skynet.skyserverbase.database.DatabaseConnectionManager;
+import se.skynet.skyserverbase.manager.PlayerVisibilityManager;
 import se.skynet.skyserverbase.playerdata.PlayerDataManager;
 import org.reflections.Reflections;
 import se.skynet.skyserverbase.proxy.BungeeProxyApi;
@@ -15,6 +16,7 @@ public final class SkyServerBase extends JavaPlugin {
     private PlayerDataManager playerDataManager;
     private DatabaseConnectionManager databaseConnectionManager;
     private ProtocolManager protocolManager;
+    private PlayerVisibilityManager playerVisibilityManager;
     private BungeeProxyApi bungeeProxyApi;
     private String servername;
     @Override
@@ -27,6 +29,7 @@ public final class SkyServerBase extends JavaPlugin {
         databaseConnectionManager.connect();
 
         this.playerDataManager = new PlayerDataManager(this);
+        this.playerVisibilityManager = new PlayerVisibilityManager(this);
 
         registerCommands();
         registerListeners();
@@ -47,11 +50,12 @@ public final class SkyServerBase extends JavaPlugin {
         this.getCommand("kick").setExecutor(new DisabledCommand(this));
         this.getCommand("nick").setExecutor(new NickCommand(this));
         this.getCommand("unnick").setExecutor(new UnnickCommand(this));
+        this.getCommand("hide").setExecutor(new HideCommand(this));
         this.getCommand("configcreator").setExecutor(new ConfigCreatorCommand(this));
     }
 
     private void registerListeners() {
-        Reflections reflections = new Reflections("se.skynet.skyserverbase.manager");
+        Reflections reflections = new Reflections("se.skynet.skyserverbase.manager.headless");
         for (Class<? extends Listener> listenerClass : reflections.getSubTypesOf(Listener.class)) {
             try {
                 Listener listener = listenerClass.getConstructor(SkyServerBase.class).newInstance(this);
@@ -77,6 +81,10 @@ public final class SkyServerBase extends JavaPlugin {
 
     public ProtocolManager getProtocolManager() {
         return protocolManager;
+    }
+
+    public PlayerVisibilityManager getPlayerVisibilityManager() {
+        return playerVisibilityManager;
     }
 
     public BungeeProxyApi getBungeeProxyApi() {

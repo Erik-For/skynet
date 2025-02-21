@@ -13,13 +13,17 @@ import se.skynet.skyserverbase.playerdata.CustomPlayerData;
 
 import java.util.List;
 
-public class UnnickCZommand extends Command{
+public class UnnickCommand extends Command{
 
     public UnnickCommand(SkyServerBase plugin) {
         super(plugin, Rank.MODERATOR);
     }
     @Override
     protected boolean executeCommand(Player player, CustomPlayerData playerData, Command command, String s, String[] strings) {
+        if(playerData.isHidden()) {
+            player.sendMessage("§cYou cannot unnick while hidden.");
+            return false;
+        }
         if(playerData.getNick() == null){
             player.sendMessage("§cYou are not nicked.");
             return false;

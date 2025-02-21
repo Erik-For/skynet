@@ -32,6 +32,10 @@ public class NickCommand extends Command {
 
     @Override
     protected boolean executeCommand(Player player, CustomPlayerData playerData, Command command, String s, String[] strings) {
+        if(playerData.isHidden()) {
+            player.sendMessage("§cYou cannot nick while hidden.");
+            return false;
+        }
         if (strings.length == 0) {
             player.sendMessage("§cUsage: /nick <nickname> <rank (optional)> <skin owner (optional)>");
             return false;
