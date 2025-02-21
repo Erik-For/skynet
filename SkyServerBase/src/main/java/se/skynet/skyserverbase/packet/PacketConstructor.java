@@ -67,14 +67,14 @@ public class PacketConstructor {
         return packets;
     }
 
-    private static PacketPlayOutPlayerInfo removePlayerPacket(UUID uuid) {
+    public static PacketPlayOutPlayerInfo removePlayerPacket(UUID uuid) {
         PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo();
         PacketUtils.setField(packet, "a", PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER);
         PacketUtils.setField(packet, "b", Collections.singletonList(packet.new PlayerInfoData(new GameProfile(uuid, "test"), 0, WorldSettings.EnumGamemode.SURVIVAL, null)));
         return packet;
     }
 
-    private static PacketPlayOutPlayerInfo addPlayerPacket(UUID uuid, String name, String texture, String signature) {
+    public static PacketPlayOutPlayerInfo addPlayerPacket(UUID uuid, String name, String texture, String signature) {
         PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo();
         PacketUtils.setField(packet, "a", PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER);
         GameProfile profile = new GameProfile(uuid, name);
@@ -86,13 +86,13 @@ public class PacketConstructor {
         return packet;
     }
 
-    private static PacketPlayOutEntityDestroy destroyEntityPacket(int entityId) {
+    public static PacketPlayOutEntityDestroy destroyEntityPacket(int entityId) {
         PacketPlayOutEntityDestroy packet = new PacketPlayOutEntityDestroy();
         PacketUtils.setField(packet, "a", new int[]{entityId});
         return packet;
     }
 
-    private static PacketPlayOutNamedEntitySpawn spawnPlayerPacket(Player player) {
+    public static PacketPlayOutNamedEntitySpawn spawnPlayerPacket(Player player) {
         EntityPlayer eplayer = ((CraftPlayer) player).getHandle();
         PacketPlayOutNamedEntitySpawn packet = new PacketPlayOutNamedEntitySpawn(eplayer);
         /*

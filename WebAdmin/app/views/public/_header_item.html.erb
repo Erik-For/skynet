@@ -1,0 +1,18 @@
+<th class="relative py-4 px-6 cursor-pointer hover:bg-gray-700 transition-colors">
+  <div class="flex items-center">
+    <%= name %>
+    <span class="ml-1">
+      <% if params[:sort] == sort %>
+        <%= params[:direction] == 'asc' ? '↑' : '↓' %>
+      <% else %>
+        ↕
+      <% end %>
+    </span>
+  </div>
+  <button 
+    data-controller="header"
+    data-header-sort-value="<%= sort %>"
+    data-header-direction-value="<%= params[:sort] == sort ? (params[:direction] || 'asc') : 'asc' %>"
+    class="absolute inset-0 bg-transparent">
+  </button>
+</th>

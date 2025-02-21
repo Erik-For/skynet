@@ -1,4 +1,4 @@
-package se.skynet.skyserverbase.manager;
+package se.skynet.skyserverbase.manager.headless;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;

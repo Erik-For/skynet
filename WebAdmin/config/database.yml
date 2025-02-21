@@ -40,7 +40,6 @@ production:
     database: storage/production_cable.sqlite3
     migrations_paths: db/cable_migrate
 
-
 external_db:
   adapter: mysql2
   encoding: utf8

@@ -7,6 +7,7 @@ public class CustomPlayerData {
 
     private final Rank rank;
     private Nick nick;
+    private boolean hidden = false;
 
     private PermissionAttachment permissonAttachment;
 
@@ -37,4 +38,11 @@ public class CustomPlayerData {
         return permissonAttachment;
     }
 
+    public boolean isHidden() {
+        return this.hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
 }

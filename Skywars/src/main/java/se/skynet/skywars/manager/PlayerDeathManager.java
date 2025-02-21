@@ -76,7 +76,7 @@ public class PlayerDeathManager implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                game.getPlayerVisibilityManager().hidePlayer(player);
+                game.getPlugin().getParentPlugin().getPlayerVisibilityManager().hidePlayer(player);
             }
         }.runTaskLater(game.getPlugin(), 20L);
     }

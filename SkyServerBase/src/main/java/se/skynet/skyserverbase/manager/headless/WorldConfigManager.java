@@ -1,4 +1,4 @@
-package se.skynet.skyserverbase.manager;
+package se.skynet.skyserverbase.manager.headless;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;

@@ -1,4 +1,4 @@
-package se.skynet.skyserverbase.manager;
+package se.skynet.skyserverbase.manager.headless;
 
 import net.minecraft.server.v1_8_R3.PacketPlayOutScoreboardTeam;
 import net.minecraft.server.v1_8_R3.ScoreboardTeamBase;

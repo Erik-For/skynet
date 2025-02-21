@@ -8,7 +8,6 @@ import se.skynet.skywars.timing.Timer;
 
 public class Game {
 
-    private final PlayerVisibilityManager playerVisibilityManager;
     private final LootManager lootManager;
     private final Skywars plugin;
     private final PlayerManager playerManager;
@@ -18,7 +17,6 @@ public class Game {
     public Game(Skywars plugin) {
         this.plugin = plugin;
 
-        playerVisibilityManager = new PlayerVisibilityManager(plugin);
         new PlayerDeathManager(this);
         new BlockManager(this);
         new HealthDispalyManager(this);
@@ -86,10 +84,6 @@ public class Game {
 
     public GameState getGameState() {
         return gameState;
-    }
-
-    public PlayerVisibilityManager getPlayerVisibilityManager() {
-        return playerVisibilityManager;
     }
 
     public Skywars getPlugin() {

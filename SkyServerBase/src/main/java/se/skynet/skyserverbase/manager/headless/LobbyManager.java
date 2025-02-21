@@ -1,4 +1,4 @@
-package se.skynet.skyserverbase.manager;
+package se.skynet.skyserverbase.manager.headless;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
