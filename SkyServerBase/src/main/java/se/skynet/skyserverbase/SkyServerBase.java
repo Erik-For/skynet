@@ -33,6 +33,7 @@ public final class SkyServerBase extends JavaPlugin {
 
         registerCommands();
         registerListeners();
+        disableMinecraftFeatures();
         bungeeProxyApi.registerServer().whenComplete((name, throwable) -> {
             if(throwable != null){
                 System.out.println("Failed to register server with bungee");
@@ -40,6 +41,10 @@ public final class SkyServerBase extends JavaPlugin {
                 return;
             }
             servername = name;
+
+            if(System.getenv().containsKey("DEV_USERNAME")) {
+                bungeeProxyApi.movePlayer(System.getenv("DEV_USERNAME"), name);
+            }
         });
     }
 
@@ -51,6 +56,7 @@ public final class SkyServerBase extends JavaPlugin {
         this.getCommand("nick").setExecutor(new NickCommand(this));
         this.getCommand("unnick").setExecutor(new UnnickCommand(this));
         this.getCommand("hide").setExecutor(new HideCommand(this));
+        this.getCommand("gm").setExecutor(new GamemodeCommand(this));
         this.getCommand("configcreator").setExecutor(new ConfigCreatorCommand(this));
     }
 
@@ -65,6 +71,24 @@ public final class SkyServerBase extends JavaPlugin {
                 System.out.println("FATAL: Failed to register listener " + listenerClass.getSimpleName());
             }
         }
+    }
+
+    private void disableMinecraftFeatures() {
+        this.getServer().getWorlds().forEach(world -> {
+            world.setAutoSave(false);
+            world.setGameRuleValue("doDaylightCycle", "false");
+            world.setGameRuleValue("doWeatherCycle", "false");
+            world.setGameRuleValue("doMobSpawning", "false");
+            world.setGameRuleValue("doTileDrops", "false");
+            world.setGameRuleValue("doEntityDrops", "false");
+            world.setGameRuleValue("mobGriefing", "false");
+            world.setGameRuleValue("naturalRegeneration", "false");
+
+            world.setGameRuleValue("keepInventory", "true");
+            world.setGameRuleValue("doFireTick", "false");
+            world.setGameRuleValue("logAdminCommands", "false");
+            world.setGameRuleValue("commandBlockOutput", "false");
+        });
     }
     @Override
     public void onDisable() {
@@ -94,5 +118,6 @@ public final class SkyServerBase extends JavaPlugin {
     public String getServerName() {
         return servername;
     }
+
 
 }

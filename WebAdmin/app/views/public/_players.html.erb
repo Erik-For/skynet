@@ -1,0 +1,32 @@
+<tbody id="players" class="text-gray-600 text-sm" is="turbo-frame" turbo-frame="players">
+    <% players.each do |player| %>
+        <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors">
+            <td class="py-4 px-6"><%= player.UUID %></td>
+            <td class="py-4 px-6 font-medium"><%= player.username %></td>
+            <td class="py-4 px-6">
+                <span class="px-3 py-1 rounded-full text-xs <%= rank_color(player.rank)%>">
+                    <%= player.rank %>
+                </span>
+            </td>
+            <td class="py-4 px-6"><%= player.playtime %></td>
+            <td class="py-4 px-6"><%= player.first_join %></td>
+            <td class="py-4 px-6"><%= player.last_seen %></td>
+            <td class="py-4 px-6">
+                <span class="px-3 py-1 rounded-full text-xs <%= player.banned ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800' %>">
+                    <%= player.banned ? 'Yes' : 'No' %>
+                </span>
+            </td>
+            <td class="py-4 px-6"><%= player.nickname %></td>
+            <td class="py-4 px-6">
+                <%= button_to edit_player_path(id: player.UUID), 
+                    method: :post,
+                    class: "text-indigo-600 hover:text-indigo-900",
+                    data: { action: "click->modal#open" } do %>
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                <% end %>
+            </td>
+        </tr>
+    <% end %>
+</tbody>

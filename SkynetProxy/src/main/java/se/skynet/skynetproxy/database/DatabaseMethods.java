@@ -22,8 +22,8 @@ public class DatabaseMethods {
         PreparedStatement ps;
         try {
             ps = this.databaseManager.getConnection().prepareStatement(
-                    "CREATE TABLE IF NOT EXISTS player " +
-                            "(UUID VARCHAR(36) PRIMARY KEY, " +
+                    "CREATE TABLE IF NOT EXISTS players " +
+                            "(uuid VARCHAR(36) PRIMARY KEY, " +
                             "username VARCHAR(16), " +
                             "rank ENUM('DEFAULT', 'MVP', 'MODERATOR', 'ADMIN', 'MANAGEMENT', 'WEAK_ADMIN') DEFAULT 'DEFAULT'," +
                             "playtime INT DEFAULT 0," +
@@ -38,7 +38,7 @@ public class DatabaseMethods {
             );
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("FATAL: Could not create the player table");
+            System.out.println("FATAL: Could not create the players table");
             e.printStackTrace();
             System.exit(1);
         }
@@ -48,7 +48,7 @@ public class DatabaseMethods {
         PreparedStatement ps;
         try {
             ps = this.databaseManager.getConnection().prepareStatement(
-                    "SELECT banned FROM player WHERE UUID = ?"
+                    "SELECT banned FROM players WHERE uuid = ?"
             );
             ps.setString(1, uuid.toString());
             ps.executeQuery();
@@ -58,7 +58,7 @@ public class DatabaseMethods {
             }
             return resultSet.getBoolean("banned");
         } catch (SQLException e) {
-            System.out.println("FATAL: Could not get the player data");
+            System.out.println("FATAL: Could not get the players data");
             System.exit(1);
         }
         return false;
@@ -68,7 +68,7 @@ public class DatabaseMethods {
         PreparedStatement ps;
         try {
             ps = this.databaseManager.getConnection().prepareStatement(
-                    "UPDATE player SET banned = ? WHERE UUID = ?"
+                    "UPDATE players SET banned = ? WHERE uuid = ?"
             );
             ps.setBoolean(1, banned);
             ps.setString(2, uuid.toString());
@@ -84,7 +84,7 @@ public class DatabaseMethods {
         PreparedStatement ps;
         try {
             ps = this.databaseManager.getConnection().prepareStatement(
-                    "SELECT UUID FROM player WHERE username = ?"
+                    "SELECT uuid FROM players WHERE username = ?"
             );
             ps.setString(1, username);
             ps.executeQuery();
@@ -105,7 +105,7 @@ public class DatabaseMethods {
         PreparedStatement ps;
         try {
             ps = this.databaseManager.getConnection().prepareStatement(
-                    "INSERT IGNORE INTO player (UUID, username) VALUES (?, ?)"
+                    "INSERT IGNORE INTO players (uuid, username) VALUES (?, ?)"
             );
             ps.setString(1, uuid.toString());
             ps.setString(2, username);
@@ -120,7 +120,7 @@ public class DatabaseMethods {
         PreparedStatement ps;
         try {
             ps = this.databaseManager.getConnection().prepareStatement(
-                    "SELECT * FROM player WHERE UUID = ?"
+                    "SELECT * FROM players WHERE uuid = ?"
             );
             ps.setString(1, uuid.toString());
             ps.executeQuery();

@@ -22,7 +22,7 @@ public class DatabaseMethods {
         PreparedStatement ps;
         try {
             ps = this.databaseManager.getConnection().prepareStatement(
-                    "SELECT rank, nickname, nicked_rank, nick_signature, nick_texture FROM player WHERE UUID = ?"
+                    "SELECT rank, nickname, nicked_rank, nick_signature, nick_texture FROM players WHERE uuid = ?"
             );
             ps.setString(1, uuid.toString());
             ps.executeQuery();
@@ -61,7 +61,7 @@ public class DatabaseMethods {
         PreparedStatement ps;
         try {
             ps = this.databaseManager.getConnection().prepareStatement(
-                    "UPDATE player SET nickname = ?, nicked_rank = ?, nick_signature = ?, nick_texture = ? WHERE UUID = ?"
+                    "UPDATE players SET nickname = ?, nicked_rank = ?, nick_signature = ?, nick_texture = ? WHERE uuid = ?"
             );
             ps.setString(1, nick.getNickname());
             ps.setString(2, nick.getNickRank().name());
@@ -81,7 +81,7 @@ public class DatabaseMethods {
         PreparedStatement ps;
         try {
             ps = this.databaseManager.getConnection().prepareStatement(
-                    "UPDATE player SET nickname = NULL, nicked_rank = NULL, nick_signature = NULL, nick_texture = NULL WHERE UUID = ?"
+                    "UPDATE players SET nickname = NULL, nicked_rank = NULL, nick_signature = NULL, nick_texture = NULL WHERE uuid = ?"
             );
             ps.setString(1, uuid.toString());
             ps.executeUpdate();

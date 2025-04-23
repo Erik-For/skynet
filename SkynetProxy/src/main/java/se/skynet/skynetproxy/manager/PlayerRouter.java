@@ -37,5 +37,4 @@ public class PlayerRouter implements Listener {
         ServerInfo randomLobby = servers.get(rand.nextInt(servers.size())).getBungeeCordServerObject(proxy);
         event.setTarget(randomLobby);
     }
-
 }

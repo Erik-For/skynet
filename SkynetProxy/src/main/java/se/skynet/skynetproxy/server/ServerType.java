@@ -4,5 +4,6 @@ public enum ServerType {
     LOBBY,
     TEST,
     SKYWARS,
+    SKYBLOCK,
     BUILD;
 }

@@ -100,6 +100,24 @@ services:
         max_attempts: 99999
         window: 120s
 
+  skyblock:
+    image: skynet/skyblock-base
+    depends_on:
+      - db
+      - redis
+      - proxy
+    environment:
+      DB_HOST: db
+      DB_DATABASE: skynet
+      DB_USERNAME: skynet-server
+      DB_PASSWORD: o{wc9SBQnF80
+      REDIS_HOST: redis
+      DEV_USERNAME: X603
+    networks:
+      - backend
+    deploy:
+      replicas: 1
+
 volumes:
   db_data:
 

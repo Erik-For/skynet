@@ -36,6 +36,9 @@ public class BungeeProxyApi extends Thread {
     private final ConcurrentHashMap<String, CompletableFuture<List<String>>> serverListResponseFuters = new ConcurrentHashMap<>();
 
 
+    public final void sendMessage(String message){
+        redisPublisher.publish("MESSAGE_PLAYER_DEBUG", message);
+    }
     private Tuple<JsonObject, String> makeJson(String type){
         JsonObject json = new JsonObject();
         String id = UUID.randomUUID().toString().split("-")[0];

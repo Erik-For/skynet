@@ -1,0 +1,12 @@
+name: Skyblock
+version: '${project.version}'
+main: se.skynet.skyblock.Skyblock
+
+depend:
+  - SkyServerBase
+
+commands:
+  skyblock:
+    description: Start a new skyblock game
+    usage: /<command>
+    aliases: [sb]

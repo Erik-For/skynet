@@ -1,0 +1,56 @@
+<div class="fixed inset-0 bg-black/20 backdrop-blur-sm transition-opacity" aria-hidden="true"></div>
+<div class="fixed inset-y-0 right-0 w-full max-w-2xl overflow-y-auto bg-white/95 shadow-2xl transform transition-all">
+  <div class="p-8">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h3 class="text-2xl font-semibold text-gray-900">Edit Player</h3>
+        <p class="mt-1 text-sm text-gray-500">Update player information and settings</p>
+      </div>
+      <button type="button" class="rounded-full p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500" data-action="click->modal#close">
+        <span class="sr-only">Close</span>
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <%= form_tag update_player_path(id: @player.uuid), method: :patch, class: "space-y-8" do %>
+      <div class="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-2">
+        <div class="space-y-2">
+          <label class="block text-sm font-medium text-gray-700">Username</label>
+          <div class="block w-full rounded-lg border-gray-300 bg-gray-50 text-gray-500 shadow-sm sm:text-sm p-2">
+            <%= @player.username %>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label for="rank" class="block text-sm font-medium text-gray-700">Rank</label>
+          <%= select_tag :rank, 
+              options_for_select(@ranks, @player.rank),
+              class: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+        </div>
+
+        <div class="space-y-2">
+          <label for="nickname" class="block text-sm font-medium text-gray-700">Nickname</label>
+          <%= text_field_tag :nickname, @player.nickname, 
+              class: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+        </div>
+
+        <div class="space-y-2">
+          <label for="banned" class="block text-sm font-medium text-gray-700">Banned</label>
+          <div class="flex items-center h-10">
+            <%= check_box_tag :banned, "1", @player.banned, 
+                class: "h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 flex justify-end space-x-3">
+        <button type="button" class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" data-action="click->modal#close">
+          Cancel
+        </button>
+        <%= submit_tag "Save Changes", class: "rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
+      </div>
+    <% end %>
+  </div>
+</div>

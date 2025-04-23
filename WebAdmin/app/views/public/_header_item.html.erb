@@ -1,4 +1,5 @@
 <th class="relative py-4 px-6 cursor-pointer hover:bg-gray-700 transition-colors">
+  <% if defined? sort %>
   <div class="flex items-center">
     <%= name %>
     <span class="ml-1">
@@ -12,7 +13,14 @@
   <button 
     data-controller="header"
     data-header-sort-value="<%= sort %>"
-    data-header-direction-value="<%= params[:sort] == sort ? (params[:direction] || 'asc') : 'asc' %>"
-    class="absolute inset-0 bg-transparent">
+    data-header-direction-value="<%= params[:sort] == sort ? (params[:direction] == "asc" ? "desc" : "asc") : direction %>"
+    class="absolute inset-0 bg-transparent cursor-pointer">
   </button>
+  <% else %>
+  <div class="flex items-center">
+    <h1 class="ml-1">
+      <%= name %>
+    </h1>
+  </div>
+  <% end %>  
 </th>

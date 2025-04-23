@@ -26,7 +26,7 @@ public class SkywarsGUI implements GUI {
     @Override
     public Inventory getInventory() {
         Inventory inv = Bukkit.createInventory(this, 9*4, "Skywars");
-        inv.setItem(0+9*1+1, new ItemStack(Material.DIAMOND, 1));
+        inv.setItem(getSlot(2, 2), new ItemStack(Material.DIAMOND, 1));
 
         return inv;
     }

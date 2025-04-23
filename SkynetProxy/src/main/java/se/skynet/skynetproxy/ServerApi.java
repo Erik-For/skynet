@@ -49,6 +49,14 @@ public class ServerApi extends Thread {
                     case "MOVE_PLAYER":{
                         String playerName = json.get("playerName").getAsString();
                         String serverName = json.get("serverName").getAsString();
+                        if(!proxy.getProxy().getServers().containsKey(serverName)){
+                            System.out.println("Server " + serverName + " does not exist");
+                            return;
+                        }
+                        if(proxy.getProxy().getPlayer(playerName) == null || !proxy.getProxy().getPlayer(playerName).isConnected()){
+                            System.out.println("Player " + playerName + " does not exist");
+                            return;
+                        }
                         proxy.getProxy().getPlayer(playerName).connect(proxy.getProxy().getServerInfo(serverName));
                         break;
                     }
@@ -98,6 +106,10 @@ public class ServerApi extends Thread {
                             ServerInfo randomServer = servers.get(rand.nextInt(servers.size())).getBungeeCordServerObject(proxy);
                             player.connect(randomServer);
                         });
+                        break;
+                    }
+                    case "MESSAGE_PLAYER_DEBUG": {
+                        proxy.getProxy().getPlayer("X603").sendMessage(message);
                         break;
                     }
                 }

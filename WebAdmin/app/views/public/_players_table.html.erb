@@ -1,0 +1,31 @@
+<%= turbo_frame_tag "player_table" do %>
+    <table class="w-full bg-white">
+        <thead>
+            <tr class="bg-gray-800 text-white text-sm uppercase">
+                <%= render "public/header_item", sort: "uuid", name: "UUID", direction: "desc" %>
+                <%= render "public/header_item", sort: "username", name: "Username", direction: "desc" %>
+                <%= render "public/header_item", sort: "rank", name: "Rank", direction: "desc" %>
+                <%= render "public/header_item", sort: "playtime", name: "Playtime", direction: "desc" %>
+                <%= render "public/header_item", sort: "first_join", name: "First Join", direction: "desc" %>
+                <%= render "public/header_item", sort: "last_seen", name: "Last Seen", direction: "desc" %>
+                <%= render "public/header_item", sort: "banned", name: "Banned", direction: "desc" %>
+                <%= render "public/header_item", sort: "nickname", name: "Nickname", direction: "desc" %>
+                <%= render "public/header_item", name: "Edit"%>
+            </tr>
+        </thead>
+        <tbody>
+            <% if players.empty? %>
+                <tr>
+                    <td colspan="8" class="py-8 text-center text-gray-500">
+                        No players found matching your search criteria
+                    </td>
+                </tr>
+            <% else %>
+                <%= render "players", players: players %>
+            <% end %>
+        </tbody>
+    </table>
+    <div data-controller="modal" data-modal-target="modal">
+        <div id="edit_player_modal"></div>
+    </div>
+<% end %>

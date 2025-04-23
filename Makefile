@@ -37,7 +37,15 @@ build:
 	cd SkyBuild && ./build.sh
 	cd SkyLobby && ./build.sh
 	cd Skywars && ./build.sh
+	cd Skyblock && ./build.sh
 	cd SkynetProxy && ./build.sh
+
+build_base:
+	cd SkyServerBase && ./build.sh
+
+build_skyblock:
+	cd Skyblock && ./build.sh
+	
 
 # Clean everything
 clean:

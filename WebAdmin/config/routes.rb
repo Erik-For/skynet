@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  get "/test", to: "public#index"
-  post "/test", to: "public#index"
+  get "/table", to: "public#index"
+  post "/table/edit/:id", to: "public#edit", as: :edit_player
+  patch '/table/update/:id', to: 'public#update', as: :update_player
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

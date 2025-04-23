@@ -7,4 +7,8 @@ public interface GUI extends InventoryHolder {
 
      public void onClick(InventoryClickEvent event);
 
+     public default int getSlot(int row, int column) {
+            return (row - 1) * 9 + column - 1;
+     }
+
 }
