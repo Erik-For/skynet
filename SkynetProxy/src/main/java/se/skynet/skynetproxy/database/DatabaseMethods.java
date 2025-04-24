@@ -141,4 +141,20 @@ public class DatabaseMethods {
         }
         return null;
     }
+
+    public void setRank(UUID uniqueId, Rank targetRank) {
+        // make a method that sets the rank of a player in the database
+        PreparedStatement ps;
+        try {
+            ps = this.databaseManager.getConnection().prepareStatement(
+                    "UPDATE players SET rank = ? WHERE uuid = ?"
+            );
+            ps.setString(1, targetRank.toString());
+            ps.setString(2, uniqueId.toString());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("FATAL: Could not set the player rank");
+            System.exit(1);
+        }
+    }
 }

@@ -21,6 +21,7 @@ public enum Rank {
         this.priority = priority;
     }
 
+
     public String getDisplayName() {
         return this.displayName;
     }
@@ -37,5 +38,14 @@ public enum Rank {
     }
     public boolean hasPriorityHigherThanOrEqual(Rank rank) {
         return this.priority >= rank.priority;
+    }
+
+    public static Rank fromString(String targetRankName) {
+        for (Rank rank : Rank.values()) {
+            if (rank.name().equalsIgnoreCase(targetRankName)) {
+                return rank;
+            }
+        }
+        return null; // or throw an exception if you prefer
     }
 }
