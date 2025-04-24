@@ -2,17 +2,26 @@ package se.skynet.skyblock;
 
 import org.bukkit.entity.Player;
 import se.skynet.skyblock.playerdata.PlayerProfile;
-import se.skynet.skyblock.playerdata.Profile;
+import se.skynet.skyblock.playerdata.Stat;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SkyblockPlayer {
 
     private Player player;
 
     private PlayerProfile profile;
+    private Map<Stat, Integer> stats = new HashMap<>();
+
+    private boolean devMode = false;
 
     public SkyblockPlayer(Player player, PlayerProfile profile) {
         this.player = player;
         this.profile = profile;
+        for(Stat stat : Stat.values()) {
+            stats.put(stat, calculateStatMax(stat));
+        }
     }
 
     public Player getPlayer() {
@@ -23,4 +32,19 @@ public class SkyblockPlayer {
         return profile;
     }
 
+    public Integer calculateStatMax(Stat stat) {
+        return 100;
+    }
+
+    public Integer getStat(Stat stat) {
+        return stats.get(stat);
+    }
+
+    public boolean isInDevMode() {
+        return devMode;
+    }
+
+    public void setDevMode(boolean devMode) {
+        this.devMode = devMode;
+    }
 }

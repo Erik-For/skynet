@@ -1,8 +1,8 @@
-package se.skynet.skyblock.items;
+package se.skynet.skyblock.playerdata;
 
 import org.bukkit.ChatColor;
 
-public enum ItemAttribute {
+public enum Stat {
     DAMAGE("Damage", ChatColor.RED, ""),
     STRENGTH("Strength", ChatColor.RED, ""),
     CRIT_DAMAGE("Crit Damage", ChatColor.RED, "%"),
@@ -17,7 +17,7 @@ public enum ItemAttribute {
     private ChatColor color;
     private String unit;
 
-    ItemAttribute(String name, ChatColor color, String unit) {
+    Stat(String name, ChatColor color, String unit) {
         this.name = name;
         this.color = color;
         this.unit = unit;

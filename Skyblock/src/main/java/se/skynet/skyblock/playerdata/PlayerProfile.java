@@ -11,9 +11,10 @@ public class PlayerProfile {
 
     private Profile profile;
 
-    public PlayerProfile(UUID uuid, List<SkillProgression> skills) {
+    public PlayerProfile(UUID uuid, List<SkillProgression> skills, float coins) {
         this.skills =  new Skills(skills);
         this.uuid = uuid;
+        this.coins = coins;
     }
 
     public Float getCoins() {
@@ -28,6 +29,9 @@ public class PlayerProfile {
         this.coins += coins;
     }
 
+    public void removeCoins(float amount) {
+        this.coins -= amount;
+    }
     public List<SkillProgression> getSkillsAsList() {
         return skills.getSkills();
     }

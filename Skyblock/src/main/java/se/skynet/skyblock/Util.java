@@ -19,6 +19,42 @@ public class Util {
         return result.toString();
     }
 
+    // for formating coins primarily
+    public static String formatNumberShorthand(float number) {
+        // Format the number to a string with shorthand notation
+        if (number >= 1_000_000_000) {
+            return String.format("%.1fB", number / 1_000_000_000);
+        } else if (number >= 1_000_000) {
+            return String.format("%.1fM", number / 1_000_000);
+        } else if (number >= 1_000) {
+            return String.format("%.1fK", number / 1_000);
+        } else {
+            return formatNumber(number, 1);
+        }
+    }
+
+    public static String formatNumberWithCommas(float number) {
+        // Format the number to a string with commas and a dot
+        StringBuilder result = new StringBuilder();
+        String strNumber = String.valueOf((int) number);
+        int length = strNumber.length();
+
+        for (int i = 0; i < length; i++) {
+            if (i > 0 && (length - i) % 3 == 0) {
+                result.append(",");
+            }
+            result.append(strNumber.charAt(i));
+        }
+        // Add the decimal part if it exists and number is less than 1 000 000
+        if (number < 1_000_000 && number % 1 != 0) {
+            result.append(".");
+            String decimalPart = String.valueOf(number).split("\\.")[1];
+            result.append(decimalPart);
+        }
+
+        return result.toString();
+    }
+
     public static String formatNumber(float progress, int i) {
         // Format the number to a string with the specified number of decimal places
         String format = "%." + i + "f";

@@ -3,10 +3,7 @@ package se.skynet.skyserverbase.util;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import net.minecraft.server.v1_8_R3.NBTBase;
-import net.minecraft.server.v1_8_R3.NBTTagCompound;
-import net.minecraft.server.v1_8_R3.NBTTagList;
-import net.minecraft.server.v1_8_R3.NBTTagString;
+import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
@@ -141,6 +138,31 @@ public class NBTHelper {
 
         compound.set(key, nestedCompound);
         return applyNBTCompound(item, compound);
+    }
+
+    public static Map<String, Object> getNestedCompound(ItemStack item, String key) {
+        NBTTagCompound compound = getNBTCompound(item);
+        if (compound.hasKey(key)) {
+            NBTTagCompound nestedCompound = compound.getCompound(key);
+            Map<String, Object> nestedData = new java.util.HashMap<>();
+            nestedCompound.c().forEach(entry -> {
+                String dataKey = (String) entry;
+                NBTBase value = nestedCompound.get(dataKey);
+                if (value instanceof NBTTagString) {
+                    nestedData.put(dataKey, ((NBTTagString) value).a_());
+                } else if (value instanceof NBTTagInt) {
+                    nestedData.put(dataKey, ((NBTTagInt) value).d());
+                } else if (value instanceof NBTTagDouble) {
+                    nestedData.put(dataKey, ((NBTTagDouble) value).g());
+                } else if (value instanceof NBTTagFloat) {
+                    nestedData.put(dataKey, ((NBTTagFloat) value).h());
+                } else if (value instanceof NBTTagLong) {
+                    nestedData.put(dataKey, ((NBTTagLong) value).c());
+                }
+            });
+            return nestedData;
+        }
+        return null;
     }
 
 

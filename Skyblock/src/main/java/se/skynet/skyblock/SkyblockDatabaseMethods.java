@@ -33,6 +33,7 @@ public class SkyblockDatabaseMethods {
                 "(uuid VARCHAR(36) PRIMARY KEY, " +
                 "player_id VARCHAR(36), " +
                 "profile_id VARCHAR(36), " +
+                "coins float DEFAULT 0, " +
                 "FOREIGN KEY (player_id) REFERENCES players(uuid), " +
                 "FOREIGN KEY (profile_id) REFERENCES profiles(uuid))";
 
@@ -108,6 +109,7 @@ public class SkyblockDatabaseMethods {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     String playerProfileUuid = rs.getString("uuid");
+                    float coins = rs.getFloat("coins");
                     String skillSql = "SELECT * FROM skills WHERE player_profile_uuid = ?";
                     try (PreparedStatement ps2 = this.databaseConnectionManager.getConnection().prepareStatement(skillSql)) {
                         ps2.setString(1, playerProfileUuid);
@@ -119,7 +121,7 @@ public class SkyblockDatabaseMethods {
                                 float experience = rs2.getFloat("experience");
                                 skills.add(new SkillProgression(SkillType.valueOf(skillName), experience, level));
                             }
-                            return new PlayerProfile(UUID.fromString(playerProfileUuid), skills);
+                            return new PlayerProfile(UUID.fromString(playerProfileUuid), skills, coins);
                         }
                     }
                 }
@@ -144,6 +146,15 @@ public class SkyblockDatabaseMethods {
                 throw new RuntimeException(e);
             }
         });
+
+        String sql2 = "UPDATE player_profiles SET coins = ? WHERE uuid = ?";
+        try (PreparedStatement ps = this.databaseConnectionManager.getConnection().prepareStatement(sql2)) {
+            ps.setFloat(1, playerProfile.getCoins());
+            ps.setString(2, playerProfile.getUuid().toString());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private String get_random_profile_name() {

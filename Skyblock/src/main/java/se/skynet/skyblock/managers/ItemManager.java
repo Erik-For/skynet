@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import se.skynet.skyblock.Skyblock;
+import se.skynet.skyblock.SkyblockPlayer;
 import se.skynet.skyblock.items.SkyblockItem;
 import se.skynet.skyblock.items.SkyblockItemEvents;
 import se.skynet.skyblock.items.SkyblockItemType;
@@ -28,10 +29,11 @@ public class ItemManager implements Listener {
 
     @EventHandler
     public void itemPickupEvent(PlayerPickupItemEvent event) {
+        SkyblockPlayer skyblockPlayer = plugin.getPlayerManager().getSkyblockPlayer(event.getPlayer());
         if(!SkyblockItem.isSkyblockItem(event.getItem().getItemStack())) {
             Item item = event.getItem();
             ItemStack itemStack = item.getItemStack();
-            ItemStack render = new VanillaItem(itemStack.getType(), "", itemStack.getAmount(), itemStack.getMaxStackSize()).render();
+            ItemStack render = new VanillaItem(itemStack.getType(), "", itemStack.getAmount(), itemStack.getMaxStackSize()).render(skyblockPlayer);
             event.getPlayer().getInventory().addItem(render);
             item.remove();
             event.setCancelled(true);
@@ -42,6 +44,9 @@ public class ItemManager implements Listener {
             }
             try {
                 SkyblockItem skyblockItem = type.getItemClass().newInstance();
+                event.setCancelled(true);
+                event.getItem().remove();
+                event.getPlayer().getInventory().addItem(skyblockItem.render(skyblockPlayer));
                 if(!(skyblockItem instanceof SkyblockItemEvents)){
                     return;
                 }

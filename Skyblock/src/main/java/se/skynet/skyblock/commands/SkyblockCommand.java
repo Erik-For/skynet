@@ -1,5 +1,6 @@
 package se.skynet.skyblock.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -102,7 +103,7 @@ public class SkyblockCommand extends Command {
 
                 try {
                     SkyblockItem skyblockItem = itemType.getItemClass().newInstance();
-                    ItemStack render = skyblockItem.render();
+                    ItemStack render = skyblockItem.render(skyblockPlayer);
                     player.getInventory().addItem(render);
                     player.sendMessage("§aGave you " + render.getItemMeta().getDisplayName());
                 } catch (InstantiationException | IllegalAccessException e) {
@@ -111,7 +112,44 @@ public class SkyblockCommand extends Command {
                 }
 
                 break;
+            case "dev":
+                // toggles dev mode
+                boolean inDevMode = skyblockPlayer.isInDevMode();
+                skyblockPlayer.setDevMode(!inDevMode);
+                if(!inDevMode) {
+                    player.sendMessage(ChatColor.GREEN +"You are now in dev mode");
+                } else {
+                    player.sendMessage(ChatColor.RED + "You are now out of dev mode");
+                }
+                break;
+            case "coin":
+                // set / add / remove
+                if(args.length < 3) {
+                    player.sendMessage("§cPlease use /skyblock coin <add | remove> <amount>");
+                    return true;
+                }
+                String action = args[1];
+                float amount;
+                try {
+                    amount = Float.parseFloat(args[2]);
+                } catch (NumberFormatException e) {
+                    player.sendMessage("§cPlease use a valid number for amount");
+                    return true;
+                }
+                if(action.equalsIgnoreCase("add")) {
+                    skyblockPlayer.getProfile().addCoins(amount);
+                    player.sendMessage("§aAdded " + amount + " coins to your account");
+                } else if(action.equalsIgnoreCase("remove")) {
+                    skyblockPlayer.getProfile().removeCoins(amount);
+                    player.sendMessage("§aRemoved " + amount + " coins from your account");
+                } else if(action.equalsIgnoreCase("set")) {
+                    skyblockPlayer.getProfile().setCoins(amount);
+                    player.sendMessage("§aSet your coins to " + amount);
 
+                } else {
+                    player.sendMessage("§cPlease use a valid action (set| add | remove)");
+                }
+                break;
             case "spawn":
                 // teleport to spawn
                 player.sendMessage("§cThis command is not implemented yet");

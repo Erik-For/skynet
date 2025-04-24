@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import se.skynet.skyblock.Skyblock;
 import se.skynet.skyblock.items.*;
+import se.skynet.skyblock.playerdata.Stat;
 
 import java.util.Arrays;
 
@@ -18,10 +19,10 @@ public class EmberRod extends SkyblockItem implements SkyblockItemEvents {
     public EmberRod() {
         super(Material.BLAZE_ROD, "Ember Rod", SkyblockItemType.EMBER_ROD, ItemRarity.EPIC, 1, false);
 
-        setAttribute(ItemAttribute.DAMAGE, 80);
-        setAttribute(ItemAttribute.STRENGTH, 35);
-        setAttribute(ItemAttribute.CRIT_DAMAGE, 50);
-        setAttribute(ItemAttribute.INTELLIGENCE, 50);
+        setAttribute(Stat.DAMAGE, 80);
+        setAttribute(Stat.STRENGTH, 35);
+        setAttribute(Stat.CRIT_DAMAGE, 50);
+        setAttribute(Stat.INTELLIGENCE, 50);
 
         // TODO add calculation based on ability
         addAbility(new ItemAbility("Fire Blast", "RIGHT CLICK", Arrays.asList(
@@ -46,7 +47,7 @@ public class EmberRod extends SkyblockItem implements SkyblockItemEvents {
                 i[0]++;
             }
 
-        }.runTaskTimer(Skyblock.getInstance(), 0L, 5L);
+        }.runTaskTimer(Skyblock.getInstance(), 0L, 7L);
     }
 
     private void shootFireBall(Player player) {

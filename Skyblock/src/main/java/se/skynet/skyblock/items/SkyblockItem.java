@@ -3,6 +3,11 @@ package se.skynet.skyblock.items;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import se.skynet.skyblock.Skyblock;
+import se.skynet.skyblock.SkyblockPlayer;
+import se.skynet.skyblock.items.items.special.AdminItem;
+import se.skynet.skyblock.playerdata.Stat;
+import se.skynet.skyserverbase.Rank;
 import se.skynet.skyserverbase.gui.ItemUtils;
 import se.skynet.skyserverbase.util.NBTHelper;
 
@@ -17,7 +22,8 @@ public abstract class SkyblockItem {
 
     private Material material;
     private UUID id;
-    private HashMap<ItemAttribute, Integer> attributes = new HashMap<>();
+    private List<String> lore = new ArrayList<>();
+    private Map<Stat, Integer> attributes = new HashMap<>();
     private List<ItemAbility> abilities = new ArrayList<>();
 
     public SkyblockItem(Material material, String name, SkyblockItemType type, ItemRarity rarity, int amount, boolean stackable) {
@@ -41,11 +47,26 @@ public abstract class SkyblockItem {
             this.id = UUID.randomUUID();
             this.stackable = false;
         }
+        if(NBTHelper.hasTag(item, "attributes")) {
+            Map<String, Object> attributes = NBTHelper.getNestedCompound(item, "attributes");
+            attributes.forEach((k,v) -> {
+                try {
+                    Stat stat = Stat.valueOf(k);
+                    this.attributes.put(stat, (Integer) v);
+                } catch (IllegalArgumentException e) {
+                    // Ignore invalid stat
+                }
+            });
+        }
         if(item.getMaxStackSize() == 1) {
             this.stackable = false;
         }
         this.amount = item.getAmount();
 
+    }
+
+    public void addLore(String lore) {
+        this.lore.add(lore);
     }
 
     public String getName() {
@@ -61,7 +82,15 @@ public abstract class SkyblockItem {
     }
 
 
-    public ItemStack render() {
+    public ItemStack render(SkyblockPlayer player) {
+        if(player.isInDevMode()){
+            player.getPlayer().sendMessage(ChatColor.RED + "Rendering item: " + name + " Rarity: " + rarity.getName() + " Type: " + type.name());
+        }
+        if(this.getRarity() == ItemRarity.ADMIN && !Skyblock.getInstance().getParentPlugin().getPlayerDataManager().getPlayerData(player.getPlayer().getUniqueId()).getRank().hasPriorityHigherThanOrEqual(Rank.ADMIN)) {
+            player.getPlayer().sendMessage(ChatColor.RED + "You do not have permission to use this item, removing it from your inventory");;
+            return new AdminItem().render(player);
+        }
+
         ItemStack itemStack = new ItemStack(material);
         if(!stackable) {
             itemStack = NBTHelper.setString(itemStack, "s_id", this.id.toString());
@@ -72,17 +101,21 @@ public abstract class SkyblockItem {
         }
         itemStack = NBTHelper.setString(itemStack, "s_rarity", rarity.name());
 
-        for (ItemAttribute attribute : attributes.keySet()) {
-            itemStack = NBTHelper.setInt(itemStack, attribute.name(), attributes.get(attribute));
-        }
 
+        Map<String, Object> attributes = new HashMap<>();
+        this.attributes.forEach((k,v) -> {
+            attributes.put(k.name(), v);
+        });
+        if(attributes.size() > 0) {
+            itemStack = NBTHelper.setNestedCompound(itemStack, "attributes", attributes);
+        }
         if(name != "") {
             ItemUtils.setName(itemStack, rarity.getColor() + name);
         }
 
-        List<String> lore = new ArrayList<>();
-        Arrays.stream(ItemAttribute.values()).filter(a -> attributes.containsKey(a)).forEach(a -> {
-            if (attributes.get(a) != 0) {
+        List<String> lore = new ArrayList<>(this.lore);
+        Arrays.stream(Stat.values()).filter(a -> attributes.containsKey(a)).forEach(a -> {
+            if (this.attributes.get(a) != 0) {
                 lore.add(ChatColor.GRAY + a.getName() + ":" + a.getColor() + " +" + attributes.get(a) + a.getUnit());
             }
         });
@@ -91,7 +124,7 @@ public abstract class SkyblockItem {
         for (ItemAbility ability : abilities) {
             lore.addAll(ability.render());
         }
-        lore.add(rarity.getColor() + rarity.getName());
+        lore.add(rarity.getColor() + "" + ChatColor.BOLD + rarity.getName());
         ItemUtils.setLore(itemStack, lore);
 
         itemStack.setAmount(amount);
@@ -99,15 +132,17 @@ public abstract class SkyblockItem {
         return itemStack;
     }
 
-    public void setAttribute(ItemAttribute attribute, int value) {
+
+
+    public void setAttribute(Stat attribute, int value) {
         attributes.put(attribute, value);
     }
 
-    public int getAttribute(ItemAttribute attribute) {
+    public int getAttribute(Stat attribute) {
         return attributes.getOrDefault(attribute, 0);
     }
 
-    public void removeAttribute(ItemAttribute attribute) {
+    public void removeAttribute(Stat attribute) {
         attributes.remove(attribute);
     }
 
@@ -115,7 +150,7 @@ public abstract class SkyblockItem {
         abilities.add(ability);
     }
 
-    public HashMap<ItemAttribute, Integer> getAttributes() {
+    public Map<Stat, Integer> getAttributes() {
         return attributes;
     }
 
