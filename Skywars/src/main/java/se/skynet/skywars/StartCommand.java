@@ -1,5 +1,6 @@
 package se.skynet.skywars;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -34,9 +35,7 @@ public class StartCommand extends Command {
 
 
     @Override
-    protected List<String> tabComplete(Player player, CustomPlayerData playerData, Command command, String s,
-            String[] strings) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'tabComplete'");
+    protected List<String> tabComplete(Player player, CustomPlayerData playerData, Command command, String s, String[] strings) {
+        return Arrays.asList();
     }
 }
