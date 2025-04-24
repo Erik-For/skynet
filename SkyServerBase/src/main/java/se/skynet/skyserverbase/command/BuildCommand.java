@@ -6,6 +6,8 @@ import se.skynet.skyserverbase.Rank;
 import se.skynet.skyserverbase.SkyServerBase;
 import se.skynet.skyserverbase.playerdata.CustomPlayerData;
 
+import java.util.List;
+
 public class BuildCommand extends Command {
 
     public BuildCommand(SkyServerBase plugin) {
@@ -22,5 +24,10 @@ public class BuildCommand extends Command {
             player.sendMessage(ChatColor.GREEN + "Build mode enabled");
         }
         return false;
+    }
+
+    @Override
+    protected List<String> tabComplete(Player player, CustomPlayerData playerData, Command command, String s, String[] strings) {
+        return null;
     }
 }

@@ -49,15 +49,15 @@ public final class SkyServerBase extends JavaPlugin {
     }
 
     private void registerCommands() {
-        this.getCommand("fly").setExecutor(new FlyCommand(this));
-        this.getCommand("build").setExecutor(new BuildCommand(this));
-        this.getCommand("ban").setExecutor(new DisabledCommand(this));
-        this.getCommand("kick").setExecutor(new DisabledCommand(this));
-        this.getCommand("nick").setExecutor(new NickCommand(this));
-        this.getCommand("unnick").setExecutor(new UnnickCommand(this));
-        this.getCommand("hide").setExecutor(new HideCommand(this));
-        this.getCommand("gm").setExecutor(new GamemodeCommand(this));
-        this.getCommand("configcreator").setExecutor(new ConfigCreatorCommand(this));
+        Command.registerCommand(this.getCommand("fly"), new FlyCommand(this));
+        Command.registerCommand(this.getCommand("build"), new BuildCommand(this));
+        Command.registerCommand(this.getCommand("ban"), new DisabledCommand(this));
+        Command.registerCommand(this.getCommand("kick"), new DisabledCommand(this));
+        Command.registerCommand(this.getCommand("nick"), new NickCommand(this));
+        Command.registerCommand(this.getCommand("unnick"), new UnnickCommand(this));
+        Command.registerCommand(this.getCommand("hide"), new HideCommand(this));
+        Command.registerCommand(this.getCommand("gm"), new GamemodeCommand(this));
+        Command.registerCommand(this.getCommand("configcreator"), new ConfigCreatorCommand(this));
     }
 
     private void registerListeners() {

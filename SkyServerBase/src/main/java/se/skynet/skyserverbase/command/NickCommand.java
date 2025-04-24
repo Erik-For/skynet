@@ -94,6 +94,11 @@ public class NickCommand extends Command {
         return true;
     }
 
+    @Override
+    protected List<String> tabComplete(Player player, CustomPlayerData playerData, Command command, String s, String[] strings) {
+        return null;
+    }
+
     private Tuple<String, String> getSkin(UUID uuid) {
         try {
             URL url = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid.toString() + "?unsigned=false");

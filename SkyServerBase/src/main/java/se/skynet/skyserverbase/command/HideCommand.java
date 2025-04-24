@@ -5,6 +5,8 @@ import se.skynet.skyserverbase.Rank;
 import se.skynet.skyserverbase.SkyServerBase;
 import se.skynet.skyserverbase.playerdata.CustomPlayerData;
 
+import java.util.List;
+
 public class HideCommand extends Command {
 
     public HideCommand(SkyServerBase plugin) {
@@ -21,5 +23,10 @@ public class HideCommand extends Command {
             player.sendMessage("§cYou are now hidden from other players.");
         }
         return true;
+    }
+
+    @Override
+    protected List<String> tabComplete(Player player, CustomPlayerData playerData, Command command, String s, String[] strings) {
+        return null;
     }
 }

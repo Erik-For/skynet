@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import se.skynet.skyblock.commands.ItemCommand;
 import se.skynet.skyblock.commands.SkyblockCommand;
 import se.skynet.skyblock.managers.*;
 import se.skynet.skyblock.mobs.SkyblockMobEventHandler;
@@ -29,7 +30,8 @@ public final class Skyblock extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new ActionBarManager(this), this);
         this.playerManager = new SkyblockPlayerManager(this);
         this.getServer().getPluginManager().registerEvents(this.playerManager, this);
-        this.getCommand("skyblock").setExecutor(new SkyblockCommand(this));
+        SkyblockCommand.registerCommand(this.getCommand("skyblock"), new SkyblockCommand(this));
+        SkyblockCommand.registerCommand(this.getCommand("item"), new ItemCommand(this));
 
         this.databaseMethods = new SkyblockDatabaseMethods(this.getParentPlugin().getDatabaseConnectionManager());
         this.databaseMethods.createProfileTable();

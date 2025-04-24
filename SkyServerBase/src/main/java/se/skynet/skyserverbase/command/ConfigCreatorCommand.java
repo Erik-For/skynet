@@ -136,4 +136,9 @@ public class ConfigCreatorCommand extends Command {
         return false;
     }
 
+    @Override
+    protected List<String> tabComplete(Player player, CustomPlayerData playerData, Command command, String s, String[] strings) {
+        return null;
+    }
+
 }

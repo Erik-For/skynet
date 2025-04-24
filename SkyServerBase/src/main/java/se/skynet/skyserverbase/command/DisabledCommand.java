@@ -6,6 +6,8 @@ import se.skynet.skyserverbase.Rank;
 import se.skynet.skyserverbase.SkyServerBase;
 import se.skynet.skyserverbase.playerdata.CustomPlayerData;
 
+import java.util.List;
+
 public class DisabledCommand extends Command {
 
     public DisabledCommand(SkyServerBase plugin) {
@@ -16,5 +18,10 @@ public class DisabledCommand extends Command {
     protected boolean executeCommand(Player player, CustomPlayerData playerData, Command command, String s, String[] strings) {
         player.sendMessage(ChatColor.RED + "This command is disabled.");
         return true;
+    }
+
+    @Override
+    protected List<String> tabComplete(Player player, CustomPlayerData playerData, Command command, String s, String[] strings) {
+        return null;
     }
 }

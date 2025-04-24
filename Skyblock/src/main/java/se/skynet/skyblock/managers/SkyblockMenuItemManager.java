@@ -6,7 +6,9 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import se.skynet.skyblock.Skyblock;
@@ -27,7 +29,13 @@ public class SkyblockMenuItemManager implements Listener {
 
     @EventHandler
     public void preventSkyblockMenuMove(InventoryClickEvent event) {
-        if(event.getSlot() == 8) {
+        int hotbarButton = event.getHotbarButton();
+        if (hotbarButton != -1 && event.getClickedInventory().getItem(hotbarButton) != null && event.getClickedInventory().getItem(hotbarButton).getType() == Material.NETHER_STAR && event.getClickedInventory().getItem(hotbarButton).getItemMeta().getDisplayName().contains("Skyblock Menu")) {
+            event.setCancelled(true);
+            return;
+
+        }
+        if(event.getSlot() == 8 || (event.getCurrentItem().getType() == Material.NETHER_STAR && event.getCurrentItem().getItemMeta().getDisplayName().contains("Skyblock Menu"))) {
             event.setCancelled(true);
             HumanEntity whoClicked = event.getWhoClicked();
             if(whoClicked instanceof Player) {
@@ -35,6 +43,15 @@ public class SkyblockMenuItemManager implements Listener {
                 MainSkyblockMenu skyblockMenu = new MainSkyblockMenu(plugin, skyblockPlayer);
                 skyblockPlayer.getPlayer().openInventory(skyblockMenu.getInventory());
             }
+        }
+    }
+
+
+    @EventHandler
+    public void onItemDrop(PlayerDropItemEvent event) {
+        if(event.getItemDrop().getItemStack().getType() == Material.NETHER_STAR && event.getItemDrop().getItemStack().getItemMeta().getDisplayName().contains("Skyblock Menu")) {
+            event.setCancelled(true);
+            event.getPlayer().sendMessage(ChatColor.RED + "You cannot drop the Skyblock Menu item!");
         }
     }
 
@@ -59,4 +76,6 @@ public class SkyblockMenuItemManager implements Listener {
             skyblockPlayer.getPlayer().openInventory(skyblockMenu.getInventory());
         }
     }
+
+
 }

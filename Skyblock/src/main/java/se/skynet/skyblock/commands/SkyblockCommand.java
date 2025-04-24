@@ -16,6 +16,8 @@ import se.skynet.skyserverbase.command.Command;
 import se.skynet.skyserverbase.playerdata.CustomPlayerData;
 import se.skynet.skyserverbase.util.NBTHelper;
 
+import java.util.List;
+
 public class SkyblockCommand extends Command {
     private final Skyblock plugin;
     public SkyblockCommand(Skyblock plugin) {
@@ -86,32 +88,6 @@ public class SkyblockCommand extends Command {
                 player.sendMessage("§aSet skill " + skillType.getName() + " to level " + level + " and experience " + experience);
                 break;
 
-            case "item":
-                // set item in hand
-                if(args.length < 2) {
-                    player.sendMessage("§cPlease use /skyblock item <item>");
-                    return true;
-                }
-                String itemName = args[1];
-                SkyblockItemType itemType;
-                try {
-                    itemType = SkyblockItemType.valueOf(itemName.toUpperCase());
-                } catch (IllegalArgumentException e) {
-                    player.sendMessage("§cPlease use a valid item name");
-                    return true;
-                }
-
-                try {
-                    SkyblockItem skyblockItem = itemType.getItemClass().newInstance();
-                    ItemStack render = skyblockItem.render(skyblockPlayer);
-                    player.getInventory().addItem(render);
-                    player.sendMessage("§aGave you " + render.getItemMeta().getDisplayName());
-                } catch (InstantiationException | IllegalAccessException e) {
-                    player.sendMessage("§cCould not create item " + itemName);
-                    e.printStackTrace();
-                }
-
-                break;
             case "dev":
                 // toggles dev mode
                 boolean inDevMode = skyblockPlayer.isInDevMode();
@@ -174,5 +150,10 @@ public class SkyblockCommand extends Command {
         }
 
         return true;
+    }
+
+    @Override
+    protected List<String> tabComplete(Player player, CustomPlayerData customPlayerData, Command command, String s, String[] strings) {
+        return null;
     }
 }

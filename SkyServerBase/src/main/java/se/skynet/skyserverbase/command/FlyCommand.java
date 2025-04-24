@@ -6,6 +6,8 @@ import se.skynet.skyserverbase.Rank;
 import se.skynet.skyserverbase.SkyServerBase;
 import se.skynet.skyserverbase.playerdata.CustomPlayerData;
 
+import java.util.List;
+
 public class FlyCommand extends Command {
 
     public FlyCommand(SkyServerBase plugin) {
@@ -18,5 +20,10 @@ public class FlyCommand extends Command {
         player.setAllowFlight(!player.getAllowFlight());
         player.sendMessage((player.getAllowFlight() ? ChatColor.GREEN : ChatColor.RED) + "Fly mode " + (player.getAllowFlight() ? "enabled" : "disabled"));
         return true;
+    }
+
+    @Override
+    protected List<String> tabComplete(Player player, CustomPlayerData playerData, Command command, String s, String[] strings) {
+        return null;
     }
 }

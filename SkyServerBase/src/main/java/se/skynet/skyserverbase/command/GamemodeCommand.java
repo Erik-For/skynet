@@ -5,6 +5,8 @@ import se.skynet.skyserverbase.Rank;
 import se.skynet.skyserverbase.SkyServerBase;
 import se.skynet.skyserverbase.playerdata.CustomPlayerData;
 
+import java.util.List;
+
 public class GamemodeCommand extends Command {
 
 
@@ -47,5 +49,10 @@ public class GamemodeCommand extends Command {
         }
         player.sendMessage("Gamemode set to " + gamemode + ".");
         return true;
+    }
+
+    @Override
+    protected List<String> tabComplete(Player player, CustomPlayerData playerData, Command command, String s, String[] strings) {
+        return null;
     }
 }

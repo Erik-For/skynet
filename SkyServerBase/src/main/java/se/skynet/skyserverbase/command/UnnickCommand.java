@@ -45,4 +45,9 @@ public class UnnickCommand extends Command{
 
         return true;
     }
+
+    @Override
+    protected List<String> tabComplete(Player player, CustomPlayerData playerData, Command command, String s, String[] strings) {
+        return null;
+    }
 }

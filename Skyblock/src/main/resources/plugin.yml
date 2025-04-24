@@ -10,3 +10,5 @@ commands:
     description: Start a new skyblock game
     usage: /<command>
     aliases: [sb]
+  item:
+    aliases: [i]
