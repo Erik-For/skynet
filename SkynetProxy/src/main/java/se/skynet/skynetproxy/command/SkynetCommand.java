@@ -36,7 +36,7 @@ public abstract class SkynetCommand extends Command implements TabExecutor {
         ProxiedPlayer player = (ProxiedPlayer) sender;
 
         CustomPlayerData data = plugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
-        if(minRank.hasPriorityHigherThanOrEqual(data.getRank())){
+        if(minRank.hasPriorityHigherThan(data.getRank())){
             player.sendMessage(ErrorMessages.noPermission);
             return;
         }
