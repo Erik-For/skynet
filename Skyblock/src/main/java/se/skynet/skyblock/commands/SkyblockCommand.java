@@ -7,8 +7,6 @@ import org.bukkit.inventory.ItemStack;
 import se.skynet.skyblock.Skyblock;
 import se.skynet.skyblock.SkyblockPlayer;
 import se.skynet.skyblock.guis.menu.MainSkyblockMenu;
-import se.skynet.skyblock.items.SkyblockItem;
-import se.skynet.skyblock.items.SkyblockItemType;
 import se.skynet.skyblock.playerdata.SkillProgression;
 import se.skynet.skyblock.playerdata.SkillType;
 import se.skynet.skyserverbase.Rank;

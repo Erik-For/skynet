@@ -1,5 +1,7 @@
 package se.skynet.skywars;
 
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import se.skynet.skyserverbase.Rank;
@@ -28,5 +30,13 @@ public class StartCommand extends Command {
         }
         plugin.getGame().setGameState(GameState.STARTING);
         return true;
+    }
+
+
+    @Override
+    protected List<String> tabComplete(Player player, CustomPlayerData playerData, Command command, String s,
+            String[] strings) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'tabComplete'");
     }
 }

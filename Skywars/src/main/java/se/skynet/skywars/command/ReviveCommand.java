@@ -1,2 +1,3 @@
-package se.skynet.skywars.command;public class ReviveCommand {
+package se.skynet.skywars.command;
+public class ReviveCommand {
 }
