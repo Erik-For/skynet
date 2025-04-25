@@ -2,6 +2,8 @@ package se.skynet.skyblock;
 
 import org.bukkit.entity.Player;
 import se.skynet.skyblock.playerdata.PlayerProfile;
+import se.skynet.skyblock.playerdata.SkillHelper;
+import se.skynet.skyblock.playerdata.SkillType;
 import se.skynet.skyblock.playerdata.Stat;
 
 import java.util.HashMap;
@@ -33,7 +35,28 @@ public class SkyblockPlayer {
     }
 
     public Integer calculateStatMax(Stat stat) {
-        return 100;
+        int amount = 0;
+        switch(stat) {
+            case HEALTH:
+                amount = 100;
+                amount += SkillHelper.calculateHealthBonusFromFarmingLevel(profile.getSkill(SkillType.FARMING).getLevel());
+                return amount;
+            case DEFENSE:
+                amount += SkillHelper.calculateDefenseBonusFromMiningLevel(profile.getSkill(SkillType.MINING).getLevel());
+                return amount;
+            case STRENGTH:
+                return 0;
+            case CRIT_DAMAGE:
+                return 50;
+            case CRIT_CHANCE:
+                return 30;
+            case SPEED:
+                return 100;
+            case INTELLIGENCE:
+                return 100;
+            default:
+                return 0;
+        }
     }
 
     public Integer getStat(Stat stat) {

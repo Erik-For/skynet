@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SkillProgression {
-    private float experience = 0;
-    private int level = 0;
+    private float experience;
+    private int level;
 
     private SkillType skill;
 

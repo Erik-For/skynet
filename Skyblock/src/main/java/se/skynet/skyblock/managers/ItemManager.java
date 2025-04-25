@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import se.skynet.skyblock.Skyblock;
@@ -115,4 +116,8 @@ public class ItemManager implements Listener {
     }
 
 
+    @EventHandler
+    public void onItemDurability(PlayerItemDamageEvent event) {
+        event.setCancelled(true);
+    }
 }

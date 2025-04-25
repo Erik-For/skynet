@@ -143,6 +143,15 @@ public class SkyblockCommand extends Command {
                     player.sendMessage("§7" + line.replace("§", "&"));
                 }
                 break;
+            case "help":
+                player.sendMessage("§aSkyblock commands:");
+                player.sendMessage("§7/skyblock menu §8- §aOpen the main skyblock menu");
+                player.sendMessage("§7/skyblock skill <skill | list> <level> <experience> §8- §aSet skill level and experience");
+                player.sendMessage("§7/skyblock dev §8- §aToggle dev mode");
+                player.sendMessage("§7/skyblock coin <add | remove | set> <amount> §8- §aSet / add / remove coins");
+                player.sendMessage("§7/skyblock spawn §8- §aTeleport to spawn");
+                player.sendMessage("§7/skyblock nbt §8- §aDump nbt data of item in hand");
+                break;
             default:
                 player.sendMessage("§cUnknown command. Please use /skyblock help for a list of commands");
         }

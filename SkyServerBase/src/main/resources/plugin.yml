@@ -15,3 +15,5 @@ commands:
   unnick:
   hide:
   gm:
+  executeas:
+    aliases: [ea]

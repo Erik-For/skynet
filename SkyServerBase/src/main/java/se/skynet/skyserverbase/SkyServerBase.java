@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import se.skynet.skyserverbase.command.*;
 import se.skynet.skyserverbase.database.DatabaseConnectionManager;
 import se.skynet.skyserverbase.manager.PlayerVisibilityManager;
+import se.skynet.skyserverbase.manager.VanillaFeatureManager;
 import se.skynet.skyserverbase.playerdata.PlayerDataManager;
 import org.reflections.Reflections;
 import se.skynet.skyserverbase.proxy.BungeeProxyApi;
@@ -18,6 +19,8 @@ public final class SkyServerBase extends JavaPlugin {
     private ProtocolManager protocolManager;
     private PlayerVisibilityManager playerVisibilityManager;
     private BungeeProxyApi bungeeProxyApi;
+
+    private VanillaFeatureManager vanillaFeatureManager;
     private String servername;
     @Override
     public void onEnable() {
@@ -30,6 +33,8 @@ public final class SkyServerBase extends JavaPlugin {
 
         this.playerDataManager = new PlayerDataManager(this);
         this.playerVisibilityManager = new PlayerVisibilityManager(this);
+
+        this.vanillaFeatureManager = new VanillaFeatureManager(this);
 
         registerCommands();
         registerListeners();
@@ -58,6 +63,7 @@ public final class SkyServerBase extends JavaPlugin {
         Command.registerCommand(this.getCommand("hide"), new HideCommand(this));
         Command.registerCommand(this.getCommand("gm"), new GamemodeCommand(this));
         Command.registerCommand(this.getCommand("configcreator"), new ConfigCreatorCommand(this));
+        Command.registerCommand(this.getCommand("executeas"), new ExecuteAsCommand(this));
     }
 
     private void registerListeners() {
@@ -109,6 +115,10 @@ public final class SkyServerBase extends JavaPlugin {
 
     public PlayerVisibilityManager getPlayerVisibilityManager() {
         return playerVisibilityManager;
+    }
+
+    public VanillaFeatureManager getVanillaFeatureManager() {
+        return vanillaFeatureManager;
     }
 
     public BungeeProxyApi getBungeeProxyApi() {

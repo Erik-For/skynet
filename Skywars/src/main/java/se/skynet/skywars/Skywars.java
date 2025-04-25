@@ -10,6 +10,7 @@ public class Skywars extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        parentPlugin.getVanillaFeatureManager().setPvpEnabled(true);
         game = new Game(this);
         getCommand("start").setExecutor(new StartCommand(this));
     }

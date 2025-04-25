@@ -11,7 +11,7 @@ public class Skills {
 
     private Skills() {
         for (SkillType skill : SkillType.values()) {
-            this.skills.put(skill, new SkillProgression(skill, 0, 1));
+            this.skills.put(skill, new SkillProgression(skill, 0, 0));
         }
     }
 
