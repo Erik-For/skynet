@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import se.skynet.skyserverbase.SkyServerBase;
@@ -72,6 +73,11 @@ public class LobbySelectorGUI implements GUI {
                 player.sendMessage(ChatColor.RED + "An error occurred while trying to connect to the server, the server might have been shut down");
             }
         }
+    }
+
+    @Override
+    public void onClose(InventoryCloseEvent event) {
+
     }
 
     @Override

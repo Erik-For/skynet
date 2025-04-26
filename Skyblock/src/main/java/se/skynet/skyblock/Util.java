@@ -20,7 +20,7 @@ public class Util {
     }
 
     // for formating coins primarily
-    public static String formatNumberShorthand(float number) {
+    public static String formatNumberShorthand(double number) {
         // Format the number to a string with shorthand notation
         if (number >= 1_000_000_000) {
             return String.format("%.1fB", number / 1_000_000_000);
@@ -33,10 +33,10 @@ public class Util {
         }
     }
 
-    public static String formatNumberWithCommas(float number) {
+    public static String formatNumberWithCommas(double number) {
         // Format the number to a string with commas and a dot
         StringBuilder result = new StringBuilder();
-        String strNumber = String.valueOf((int) number);
+        String strNumber = String.valueOf((long) number);
         int length = strNumber.length();
 
         for (int i = 0; i < length; i++) {
@@ -49,13 +49,13 @@ public class Util {
         if (number < 1_000_000 && number % 1 != 0) {
             result.append(".");
             String decimalPart = String.valueOf(number).split("\\.")[1];
-            result.append(decimalPart);
+            result.append(decimalPart.substring(0, 1));
         }
 
         return result.toString();
     }
 
-    public static String formatNumber(float progress, int i) {
+    public static String formatNumber(double progress, int i) {
         // Format the number to a string with the specified number of decimal places
         String format = "%." + i + "f";
         return String.format(format, progress);

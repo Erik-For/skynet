@@ -9,4 +9,9 @@ public class VanillaItem extends SkyblockItem {
         super(material, name, SkyblockItemType.VANILLA, ItemRarity.COMMON, amount, maxStackSize != 1);
 
     }
+
+    @Override
+    protected void setupItem() {
+        
+    }
 }

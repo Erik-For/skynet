@@ -3,6 +3,7 @@ package se.skynet.skyserverbase.manager.headless;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.reflections.Reflections;
 import se.skynet.skyserverbase.SkyServerBase;
@@ -35,6 +36,15 @@ public class GUIManager implements Listener {
         if (holder instanceof GUI) {
             GUI gui = (GUI) holder;
             gui.onClick(event);
+        }
+    }
+
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent event) {
+        InventoryHolder holder = event.getInventory().getHolder();
+        if (holder instanceof GUI) {
+            GUI gui = (GUI) holder;
+            gui.onClose(event);
         }
     }
 

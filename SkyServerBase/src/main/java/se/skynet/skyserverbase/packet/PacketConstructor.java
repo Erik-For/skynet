@@ -3,6 +3,9 @@ package se.skynet.skyserverbase.packet;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import net.minecraft.server.v1_8_R3.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import se.skynet.skyserverbase.Rank;
@@ -133,5 +136,10 @@ public class PacketConstructor {
         packets.add(positionPacket);
 
         return packets;
+    }
+
+    // Troll packets game event demo
+    public static PacketPlayOutGameStateChange createGameEventPacket(int eventId, float value) {
+        return new PacketPlayOutGameStateChange(eventId, value);
     }
 }

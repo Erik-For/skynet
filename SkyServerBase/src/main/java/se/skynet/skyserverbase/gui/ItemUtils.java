@@ -37,6 +37,11 @@ public class ItemUtils {
 
     public static ItemStack getPlayerHeadFromTexture(String texture) {
         ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+        setSkullTexture(skull, texture);
+        return skull;
+    }
+
+    public static ItemStack setSkullTexture(ItemStack skull, String texture) {
         SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
 
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
@@ -51,6 +56,7 @@ public class ItemUtils {
             e.printStackTrace();
         }
         skull.setItemMeta(skullMeta);
+
         return skull;
     }
     public static ItemStack getItem(Material material, String name, List<String> lore) {

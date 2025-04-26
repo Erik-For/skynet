@@ -13,6 +13,7 @@ public class VanillaFeatureManager implements Listener {
     private final SkyServerBase plugin;
 
     public VanillaFeatureManager(SkyServerBase plugin) {
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
         this.plugin = plugin;
     }
 
@@ -28,6 +29,7 @@ public class VanillaFeatureManager implements Listener {
             Player player = (Player) event.getEntity();
             player.setFoodLevel(20);
             player.setSaturation(20);
+            player.setExhaustion(0);
         }
     }
 

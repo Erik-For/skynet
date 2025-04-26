@@ -1,4 +1,4 @@
-package se.skynet.skyserverbase.manager.headless;
+package se.skynet.skyserverbase.manager;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -9,6 +9,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import se.skynet.skyserverbase.SkyServerBase;
 import se.skynet.skyserverbase.gui.GUI;
+import se.skynet.skyserverbase.manager.headless.GUIManager;
+import se.skynet.skyserverbase.manager.headless.NpcManager;
 import se.skynet.skyserverbase.npc.NPC;
 import se.skynet.skyserverbase.npc.NPCClick;
 import se.skynet.skyserverbase.npc.NPCClickEvent;
@@ -23,6 +25,7 @@ public class WorldConfigManager implements Listener {
     private Location spawn = null;
 
     public WorldConfigManager(SkyServerBase plugin) {
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
         //this.plugin = plugin;
 
 
@@ -108,5 +111,9 @@ public class WorldConfigManager implements Listener {
         }
         Player player = event.getPlayer();
         player.teleport(spawn);
+    }
+
+    public Location getSpawn() {
+        return spawn;
     }
 }

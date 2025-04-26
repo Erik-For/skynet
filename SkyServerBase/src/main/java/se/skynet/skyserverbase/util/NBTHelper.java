@@ -14,8 +14,7 @@ public class NBTHelper {
 
     public static NBTTagCompound getNBTCompound(ItemStack item) {
         net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
-        NBTTagCompound compound = nmsItem.hasTag() ? nmsItem.getTag() : new NBTTagCompound();
-        return compound;
+        return nmsItem.hasTag() ? nmsItem.getTag() : new NBTTagCompound();
     }
 
     public static ItemStack applyNBTCompound(ItemStack item, NBTTagCompound compound) {

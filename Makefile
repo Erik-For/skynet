@@ -42,6 +42,9 @@ build:
 
 build_base:
 	cd SkyServerBase && ./build.sh
+	
+build_lobby:
+	cd SkyLobby && ./build.sh
 
 build_skyblock:
 	cd Skyblock && ./build.sh

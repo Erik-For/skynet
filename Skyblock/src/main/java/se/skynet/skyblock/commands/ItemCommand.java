@@ -66,7 +66,7 @@ public class ItemCommand extends Command {
 
     private void giveItemToPlayer(Player player, SkyblockItemType itemType, int count) {
         try {
-            SkyblockItem skyblockItem = itemType.getItemClass().getDeclaredConstructor().newInstance();
+            SkyblockItem skyblockItem = SkyblockItem.constructSkyblockItem(itemType.getItemClass());
             ItemStack itemStack = skyblockItem.render(plugin.getPlayerManager().getSkyblockPlayer(player));
 
             if (!NBTHelper.hasTag(itemStack, "s_id")) {

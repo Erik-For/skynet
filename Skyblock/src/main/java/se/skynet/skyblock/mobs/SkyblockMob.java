@@ -3,11 +3,13 @@ package se.skynet.skyblock.mobs;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import se.skynet.skyblock.Skyblock;
+import se.skynet.skyserverbase.manager.HologramManager;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class SkyblockMob {
+
 
     interface CustomMobPathFinding {
         void setPathFinding(EntityCreature entity);
@@ -31,13 +34,35 @@ public class SkyblockMob {
         }
         return null;
     }
+
+    public static boolean isSkyblockMob(Entity entity) {
+        if (entity instanceof LivingEntity && isWrapped(entity)) {
+            return true;
+        }
+        return false;
+    }
+    public static SkyblockMob getMob(Entity entity) {
+        if (entity instanceof LivingEntity && isWrapped(entity)) {
+            return new SkyblockMob((LivingEntity) entity);
+        }
+        return null;
+    }
     public SkyblockMob(LivingEntity entity, int health, String name, int level, CustomMobPathFinding pathFinding) {
         this.entity = entity;
         if (!isWrapped(entity)) {
             customDataStore.put(entity.getUniqueId(), new CustomMobData(name, health, level, Mob.GRAVEYARD_ZOMBIE));
         }
         entity.setCustomName(customNameFormatted(level, name, health));
-        //entity.setCustomNameVisible(true);
+        entity.setCustomNameVisible(true);
+
+        /* TODO make this work instead of customName because it is visible father back
+        int hologram = HologramManager.createHologram(entity.getLocation().add(0, 2, 0), customNameFormatted(level, name, health));
+        ArmorStand hologramEntity = (ArmorStand) entity.getWorld().getEntities().stream().filter(e -> e.getEntityId() == hologram).findFirst().orElse(null);
+        if (hologramEntity != null) {
+            entity.setPassenger(hologramEntity);
+        }
+
+         */
 
         net.minecraft.server.v1_8_R3.Entity nmsEntity = ((CraftEntity) entity).getHandle();
         if (nmsEntity instanceof EntityCreature) {
@@ -55,6 +80,10 @@ public class SkyblockMob {
 
     public Integer getHealth() {
         return getCustomMobData().getHealth();
+    }
+
+    public Mob getType() {
+        return getCustomMobData().getType();
     }
 
     public void setHealth(int health) {

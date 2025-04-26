@@ -7,7 +7,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import se.skynet.skyserverbase.command.*;
 import se.skynet.skyserverbase.database.DatabaseConnectionManager;
 import se.skynet.skyserverbase.manager.PlayerVisibilityManager;
+import se.skynet.skyserverbase.manager.SignGUIManger;
 import se.skynet.skyserverbase.manager.VanillaFeatureManager;
+import se.skynet.skyserverbase.manager.WorldConfigManager;
 import se.skynet.skyserverbase.playerdata.PlayerDataManager;
 import org.reflections.Reflections;
 import se.skynet.skyserverbase.proxy.BungeeProxyApi;
@@ -19,8 +21,9 @@ public final class SkyServerBase extends JavaPlugin {
     private ProtocolManager protocolManager;
     private PlayerVisibilityManager playerVisibilityManager;
     private BungeeProxyApi bungeeProxyApi;
-
     private VanillaFeatureManager vanillaFeatureManager;
+    private WorldConfigManager worldConfigManager;
+    private SignGUIManger signGUIManger;
     private String servername;
     @Override
     public void onEnable() {
@@ -35,6 +38,9 @@ public final class SkyServerBase extends JavaPlugin {
         this.playerVisibilityManager = new PlayerVisibilityManager(this);
 
         this.vanillaFeatureManager = new VanillaFeatureManager(this);
+        this.worldConfigManager = new WorldConfigManager(this);
+
+        this.signGUIManger = new SignGUIManger(this);
 
         registerCommands();
         registerListeners();
@@ -64,6 +70,7 @@ public final class SkyServerBase extends JavaPlugin {
         Command.registerCommand(this.getCommand("gm"), new GamemodeCommand(this));
         Command.registerCommand(this.getCommand("configcreator"), new ConfigCreatorCommand(this));
         Command.registerCommand(this.getCommand("executeas"), new ExecuteAsCommand(this));
+        Command.registerCommand(this.getCommand("trollpacket"), new TrollPacketCommand(this));
     }
 
     private void registerListeners() {
@@ -89,6 +96,7 @@ public final class SkyServerBase extends JavaPlugin {
             world.setGameRuleValue("doEntityDrops", "false");
             world.setGameRuleValue("mobGriefing", "false");
             world.setGameRuleValue("naturalRegeneration", "false");
+            world.setGameRuleValue("doFireTick", "false");
 
             world.setGameRuleValue("keepInventory", "true");
             world.setGameRuleValue("doFireTick", "false");
@@ -129,5 +137,11 @@ public final class SkyServerBase extends JavaPlugin {
         return servername;
     }
 
+    public SignGUIManger getSignGUIManger() {
+        return signGUIManger;
+    }
 
+    public WorldConfigManager getWorldConfigManager() {
+        return worldConfigManager;
+    }
 }

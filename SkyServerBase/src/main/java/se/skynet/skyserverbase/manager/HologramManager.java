@@ -24,6 +24,7 @@ public class HologramManager {
         return armorStand.getEntityId();
     }
 
+
     public static void destroyHologram(int entityId) {
         Bukkit.getServer().getWorlds().forEach(world -> {
             world.getEntities().stream().filter(e -> e.getEntityId() == entityId && e instanceof ArmorStand).forEach(Entity::remove);

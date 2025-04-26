@@ -3,6 +3,7 @@ package se.skynet.skyserverbase.gui;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import se.skynet.skyserverbase.SkyServerBase;
@@ -21,6 +22,11 @@ public class SkywarsGUI implements GUI {
         if(event.getCurrentItem().getType() == Material.DIAMOND) {
             event.getWhoClicked().sendMessage("You clicked diamond");
         }
+    }
+
+    @Override
+    public void onClose(InventoryCloseEvent event) {
+
     }
 
     @Override
