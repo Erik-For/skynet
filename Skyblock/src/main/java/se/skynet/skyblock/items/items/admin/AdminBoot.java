@@ -1,5 +1,6 @@
 package se.skynet.skyblock.items.items.admin;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -21,7 +22,7 @@ public class AdminBoot extends SkyblockItem implements SkyblockItemEvents {
 
     @Override
     protected void setupItem() {
-        addLore("When worn by an admin it kicks all players hit by the admin");
+        addLore(ChatColor.GRAY + "Hit a player with to kick them!");
         setType(SkyblockItemType.NORMAL);
         setLeatherColor(Color.RED);
     }
