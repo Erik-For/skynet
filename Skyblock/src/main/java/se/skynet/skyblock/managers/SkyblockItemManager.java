@@ -2,8 +2,10 @@ package se.skynet.skyblock.managers;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import se.skynet.skyblock.Skyblock;
@@ -121,5 +123,22 @@ public class SkyblockItemManager implements Listener {
     @EventHandler
     public void onItemDurability(PlayerItemDamageEvent event) {
         event.setCancelled(true);
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onEntityDamageEntity(EntityDamageByEntityEvent event) {
+        if(!(event.getDamager() instanceof Player)) return;
+        Player player = (Player) event.getDamager();
+        SkyblockPlayer skyblockPlayer = plugin.getPlayerManager().getSkyblockPlayer(player);
+
+        ItemStack itemInHand = player.getItemInHand();
+
+        if(!SkyblockItem.isSkyblockItem(itemInHand)) return;
+
+        SkyblockItem skyblockItem = SkyblockItem.constructSkyblockItem(SkyblockItem.getItemID(itemInHand).getItemClass(), itemInHand);
+
+        if(skyblockItem instanceof SkyblockItemEvents) {
+            ((SkyblockItemEvents) skyblockItem).onPlayerHitEntity(skyblockItem, event, skyblockPlayer);
+        }
     }
 }

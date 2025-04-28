@@ -1,5 +1,6 @@
 package se.skynet.skyblock.items;
 
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
@@ -13,5 +14,7 @@ public interface SkyblockItemEvents {
     default void onItemDrop(SkyblockItem item, PlayerDropItemEvent event) {}
 
     default void onItemPickup(SkyblockItem item, PlayerPickupItemEvent event) {}
+
+    default void onPlayerHitEntity(SkyblockItem item, EntityDamageByEntityEvent event, SkyblockPlayer skyblockPlayer) {}
 
 }
