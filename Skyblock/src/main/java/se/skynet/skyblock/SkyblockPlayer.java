@@ -50,26 +50,29 @@ public class SkyblockPlayer {
             case HEALTH:
                 amount = 100;
                 amount += SkillHelper.calculateHealthBonusFromFarmingLevel(profile.getSkill(SkillType.FARMING).getLevel());
-                amount += armor.getStat(Stat.HEALTH);
                 break;
             case DEFENSE:
                 amount += SkillHelper.calculateDefenseBonusFromMiningLevel(profile.getSkill(SkillType.MINING).getLevel());
-                amount += armor.getStat(Stat.DEFENSE);
                 break;
             case STRENGTH:
-                return 0;
+                break;
             case CRIT_DAMAGE:
-                return 50;
+                amount = 50;
+                break;
             case CRIT_CHANCE:
-                return 30;
+                amount = 30;
+                break;
             case SPEED:
-                return 100;
+                amount = 100;
+                break;
             case INTELLIGENCE:
-                return 200;
+                amount = 200;
+                break;
             default:
                 return 0;
         }
 
+        amount += armor.getStat(stat);
         if(ArmorSets.SuperiorDragonArmor.isFullSet(armor)) {
             amount = amount * 1.05;
         }

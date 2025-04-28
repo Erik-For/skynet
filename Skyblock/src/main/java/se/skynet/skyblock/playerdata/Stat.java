@@ -11,7 +11,7 @@ public enum Stat {
     HEALTH("Health", ChatColor.GREEN, ""),
     SPEED("Speed", ChatColor.GREEN, ""),
     INTELLIGENCE("Intelligence", ChatColor.GREEN, ""),
-    ;
+    MAGIC_FIND("Magic find", ChatColor.AQUA, "");
 
     private String name; // Used to display nicely
     private ChatColor color;

@@ -12,6 +12,7 @@ import se.skynet.skyblock.Skyblock;
 import se.skynet.skyblock.SkyblockPlayer;
 import se.skynet.skyblock.Util;
 import se.skynet.skyblock.guis.admin.MainAdminMenu;
+import se.skynet.skyblock.playerdata.Stat;
 import se.skynet.skyserverbase.Rank;
 import se.skynet.skyserverbase.gui.GUI;
 import se.skynet.skyserverbase.gui.GUIClickHandler;
@@ -48,14 +49,14 @@ public class MainSkyblockMenu extends GUIClickHandler implements GUI, MenuItems 
         ItemStack statsPlayerHead = new ItemStack(ItemUtils.getPlayerHead(player.getPlayer().getName()));
         // generate random stats for testing
         Map<String, Object> stats = new HashMap<>();
-        stats.put("Health", 100);
-        stats.put("Defense", 50);
-        stats.put("Speed", 20);
-        stats.put("Strength", 30);
-        stats.put("Intelligence", 40);
-        stats.put("Crit Chance", 25);
-        stats.put("Crit Damage", 50);
-        stats.put("Magic Find", 5);
+        stats.put("Health", player.calculateStatMax(Stat.HEALTH));
+        stats.put("Defense", player.calculateStatMax(Stat.DEFENSE));
+        stats.put("Speed", player.calculateStatMax(Stat.SPEED));
+        stats.put("Strength", player.calculateStatMax(Stat.STRENGTH));
+        stats.put("Intelligence", player.calculateStatMax(Stat.INTELLIGENCE));
+        stats.put("Crit Chance", player.calculateStatMax(Stat.CRIT_CHANCE));
+        stats.put("Crit Damage", player.calculateStatMax(Stat.CRIT_DAMAGE));
+        stats.put("Magic Find", player.calculateStatMax(Stat.MAGIC_FIND));
 
         applySkyBlockStatsAsLore(statsPlayerHead, stats);
         skyblockMenu.setItem(getSlot(2, 5), statsPlayerHead);
