@@ -259,7 +259,7 @@ public abstract class SkyblockItem {
         }
 
         // Add rarity to lore
-        displayLore.add(rarity.getColor() + "" + ChatColor.BOLD + rarity.getName() + " " + type.name());
+        displayLore.add(rarity.getColor() + "" + ChatColor.BOLD + rarity.getName() + " " + (type == SkyblockItemType.NORMAL ? "" : type.name()));
 
         // Apply lore and amount
         ItemUtils.setLore(itemStack, displayLore);
