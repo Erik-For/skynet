@@ -49,14 +49,15 @@ public class MainSkyblockMenu extends GUIClickHandler implements GUI, MenuItems 
         ItemStack statsPlayerHead = new ItemStack(ItemUtils.getPlayerHead(player.getPlayer().getName()));
         // generate random stats for testing
         Map<String, Object> stats = new HashMap<>();
-        stats.put("Health", player.calculateStatMax(Stat.HEALTH));
-        stats.put("Defense", player.calculateStatMax(Stat.DEFENSE));
-        stats.put("Speed", player.calculateStatMax(Stat.SPEED));
-        stats.put("Strength", player.calculateStatMax(Stat.STRENGTH));
-        stats.put("Intelligence", player.calculateStatMax(Stat.INTELLIGENCE));
-        stats.put("Crit Chance", player.calculateStatMax(Stat.CRIT_CHANCE));
-        stats.put("Crit Damage", player.calculateStatMax(Stat.CRIT_DAMAGE));
-        stats.put("Magic Find", player.calculateStatMax(Stat.MAGIC_FIND));
+        stats.put("Health", String.format("%.0f", player.calculateStatMax(Stat.HEALTH)));
+        stats.put("Defense", String.format("%.0f", player.calculateStatMax(Stat.DEFENSE)));
+        stats.put("Speed", String.format("%.0f", player.calculateStatMax(Stat.SPEED)));
+        stats.put("Strength", String.format("%.0f", player.calculateStatMax(Stat.STRENGTH)));
+        stats.put("Intelligence", String.format("%.0f", player.calculateStatMax(Stat.INTELLIGENCE)));
+        stats.put("Crit Chance", String.format("%.0f", player.calculateStatMax(Stat.CRIT_CHANCE)));
+        stats.put("Crit Damage", String.format("%.0f", player.calculateStatMax(Stat.CRIT_DAMAGE)));
+        stats.put("Magic Find", String.format("%.0f", player.calculateStatMax(Stat.MAGIC_FIND)));
+
 
         applySkyBlockStatsAsLore(statsPlayerHead, stats);
         skyblockMenu.setItem(getSlot(2, 5), statsPlayerHead);
