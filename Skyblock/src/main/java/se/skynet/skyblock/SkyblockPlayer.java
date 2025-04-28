@@ -1,16 +1,19 @@
 package se.skynet.skyblock;
 
+import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import se.skynet.skyblock.items.*;
 import se.skynet.skyblock.playerdata.PlayerProfile;
 import se.skynet.skyblock.playerdata.SkillHelper;
 import se.skynet.skyblock.playerdata.SkillType;
 import se.skynet.skyblock.playerdata.Stat;
 import se.skynet.skyserverbase.util.ScoreboardHelper;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class SkyblockPlayer {
 
@@ -18,6 +21,10 @@ public class SkyblockPlayer {
 
     private PlayerProfile profile;
     private Map<Stat, Double> stats = new HashMap<>();
+
+    private ArmorSet armor = new ArmorSet();
+
+    private SkyblockItem heldItem;
 
     private boolean devMode = false;
 
@@ -43,10 +50,12 @@ public class SkyblockPlayer {
             case HEALTH:
                 amount = 100;
                 amount += SkillHelper.calculateHealthBonusFromFarmingLevel(profile.getSkill(SkillType.FARMING).getLevel());
-                return amount;
+                amount += armor.getStat(Stat.HEALTH);
+                break;
             case DEFENSE:
                 amount += SkillHelper.calculateDefenseBonusFromMiningLevel(profile.getSkill(SkillType.MINING).getLevel());
-                return amount;
+                amount += armor.getStat(Stat.DEFENSE);
+                break;
             case STRENGTH:
                 return 0;
             case CRIT_DAMAGE:
@@ -60,6 +69,11 @@ public class SkyblockPlayer {
             default:
                 return 0;
         }
+
+        if(ArmorSets.SuperiorDragonArmor.isFullSet(armor)) {
+            amount = amount * 1.05;
+        }
+        return amount;
     }
 
     public Double getStat(Stat stat) {
@@ -120,8 +134,31 @@ public class SkyblockPlayer {
     }
 
     public void tick() {
-        // Update visuals for the player
+        // Update player gear
+        Arrays.stream(player.getInventory().getArmorContents()).filter(item -> item.getType() != Material.AIR).filter(item -> SkyblockItem.isSkyblockItem(item)).forEach(item -> {
+            SkyblockItemID id = SkyblockItem.getItemID(item);
+            SkyblockItem skyblockItem = SkyblockItem.constructSkyblockItem(id.getItemClass(), item);
+            switch(skyblockItem.getType()) {
+                case HELMET:
+                    armor.setHead(skyblockItem);
+                    break;
+                case CHESTPLATE:
+                    armor.setChest(skyblockItem);
+                    break;
+                case LEGGINGS:
+                    armor.setLegs(skyblockItem);
+                    break;
+                case BOOTS:
+                    armor.setBoots(skyblockItem);
+                    break;
+                default:
+                    break;
+            }
+        });
 
+
+
+        // Update visuals for the player
 
         // Action bar
         double hp = getStat(Stat.HEALTH);

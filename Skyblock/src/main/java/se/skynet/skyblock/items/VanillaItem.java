@@ -6,7 +6,7 @@ public class VanillaItem extends SkyblockItem {
 
 
     public VanillaItem(Material material, String name, int amount, int maxStackSize) {
-        super(material, name, SkyblockItemType.VANILLA, ItemRarity.COMMON, amount, maxStackSize != 1);
+        super(material, name, SkyblockItemID.VANILLA, ItemRarity.COMMON, amount, maxStackSize != 1);
 
     }
 

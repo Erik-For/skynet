@@ -9,14 +9,15 @@ import org.bukkit.scheduler.BukkitRunnable;
 import se.skynet.skyblock.Skyblock;
 import se.skynet.skyblock.SkyblockPlayer;
 import se.skynet.skyblock.items.*;
-import se.skynet.skyblock.items.items.Ability;
+import se.skynet.skyblock.items.Ability;
 import se.skynet.skyblock.playerdata.Stat;
 
 public class EmberRod extends SkyblockItem implements SkyblockItemEvents {
 
 
     public EmberRod() {
-        super(Material.BLAZE_ROD, "Ember Rod", SkyblockItemType.EMBER_ROD, ItemRarity.EPIC, 1, false);
+        super(Material.BLAZE_ROD, "Ember Rod", SkyblockItemID.EMBER_ROD, ItemRarity.EPIC, 1, false);
+        setType(SkyblockItemType.SWORD);
     }
 
     public EmberRod(ItemStack item) {

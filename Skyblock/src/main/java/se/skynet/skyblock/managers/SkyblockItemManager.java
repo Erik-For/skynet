@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import se.skynet.skyblock.Skyblock;
 import se.skynet.skyblock.SkyblockPlayer;
 import se.skynet.skyblock.items.*;
-import se.skynet.skyblock.items.items.Ability;
+import se.skynet.skyblock.items.Ability;
 import se.skynet.skyblock.playerdata.Stat;
 import se.skynet.skyserverbase.util.NBTHelper;
 
@@ -20,7 +20,7 @@ import java.util.UUID;
 public class SkyblockItemManager implements Listener {
 
     private final Skyblock plugin;
-    private final HashMap<SkyblockItemType, SkyblockItemEvents> items = new HashMap<>();
+    private final HashMap<SkyblockItemID, SkyblockItemEvents> items = new HashMap<>();
     private static final HashMap<UUID, Map<Ability, AbilityCooldown>> itemAbilityCooldownMap = new HashMap<>();
 
     public SkyblockItemManager(Skyblock plugin) {
@@ -43,8 +43,8 @@ public class SkyblockItemManager implements Listener {
         }
 
         String typeKey = NBTHelper.getString(itemStack, "s_type", "VANILLA");
-        SkyblockItemType type = typeKey.equals("VANILLA") ? SkyblockItemType.VANILLA : SkyblockItemType.valueOf(typeKey);
-        if (type == SkyblockItemType.VANILLA) return;
+        SkyblockItemID type = typeKey.equals("VANILLA") ? SkyblockItemID.VANILLA : SkyblockItemID.valueOf(typeKey);
+        if (type == SkyblockItemID.VANILLA) return;
 
         SkyblockItem skyblockItem = SkyblockItem.constructSkyblockItem(type.getItemClass(), itemStack);
         event.setCancelled(true);
@@ -64,8 +64,8 @@ public class SkyblockItemManager implements Listener {
         if (!SkyblockItem.isSkyblockItem(event.getItem()) || skyblockPlayer == null) return;
 
         String typeKey = NBTHelper.getString(event.getItem(), "s_type", "VANILLA");
-        SkyblockItemType type = typeKey.equals("VANILLA") ? SkyblockItemType.VANILLA : SkyblockItemType.valueOf(typeKey);
-        if (type == SkyblockItemType.VANILLA) return;
+        SkyblockItemID type = typeKey.equals("VANILLA") ? SkyblockItemID.VANILLA : SkyblockItemID.valueOf(typeKey);
+        if (type == SkyblockItemID.VANILLA) return;
 
         SkyblockItem skyblockItem = SkyblockItem.constructSkyblockItem(type.getItemClass(), event.getItem());
 
@@ -109,8 +109,8 @@ public class SkyblockItemManager implements Listener {
         if (!SkyblockItem.isSkyblockItem(itemStack)) return;
 
         String typeKey = NBTHelper.getString(itemStack, "s_type", "VANILLA");
-        SkyblockItemType type = typeKey.equals("VANILLA") ? SkyblockItemType.VANILLA : SkyblockItemType.valueOf(typeKey);
-        if (type == SkyblockItemType.VANILLA) return;
+        SkyblockItemID type = typeKey.equals("VANILLA") ? SkyblockItemID.VANILLA : SkyblockItemID.valueOf(typeKey);
+        if (type == SkyblockItemID.VANILLA) return;
 
         SkyblockItem skyblockItem = SkyblockItem.constructSkyblockItem(type.getItemClass(), itemStack);
         if (skyblockItem instanceof SkyblockItemEvents) {

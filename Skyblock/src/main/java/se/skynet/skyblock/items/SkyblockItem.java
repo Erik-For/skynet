@@ -2,8 +2,10 @@ package se.skynet.skyblock.items;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import se.skynet.skyblock.Skyblock;
 import se.skynet.skyblock.SkyblockPlayer;
 import se.skynet.skyblock.items.items.special.AdminItem;
@@ -18,15 +20,18 @@ import java.util.*;
 public abstract class SkyblockItem {
     // Core properties
     private final String name;
-    private final SkyblockItemType type;
+    private final SkyblockItemID itemID;
     private final ItemRarity rarity;
     private final UUID id;
     private final boolean stackable;
 
     // Item appearance
-    private Material material;
+    private final Material material;
     private String texture;
-    private int amount;
+    private Color leatherColor;
+
+    private SkyblockItemType type = SkyblockItemType.NORMAL;
+    private final int amount;
     private final List<String> lore = new ArrayList<>();
 
     // Item stats and functionality
@@ -36,10 +41,10 @@ public abstract class SkyblockItem {
     /**
      * Creates a new Skyblock item with the given properties.
      */
-    public SkyblockItem(Material material, String name, SkyblockItemType type, ItemRarity rarity, int amount, boolean stackable) {
+    public SkyblockItem(Material material, String name, SkyblockItemID itemID, ItemRarity rarity, int amount, boolean stackable) {
         this.material = material;
         this.name = name;
-        this.type = type;
+        this.itemID = itemID;
         this.rarity = rarity;
         this.amount = amount;
         this.stackable = stackable;
@@ -54,7 +59,7 @@ public abstract class SkyblockItem {
         if(!isSkyblockItem(item)) {
             this.material = item.getType();
             this.name = "";
-            this.type = SkyblockItemType.VANILLA;
+            this.itemID = SkyblockItemID.VANILLA;
             this.rarity = ItemRarity.COMMON;
             this.amount = item.getAmount();
             this.stackable = item.getMaxStackSize() != 1;
@@ -64,7 +69,7 @@ public abstract class SkyblockItem {
 
         this.material = item.getType();
         this.name = NBTHelper.getString(item, "s_name", "err");
-        this.type = SkyblockItemType.valueOf(NBTHelper.getString(item, "s_type", "VANILLA"));
+        this.itemID = SkyblockItemID.valueOf(NBTHelper.getString(item, "s_type", "VANILLA"));
         this.rarity = ItemRarity.valueOf(NBTHelper.getString(item, "s_rarity", "COMMON"));
         this.amount = item.getAmount();
 
@@ -94,6 +99,16 @@ public abstract class SkyblockItem {
         setupItem();
     }
 
+
+
+    public void setType(SkyblockItemType type) {
+        this.type = type;
+    }
+
+    public SkyblockItemType getType() {
+        return type;
+    }
+
     protected abstract void setupItem();
 
     // ---------- Item Attributes ----------
@@ -118,6 +133,7 @@ public abstract class SkyblockItem {
         abilities.add(ability);
     }
 
+
     public List<ItemAbility> getAbilities() {
         return abilities;
     }
@@ -130,14 +146,18 @@ public abstract class SkyblockItem {
         this.texture = texture;
     }
 
+    public void setLeatherColor(Color color) {
+        this.leatherColor = color;
+    }
+
     // ---------- Getters ----------
 
     public String getName() {
         return name;
     }
 
-    public SkyblockItemType getType() {
-        return type;
+    public SkyblockItemID getItemID() {
+        return itemID;
     }
 
     public ItemRarity getRarity() {
@@ -168,7 +188,7 @@ public abstract class SkyblockItem {
         // Debug mode info
         if (player.isInDevMode()) {
             player.getPlayer().sendMessage(ChatColor.RED + "Rendering item: " + name +
-                    " Rarity: " + rarity.getName() + " Type: " + type.name());
+                    " Rarity: " + rarity.getName() + " Type: " + itemID.name());
         }
 
         // Admin item permission check
@@ -185,6 +205,12 @@ public abstract class SkyblockItem {
         if (material == Material.SKULL_ITEM && texture != null) {
             ItemUtils.setSkullTexture(itemStack, texture);
         }
+        Set<Material> leather = new HashSet<>(Arrays.asList(Material.LEATHER_CHESTPLATE, Material.LEATHER_BOOTS, Material.LEATHER_LEGGINGS, Material.LEATHER_HELMET));
+        if(leather.contains(material) && leatherColor != null) {
+            LeatherArmorMeta meta = (LeatherArmorMeta) itemStack.getItemMeta();
+            meta.setColor(leatherColor);
+            itemStack.setItemMeta(meta);
+        }
 
         // Apply base NBT data
         if (!stackable) {
@@ -193,7 +219,7 @@ public abstract class SkyblockItem {
 
         if (!name.isEmpty()) {
             itemStack = NBTHelper.setString(itemStack, "s_name", name);
-            itemStack = NBTHelper.setString(itemStack, "s_type", type.toString());
+            itemStack = NBTHelper.setString(itemStack, "s_type", itemID.toString());
         }
 
         itemStack = NBTHelper.setString(itemStack, "s_rarity", rarity.name());
@@ -233,7 +259,7 @@ public abstract class SkyblockItem {
         }
 
         // Add rarity to lore
-        displayLore.add(rarity.getColor() + "" + ChatColor.BOLD + rarity.getName());
+        displayLore.add(rarity.getColor() + "" + ChatColor.BOLD + rarity.getName() + " " + type.name());
 
         // Apply lore and amount
         ItemUtils.setLore(itemStack, displayLore);
@@ -268,5 +294,12 @@ public abstract class SkyblockItem {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static SkyblockItemID getItemID(ItemStack item) {
+        if (isSkyblockItem(item)) {
+            return SkyblockItemID.valueOf(NBTHelper.getString(item, "s_type", "VANILLA"));
+        }
+        return SkyblockItemID.VANILLA;
     }
 }

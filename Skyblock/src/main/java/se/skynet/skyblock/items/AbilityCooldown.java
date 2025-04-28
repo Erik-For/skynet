@@ -1,7 +1,5 @@
 package se.skynet.skyblock.items;
 
-import se.skynet.skyblock.items.items.Ability;
-
 public class AbilityCooldown {
     private long lastUsedTime;
 

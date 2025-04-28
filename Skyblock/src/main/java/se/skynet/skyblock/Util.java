@@ -23,11 +23,11 @@ public class Util {
     public static String formatNumberShorthand(double number) {
         // Format the number to a string with shorthand notation
         if (number >= 1_000_000_000) {
-            return String.format("%.1fB", number / 1_000_000_000);
+            return String.format("%.1fB", number / 1_000_000_000.0D);
         } else if (number >= 1_000_000) {
-            return String.format("%.1fM", number / 1_000_000);
+            return String.format("%.1fM", number / 1_000_000.0D);
         } else if (number >= 1_000) {
-            return String.format("%.1fK", number / 1_000);
+            return String.format("%.1fK", number / 1_000.0D);
         } else {
             return formatNumber(number, 1);
         }

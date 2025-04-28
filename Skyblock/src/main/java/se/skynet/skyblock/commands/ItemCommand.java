@@ -3,9 +3,8 @@ package se.skynet.skyblock.commands;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import se.skynet.skyblock.Skyblock;
-import se.skynet.skyblock.SkyblockPlayer;
 import se.skynet.skyblock.items.SkyblockItem;
-import se.skynet.skyblock.items.SkyblockItemType;
+import se.skynet.skyblock.items.SkyblockItemID;
 import se.skynet.skyserverbase.Rank;
 import se.skynet.skyserverbase.command.Command;
 import se.skynet.skyserverbase.playerdata.CustomPlayerData;
@@ -36,7 +35,7 @@ public class ItemCommand extends Command {
         int count = parseItemCount(args, player);
         if (count == -1) return true; // Invalid count, message already sent to the player
 
-        SkyblockItemType itemType = getItemType(itemName, player);
+        SkyblockItemID itemType = getItemType(itemName, player);
         if (itemType == null) return true; // Invalid item type, message already sent to the player
 
         giveItemToPlayer(player, itemType, count);
@@ -55,16 +54,16 @@ public class ItemCommand extends Command {
         return 1; // Default count
     }
 
-    private SkyblockItemType getItemType(String itemName, Player player) {
+    private SkyblockItemID getItemType(String itemName, Player player) {
         try {
-            return SkyblockItemType.valueOf(itemName.toUpperCase());
+            return SkyblockItemID.valueOf(itemName.toUpperCase());
         } catch (IllegalArgumentException e) {
             player.sendMessage("§cInvalid item name: " + itemName);
             return null;
         }
     }
 
-    private void giveItemToPlayer(Player player, SkyblockItemType itemType, int count) {
+    private void giveItemToPlayer(Player player, SkyblockItemID itemType, int count) {
         try {
             SkyblockItem skyblockItem = SkyblockItem.constructSkyblockItem(itemType.getItemClass());
             ItemStack itemStack = skyblockItem.render(plugin.getPlayerManager().getSkyblockPlayer(player));
@@ -80,14 +79,15 @@ public class ItemCommand extends Command {
         } catch (Exception e) {
             player.sendMessage("§cCould not create item: " + itemType.name());
             plugin.getLogger().severe("Error creating item: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
     @Override
     protected List<String> tabComplete(Player player, CustomPlayerData customPlayerData, Command command, String label, String[] args) {
-        List<String> allItems = Arrays.stream(SkyblockItemType.values())
-                .filter(item -> item != SkyblockItemType.VANILLA)
-                .map(SkyblockItemType::name)
+        List<String> allItems = Arrays.stream(SkyblockItemID.values())
+                .filter(item -> item != SkyblockItemID.VANILLA)
+                .map(SkyblockItemID::name)
                 .collect(Collectors.toList());
 
         if (args.length == 0) {

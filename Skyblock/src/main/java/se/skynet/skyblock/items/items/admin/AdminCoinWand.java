@@ -1,23 +1,18 @@
 package se.skynet.skyblock.items.items.admin;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import se.skynet.skyblock.Skyblock;
 import se.skynet.skyblock.SkyblockPlayer;
 import se.skynet.skyblock.items.*;
-import se.skynet.skyblock.items.items.Ability;
+import se.skynet.skyblock.items.Ability;
 import se.skynet.skyblock.playerdata.Stat;
 import se.skynet.skyserverbase.Rank;
 
-import java.util.Arrays;
-
 public class AdminCoinWand extends SkyblockItem implements SkyblockItemEvents {
     public AdminCoinWand() {
-        super(Material.BLAZE_ROD, "Coin wand", SkyblockItemType.ADMIN_COIN_WAND, ItemRarity.ADMIN, 1,  false);
+        super(Material.BLAZE_ROD, "Coin wand", SkyblockItemID.ADMIN_COIN_WAND, ItemRarity.ADMIN, 1,  false);
     }
 
     public AdminCoinWand(ItemStack item) {

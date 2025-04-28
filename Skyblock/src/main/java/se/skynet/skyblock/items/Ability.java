@@ -1,4 +1,4 @@
-package se.skynet.skyblock.items.items;
+package se.skynet.skyblock.items;
 
 import se.skynet.skyblock.SkyblockPlayer;
 import se.skynet.skyblock.items.AbilityAction;

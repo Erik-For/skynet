@@ -1,17 +1,14 @@
 package se.skynet.skyblock.items.items.end;
 
-import com.google.common.collect.Lists;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import se.skynet.skyblock.items.*;
 import se.skynet.skyblock.playerdata.Stat;
 
-import java.util.Arrays;
-
 public class SuperiorDargonHelmet extends SkyblockItem implements SkyblockItemEvents {
     public SuperiorDargonHelmet() {
-        super(Material.SKULL_ITEM, "Superior Dragon Helmet", SkyblockItemType.SUPERIOR_DRAGON_HELMET, ItemRarity.LEGENDARY, 1, false);
+        super(Material.SKULL_ITEM, "Superior Dragon Helmet", SkyblockItemID.SUPERIOR_DRAGON_HELMET, ItemRarity.LEGENDARY, 1, false);
+        setType(SkyblockItemType.HELMET);
     }
 
     public SuperiorDargonHelmet(ItemStack item) {
@@ -20,6 +17,7 @@ public class SuperiorDargonHelmet extends SkyblockItem implements SkyblockItemEv
     }
 
     protected void setupItem() {
+        setType(SkyblockItemType.HELMET);
         setAttribute(Stat.STRENGTH, 10);
         setAttribute(Stat.CRIT_CHANCE, 2);
         setAttribute(Stat.CRIT_DAMAGE, 10);

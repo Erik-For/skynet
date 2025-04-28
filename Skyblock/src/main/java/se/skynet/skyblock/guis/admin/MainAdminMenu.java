@@ -2,7 +2,6 @@ package se.skynet.skyblock.guis.admin;
 
 import org.bukkit.Material;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
@@ -12,12 +11,11 @@ import se.skynet.skyblock.SkyblockPlayer;
 import se.skynet.skyblock.guis.menu.MainSkyblockMenu;
 import se.skynet.skyblock.guis.menu.MenuItems;
 import se.skynet.skyblock.items.SkyblockItem;
-import se.skynet.skyblock.items.SkyblockItemType;
+import se.skynet.skyblock.items.SkyblockItemID;
 import se.skynet.skyserverbase.gui.GUI;
 import se.skynet.skyserverbase.gui.GUIClickHandler;
 import se.skynet.skyserverbase.gui.ItemUtils;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -75,7 +73,7 @@ public class MainAdminMenu extends GUIClickHandler implements GUI, MenuItems {
 
 
         AtomicInteger i = new AtomicInteger();
-        Arrays.stream(SkyblockItemType.values()).filter(this::shouldInclude).filter(v -> !v.equals(SkyblockItemType.VANILLA)).forEach(itemType -> {
+        Arrays.stream(SkyblockItemID.values()).filter(this::shouldInclude).filter(v -> !v.equals(SkyblockItemID.VANILLA)).forEach(itemType -> {
             int iInner = i.getAndIncrement();
             int row = iInner / 7 + 2;
             int col = iInner % 7 + 2;
@@ -95,7 +93,7 @@ public class MainAdminMenu extends GUIClickHandler implements GUI, MenuItems {
         return inv;
     }
 
-    private boolean shouldInclude(SkyblockItemType itemType) {
+    private boolean shouldInclude(SkyblockItemID itemType) {
         if (searchString.isEmpty()) {
             return true;
         }
