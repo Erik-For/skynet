@@ -58,8 +58,10 @@ public class SkyblockMob {
         /* TODO make this work instead of customName because it is visible father back */
         int hologram = HologramManager.createHologram(entity.getLocation().add(0, 4, 0), customNameFormatted(level, name, health));
         ArmorStand hologramEntity = (ArmorStand) entity.getWorld().getEntities().stream().filter(e -> e.getEntityId() == hologram).findFirst().orElse(null);
+        System.out.println(hologramEntity.getType());
         if (hologramEntity != null) {
-            hologramEntity.setPassenger(entity);
+            hologramEntity.setMarker(false);
+            entity.setPassenger(hologramEntity);
         }
 
 
