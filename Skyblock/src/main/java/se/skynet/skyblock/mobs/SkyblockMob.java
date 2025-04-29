@@ -52,17 +52,17 @@ public class SkyblockMob {
         if (!isWrapped(entity)) {
             customDataStore.put(entity.getUniqueId(), new CustomMobData(name, health, level, Mob.GRAVEYARD_ZOMBIE));
         }
-        entity.setCustomName(customNameFormatted(level, name, health));
-        entity.setCustomNameVisible(true);
+        //entity.setCustomName(customNameFormatted(level, name, health));
+        //entity.setCustomNameVisible(true);
 
-        /* TODO make this work instead of customName because it is visible father back
+        /* TODO make this work instead of customName because it is visible father back */
         int hologram = HologramManager.createHologram(entity.getLocation().add(0, 2, 0), customNameFormatted(level, name, health));
         ArmorStand hologramEntity = (ArmorStand) entity.getWorld().getEntities().stream().filter(e -> e.getEntityId() == hologram).findFirst().orElse(null);
         if (hologramEntity != null) {
             entity.setPassenger(hologramEntity);
         }
 
-         */
+
 
         net.minecraft.server.v1_8_R3.Entity nmsEntity = ((CraftEntity) entity).getHandle();
         if (nmsEntity instanceof EntityCreature) {
