@@ -59,7 +59,7 @@ public class SkyblockMob {
         int hologram = HologramManager.createHologram(entity.getLocation().add(0, 2, 0), customNameFormatted(level, name, health));
         ArmorStand hologramEntity = (ArmorStand) entity.getWorld().getEntities().stream().filter(e -> e.getEntityId() == hologram).findFirst().orElse(null);
         if (hologramEntity != null) {
-            entity.setPassenger(hologramEntity);
+            System.out.println("Falied? passenger" + entity.setPassenger(hologramEntity));
         }
 
 

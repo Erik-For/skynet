@@ -54,3 +54,10 @@ build_skyblock:
 clean:
 	docker compose down -v
 	docker system prune -f
+
+
+push:
+	git add .
+	git commit -m "dev"
+	git push
+	
