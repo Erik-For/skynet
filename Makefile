@@ -63,3 +63,4 @@ push:
 dev_pull:
 	git stash
 	git pull
+	git stash pop
