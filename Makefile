@@ -55,9 +55,11 @@ clean:
 	docker compose down -v
 	docker system prune -f
 
-
 push:
 	git add .
 	git commit -m "dev"
 	git push
-	
+
+dev_pull:
+	git stash
+	git pull
