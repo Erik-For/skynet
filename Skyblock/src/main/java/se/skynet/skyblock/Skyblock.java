@@ -1,6 +1,7 @@
 package se.skynet.skyblock;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -48,7 +49,8 @@ public final class Skyblock extends JavaPlugin {
 
         this.getServer().getWorlds().get(0).getEntities().forEach(Entity::remove);
 
-        NpcManager.addNpc(new NPC(getParentPlugin(), "banker", "Banker", UUID.randomUUID(), "ewogICJ0aW1lc3RhbXAiIDogMTc0NTk3MDc0MDAzMiwKICAicHJvZmlsZUlkIiA6ICI2Njg5MDJmYjI1YTY0NDBhODBmM2Y2MjZhYTk0MzBmYyIsCiAgInByb2ZpbGVOYW1lIiA6ICJiYW5rZXIiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDA5ZDllNjljMzhiNzQ1MmEyNmFhN2I3ZDhjNTI0NjIwOWMwMDZjYjMzMmVhODg4ZjJlM2EzYmI1Mjc1NjQ1OCIKICAgIH0sCiAgICAiQ0FQRSIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTdkZmVhMTZkYzgzYzk3ZGYwMWExMmZhYmJkMTIxNjM1OWMwY2QwZWE0MmY5OTk5YjZlOTdjNTg0OTYzZTk4MCIKICAgIH0KICB9Cn0=", "wpGInRHGcJVyU+mr9V2nV/IYQBkUShJP+ZHYSmTwryIASbavnOeliIN0v7JuKqY3ALUYg5wOa4re5qp0CNHw2+r8rfq2zv5jSSMmYt1l2/JpOlru9jp8UzHRLUZIYbXepwrEASjo26uRCYd5zLi58kxi8tdpXSBhWPvijbV4jGDBqug/vQjA91QL7BQvfvZrMSfd/VglAslMVadvVd7RAPOpwZZnrV27H8beQPZRVy1kHoqvQhRjiEKXPSkbrM64mn7Ykd4p5WoXU2Gd9s9SbXFpTw0ZmJLwFqPbI4gABl5AiiBncjVjtrbURvsbShdwnHk2wmrzurL7wXvnBxFpXDqNrHxh4D7jfWcU9RjRdZsoDpd3tGF4K5NzwmKwl9ckHOVJk3ngXPBkly+8rzrpgbfaaUp2mjO7bgbxU/rtbEWGJhpwscfuGZ8PgV2fdXtbrRNtscg5ADuTRbkJ9y1k3pORhq2eqjiHfu4bavGG9BRRMywX1Hnvas4WK19yO7vL7MoPC5SIQOBt3Fm40kJF4/JoDlGFllpMGqOv03FGkxkZJ4oIFh5onndqe5OtNmb4jkke/0hFgW3rHDHQZGBX/+Qdy9J363N7UsvCIpsZyJGUnARH4o3Pylndm59ch9ubagXOrFofx9m/p3lJMp8W1KWaRDiWG9obs5QDXNesmlQ=", new Location(this.getServer().getWorlds().get(0), -24.5, 71, -58.5, 180, 0), new NPCClick() {
+        /* TODO make the displayName be colored with a team instead of in the nanme */
+        NpcManager.addNpc(new NPC(getParentPlugin(), "banker", "Banker", ChatColor.GOLD, UUID.randomUUID(), "ewogICJ0aW1lc3RhbXAiIDogMTc0NTk3MDc0MDAzMiwKICAicHJvZmlsZUlkIiA6ICI2Njg5MDJmYjI1YTY0NDBhODBmM2Y2MjZhYTk0MzBmYyIsCiAgInByb2ZpbGVOYW1lIiA6ICJiYW5rZXIiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDA5ZDllNjljMzhiNzQ1MmEyNmFhN2I3ZDhjNTI0NjIwOWMwMDZjYjMzMmVhODg4ZjJlM2EzYmI1Mjc1NjQ1OCIKICAgIH0sCiAgICAiQ0FQRSIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTdkZmVhMTZkYzgzYzk3ZGYwMWExMmZhYmJkMTIxNjM1OWMwY2QwZWE0MmY5OTk5YjZlOTdjNTg0OTYzZTk4MCIKICAgIH0KICB9Cn0=", "wpGInRHGcJVyU+mr9V2nV/IYQBkUShJP+ZHYSmTwryIASbavnOeliIN0v7JuKqY3ALUYg5wOa4re5qp0CNHw2+r8rfq2zv5jSSMmYt1l2/JpOlru9jp8UzHRLUZIYbXepwrEASjo26uRCYd5zLi58kxi8tdpXSBhWPvijbV4jGDBqug/vQjA91QL7BQvfvZrMSfd/VglAslMVadvVd7RAPOpwZZnrV27H8beQPZRVy1kHoqvQhRjiEKXPSkbrM64mn7Ykd4p5WoXU2Gd9s9SbXFpTw0ZmJLwFqPbI4gABl5AiiBncjVjtrbURvsbShdwnHk2wmrzurL7wXvnBxFpXDqNrHxh4D7jfWcU9RjRdZsoDpd3tGF4K5NzwmKwl9ckHOVJk3ngXPBkly+8rzrpgbfaaUp2mjO7bgbxU/rtbEWGJhpwscfuGZ8PgV2fdXtbrRNtscg5ADuTRbkJ9y1k3pORhq2eqjiHfu4bavGG9BRRMywX1Hnvas4WK19yO7vL7MoPC5SIQOBt3Fm40kJF4/JoDlGFllpMGqOv03FGkxkZJ4oIFh5onndqe5OtNmb4jkke/0hFgW3rHDHQZGBX/+Qdy9J363N7UsvCIpsZyJGUnARH4o3Pylndm59ch9ubagXOrFofx9m/p3lJMp8W1KWaRDiWG9obs5QDXNesmlQ=", new Location(this.getServer().getWorlds().get(0), -24.5, 71, -58.5, 180, 0), new NPCClick() {
             @Override
             public void onClick(NPCClickEvent npcClickEvent) {
                 System.out.println(npcClickEvent.getPlayer());

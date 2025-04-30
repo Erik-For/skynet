@@ -2,20 +2,12 @@ package se.skynet.skyserverbase.npc;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import net.minecraft.server.v1_8_R3.DataWatcher;
-import net.minecraft.server.v1_8_R3.EntityPlayer;
-import net.minecraft.server.v1_8_R3.MinecraftServer;
-import net.minecraft.server.v1_8_R3.Packet;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityHeadRotation;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
-import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
-import net.minecraft.server.v1_8_R3.PlayerInteractManager;
-import net.minecraft.server.v1_8_R3.WorldServer;
-import net.minecraft.server.v1_8_R3.WorldSettings;
+import net.minecraft.server.v1_8_R3.*;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import se.skynet.skyserverbase.SkyServerBase;
+import se.skynet.skyserverbase.packet.PacketConstructor;
 import se.skynet.skyserverbase.packet.PacketUtils;
 
 import java.util.Arrays;
@@ -31,9 +23,10 @@ public class NPC {
     private final PacketPlayOutEntityHeadRotation headRotation;
     private final PacketPlayOutPlayerInfo removeTab;
     private final PacketPlayOutEntityMetadata entityMetaData;
+    private final PacketPlayOutScoreboardTeam teamPacket;
 
     private final NPCClick clickHandler;
-    public NPC(SkyServerBase plugin, String name, String displayName, UUID uuid, String texture, String signature, Location location, NPCClick clickHandler) {
+    public NPC(SkyServerBase plugin, String name, String displayName, ChatColor nameColor, UUID uuid, String texture, String signature, Location location, NPCClick clickHandler) {
         this.clickHandler = clickHandler;
 
         MinecraftServer minecraftserver = MinecraftServer.getServer();
@@ -44,6 +37,11 @@ public class NPC {
 
         id = npc.getId();
         npc.setLocation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
+
+        String teamName = "1" + UUID.randomUUID().toString().split("-")[0];
+
+        teamPacket = PacketConstructor.createTeamPacket(teamName, teamName, "", "", ScoreboardTeamBase.EnumNameTagVisibility.ALWAYS, Arrays.asList(displayName));
+
 
         info = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, npc);
         spawn = new PacketPlayOutNamedEntitySpawn(npc);
@@ -67,7 +65,7 @@ public class NPC {
         clickHandler.onClick(npcClickEvent);
     }
     public List<Packet<?>> getPackets(){
-        return Arrays.asList(info, spawn, headRotation, entityMetaData);
+        return Arrays.asList(info, teamPacket, spawn, headRotation, entityMetaData);
     }
 
     public PacketPlayOutPlayerInfo getRemoveTab() {

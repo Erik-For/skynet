@@ -1,5 +1,6 @@
 package se.skynet.skyserverbase.manager;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -98,7 +99,7 @@ public class WorldConfigManager implements Listener {
                     }
 
                 }
-                NPC npc = new NPC(plugin, npcs, displayName, UUID.randomUUID(), skinTexture, skinSignature, new Location(plugin.getServer().getWorlds().get(0), x, y, z, yaw, pitch), clickAction);
+                NPC npc = new NPC(plugin, npcs, displayName, ChatColor.WHITE, UUID.randomUUID(), skinTexture, skinSignature, new Location(plugin.getServer().getWorlds().get(0), x, y, z, yaw, pitch), clickAction);
                 NpcManager.addNpc(npc);
             }
         }
