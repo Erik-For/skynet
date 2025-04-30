@@ -65,7 +65,7 @@ public class NPC {
         clickHandler.onClick(npcClickEvent);
     }
     public List<Packet<?>> getPackets(){
-        return Arrays.asList(info, teamPacket, spawn, headRotation, entityMetaData);
+        return Arrays.asList(info, spawn, teamPacket, headRotation, entityMetaData);
     }
 
     public PacketPlayOutPlayerInfo getRemoveTab() {
