@@ -40,7 +40,7 @@ public class NPC {
 
         String teamName = "1" + UUID.randomUUID().toString().split("-")[0];
 
-        teamPacket = PacketConstructor.createTeamPacket(teamName, teamName, "", "", ScoreboardTeamBase.EnumNameTagVisibility.ALWAYS, Arrays.asList(displayName));
+        teamPacket = PacketConstructor.createTeamPacket(teamName, teamName, nameColor + "", "", ScoreboardTeamBase.EnumNameTagVisibility.ALWAYS, Arrays.asList(name));
 
 
         info = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, npc);
