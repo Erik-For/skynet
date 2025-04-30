@@ -1,4 +1,4 @@
-.PHONY: up down restart logs ps build clean help
+.PHONY: up down restart logs ps build clean help count_java
 
 # Default target
 help:
@@ -10,6 +10,7 @@ help:
 	@echo "  make ps        - List running services"
 	@echo "  make build     - Rebuild all services"
 	@echo "  make clean     - Remove all containers, volumes, and networks"
+	@echo "  make count_java - Count total lines of Java code in src folders"
 
 # Start services
 up:
@@ -64,3 +65,9 @@ dev_pull:
 	git stash
 	git pull
 	git stash pop
+
+row_count:
+	echo
+
+count_java:
+	@find . -path "*/src/*" -name "*.java" -type f -exec wc -l {} \; | awk '{total += $$1} END {print "Total lines of Java code in src folders:", total}'

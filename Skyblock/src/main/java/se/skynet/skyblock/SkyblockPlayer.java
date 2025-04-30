@@ -103,7 +103,7 @@ public class SkyblockPlayer {
         return new Random().nextDouble() < (critChance / 100);
     }
     public double calculateDamage(boolean critical) {
-        double weapon_dmg = getHeldItem().getAttribute(Stat.DAMAGE);
+        double weapon_dmg = getHeldItem() == null ? 0 : getHeldItem().getAttribute(Stat.DAMAGE);
         double strength = calculateStatMax(Stat.STRENGTH);
         double crit_damage = calculateStatMax(Stat.CRIT_DAMAGE);
         double addativeMultiplier = 1 + SkillHelper.calculateDamageMultiplyerFromCombatLevel(profile.getSkill(SkillType.COMBAT).getLevel());
