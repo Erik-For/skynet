@@ -2,7 +2,7 @@ package se.skynet.skyblock.items;
 
 import se.skynet.skyblock.items.items.admin.AdminBoot;
 import se.skynet.skyblock.items.items.admin.AdminCoinWand;
-import se.skynet.skyblock.items.items.admin.AdminMegalodonTooth;
+import se.skynet.skyblock.items.items.admin.AdminMegalodonToothTalisman;
 import se.skynet.skyblock.items.items.admin.AdminTailsman;
 import se.skynet.skyblock.items.items.dungeon.ShadowFury;
 import se.skynet.skyblock.items.items.end.*;
@@ -11,7 +11,7 @@ import se.skynet.skyblock.items.items.special.AdminItem;
 
 public enum SkyblockItemID {
     VANILLA(SkyblockItem.class),
-    ADMIN_COIN_WAND(AdminCoinWand.class), ADMIN_BOOT(AdminBoot.class), ADMIN_TAILSMAN(AdminTailsman.class), ADMIN_MEGALODON_TOOTH(AdminMegalodonTooth.class),
+    ADMIN_COIN_WAND(AdminCoinWand.class), ADMIN_BOOT(AdminBoot.class), ADMIN_TAILSMAN(AdminTailsman.class), ADMIN_MEGALODON_TOOTH_TAILSMAN(AdminMegalodonToothTalisman.class),
     EMBER_ROD(EmberRod.class),
     ADMIN_ITEM(AdminItem.class),
     SUPERIOR_DRAGON_HELMET(SuperiorDargonHelmet.class), SUPERIOR_DRAGON_CHESTPLATE(SuperiorDragonChestplate.class), SUPERIOR_DRAGON_LEGGINGS(SuperiorDragonLeggings.class), SUPERIOR_DRAGON_BOOTS(SuperiorDragonBoots.class), ASPECT_OF_THE_DRAGONS(AspectOfTheDragons.class), SHADOW_FURY(ShadowFury.class);

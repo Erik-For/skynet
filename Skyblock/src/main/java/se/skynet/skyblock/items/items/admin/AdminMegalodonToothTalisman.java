@@ -8,12 +8,12 @@ import se.skynet.skyblock.items.SkyblockItemID;
 import se.skynet.skyblock.items.SkyblockItemType;
 import se.skynet.skyblock.playerdata.Stat;
 
-public class AdminMegalodonTooth extends SkyblockItem {
-    public AdminMegalodonTooth() {
-        super(Material.SKULL_ITEM, "Megalodon Tooth", SkyblockItemID.ADMIN_MEGALODON_TOOTH, ItemRarity.ADMIN, 1, false);
+public class AdminMegalodonToothTalisman extends SkyblockItem {
+    public AdminMegalodonToothTalisman() {
+        super(Material.SKULL_ITEM, "Megalodon Tooth", SkyblockItemID.ADMIN_MEGALODON_TOOTH_TAILSMAN, ItemRarity.ADMIN, 1, false);
     }
 
-    public AdminMegalodonTooth(ItemStack item) {
+    public AdminMegalodonToothTalisman(ItemStack item) {
         super(item);
     }
 
