@@ -103,9 +103,9 @@ public class SkyblockCommand extends Command {
                     return true;
                 }
                 String action = args[1];
-                float amount;
+                Double amount;
                 try {
-                    amount = Float.parseFloat(args[2]);
+                    amount = Double.parseDouble(args[2]);
                 } catch (NumberFormatException e) {
                     player.sendMessage("§cPlease use a valid number for amount");
                     return true;

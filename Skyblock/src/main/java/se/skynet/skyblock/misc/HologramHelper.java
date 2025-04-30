@@ -11,7 +11,7 @@ import se.skynet.skyblock.Skyblock;
 public class HologramHelper {
 
 
-    public static int createHologram(Location loc, String text) {
+    public static ArmorStand createHologram(Location loc, String text) {
         World world = loc.getWorld();
         ArmorStand armorStand = (ArmorStand) world.spawnEntity(loc, EntityType.ARMOR_STAND);
         //armorStand.teleport(loc);
@@ -23,7 +23,7 @@ public class HologramHelper {
         armorStand.setGravity(false);
         armorStand.setMarker(true);
 
-        return armorStand.getEntityId();
+        return armorStand;
     }
 
     public static void destroyHologram(int entityId, Skyblock plugin) {
@@ -33,7 +33,7 @@ public class HologramHelper {
     }
 
     public static void createHologramTemporary(Location loc, String text, int duration, Skyblock plugin) {
-        int entityId = createHologram(loc, text);
+        int entityId = createHologram(loc, text).getEntityId();
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> destroyHologram(entityId, plugin), duration);
     }
 

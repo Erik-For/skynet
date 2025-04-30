@@ -1,5 +1,7 @@
 package se.skynet.skyblock.mobs;
 
+import org.bukkit.entity.Entity;
+
 public class CustomMobData {
     private String name;
     private int maxHealth;
@@ -39,4 +41,5 @@ public class CustomMobData {
     public Mob getType() {
         return type;
     }
+
 }

@@ -61,4 +61,20 @@ public enum ArmorSets {
 
         return true;
     }
+
+    public SkyblockItemID getHead() {
+        return head;
+    }
+
+    public SkyblockItemID getChest() {
+        return chest;
+    }
+
+    public SkyblockItemID getLegs() {
+        return legs;
+    }
+
+    public SkyblockItemID getBoots() {
+        return feet;
+    }
 }

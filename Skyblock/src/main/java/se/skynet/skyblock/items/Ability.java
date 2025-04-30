@@ -9,7 +9,8 @@ import java.util.List;
 public enum Ability {
     EMBER_ROD_FIRE_BLAST("Fire Blast", AbilityAction.RIGHT_CLICK, "§7Shoots 3 Balls which deal §c30§7 damage in rapid succession in from of you.", 150, 30, true),
     COIN_WAND_GIVE_COINS("Coin Wand", AbilityAction.RIGHT_CLICK, "§7Gives you between §60§7 and §61,000,000§7 coins.", 0, 0, true),
-    ;
+    DRAGON_RAGE("Dragon Rage", AbilityAction.RIGHT_CLICK, "§7All Monsters in front of you take §a12,000§7 damage. Hit monsters take large knockback.", 100, 0, true),
+    SHADOW_FURY("Shadow Fury", AbilityAction.RIGHT_CLICK, "§7Teleport to the target location and deal §c100§7 damage to all monsters in a §a3§7 block radius.", 0, 15, true);
     private final String displayName;
     private final AbilityAction abilityAction;
     private final String description;

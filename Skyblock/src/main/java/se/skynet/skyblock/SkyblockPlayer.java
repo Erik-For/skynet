@@ -24,8 +24,6 @@ public class SkyblockPlayer {
 
     private ArmorSet armor = new ArmorSet();
 
-    private SkyblockItem heldItem;
-
     private boolean devMode = false;
 
     public SkyblockPlayer(Player player, PlayerProfile profile) {
@@ -55,12 +53,14 @@ public class SkyblockPlayer {
                 amount += SkillHelper.calculateDefenseBonusFromMiningLevel(profile.getSkill(SkillType.MINING).getLevel());
                 break;
             case STRENGTH:
+                amount += SkillHelper.calculateStrengthBonusFromCombatLevel(profile.getSkill(SkillType.FORAGING).getLevel());
                 break;
             case CRIT_DAMAGE:
                 amount = 50;
                 break;
             case CRIT_CHANCE:
                 amount = 30;
+                amount += SkillHelper.calculateCritChanceBonusFromCombatLevel(profile.getSkill(SkillType.COMBAT).getLevel());
                 break;
             case SPEED:
                 amount = 100;
@@ -68,17 +68,53 @@ public class SkyblockPlayer {
             case INTELLIGENCE:
                 amount = 200;
                 break;
+            case DAMAGE:
+                return 0;
             default:
                 return 0;
         }
 
         amount += armor.getStat(stat);
+        SkyblockItem heldItem = getHeldItem();
+        if(heldItem != null) {
+            amount += heldItem.getAttribute(stat);
+        }
+
+        for (ItemStack content : player.getInventory().getContents()) {
+            if(content == player.getInventory().getItemInHand()) continue;
+            if(content == null || content.getType() == Material.AIR) continue;
+            if(!SkyblockItem.isSkyblockItem(content)) continue;
+            SkyblockItemID id = SkyblockItem.getItemID(content);
+            if(id == null) continue;
+            SkyblockItem item = SkyblockItem.constructSkyblockItem(id.getItemClass(), content);
+            if(item == null) continue;
+            if(item.getType() == SkyblockItemType.TAILSMAN) {
+                amount += item.getAttribute(stat);
+            }
+        }
         if(ArmorSets.SuperiorDragonArmor.isFullSet(armor)) {
             amount = amount * 1.05;
         }
         return amount;
     }
 
+    public boolean shouldCrit(){
+        double critChance = calculateStatMax(Stat.CRIT_CHANCE);
+        return new Random().nextDouble() < (critChance / 100);
+    }
+    public double calculateDamage(boolean critical) {
+        double weapon_dmg = getHeldItem().getAttribute(Stat.DAMAGE);
+        double strength = calculateStatMax(Stat.STRENGTH);
+        double crit_damage = calculateStatMax(Stat.CRIT_DAMAGE);
+        double addativeMultiplier = 1 + SkillHelper.calculateDamageMultiplyerFromCombatLevel(profile.getSkill(SkillType.COMBAT).getLevel());
+        double multiplicativeMultiplier = 1;
+        double bonusModifier = 0;
+        if(!critical) {
+            crit_damage = 0;
+        }
+
+        return ((5+weapon_dmg) * (1 + strength / 100) * (addativeMultiplier) * multiplicativeMultiplier + bonusModifier) * (1 + crit_damage / 100);
+    }
     public Double getStat(Stat stat) {
         return stats.get(stat);
     }
@@ -89,6 +125,17 @@ public class SkyblockPlayer {
 
     public void addToStat(Stat stat, double value) {
         stats.put(stat, stats.get(stat) + value);
+    }
+
+    public SkyblockItem getHeldItem() {
+        if(player.getItemInHand() == null || player.getItemInHand().getType() == Material.AIR) {
+            return null;
+        }
+        if(SkyblockItem.isSkyblockItem(player.getItemInHand())) {
+            return SkyblockItem.constructSkyblockItem(SkyblockItem.getItemID(player.getItemInHand()).getItemClass(), player.getItemInHand());
+        } else {
+            return null;
+        }
     }
 
     public boolean removeFromStat(Stat stat, double value) {
@@ -126,7 +173,7 @@ public class SkyblockPlayer {
     }
 
     private void handleDeath() {
-        Float coins = getProfile().getCoins();
+        Double coins = getProfile().getCoins();
         getProfile().setCoins(coins / 2);
         Location spawn = Skyblock.getInstance().getParentPlugin().getWorldConfigManager().getSpawn();
 

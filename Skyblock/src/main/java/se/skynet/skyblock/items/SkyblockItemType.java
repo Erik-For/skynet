@@ -8,4 +8,5 @@ public enum SkyblockItemType {
     LEGGINGS,
     CHESTPLATE,
     HELMET,
+    TAILSMAN,
 }

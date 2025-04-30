@@ -1,5 +1,11 @@
 package se.skynet.skyblock;
 
+import org.bukkit.ChatColor;
+
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+
 public class Util {
     public static String intToRoman(int num) {
         // Define the values and symbols
@@ -73,6 +79,20 @@ public class Util {
     public static String insertAt(String string, String insert, int index) {
         // Insert a string at a specific index
         return string.substring(0, index) + insert + string.substring(index);
+    }
+
+    public static String formatDamage(int damage, boolean isCrit) {
+        if(!isCrit) return ChatColor.GRAY + Integer.toString(damage);
+
+        AtomicInteger i = new AtomicInteger();
+        i.set(0);
+        ChatColor[] choices = {ChatColor.WHITE, ChatColor.YELLOW, ChatColor.RED } ;
+        String damageString = Arrays.stream(Integer.toString(damage).split("")).map(s -> {
+            i.getAndIncrement();
+            return choices[(int) (((i.get() + 6) / 2) % 3)] + s;
+        }).collect(Collectors.joining(""));
+
+        return damageString;
     }
 
 }

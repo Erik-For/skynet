@@ -272,6 +272,9 @@ public abstract class SkyblockItem {
      * Checks if an ItemStack is a Skyblock item.
      */
     public static boolean isSkyblockItem(ItemStack item) {
+        if(item == null || item.getType() == Material.AIR) {
+            return false;
+        }
         return NBTHelper.hasTag(item, "s_type");
     }
 

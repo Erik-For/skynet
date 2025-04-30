@@ -27,7 +27,7 @@ public class AdminCoinWand extends SkyblockItem implements SkyblockItemEvents {
                 Skyblock instance = Skyblock.getInstance();
                 Rank rank = instance.getParentPlugin().getPlayerDataManager().getPlayerData(player.getPlayer().getUniqueId()).getRank();
                 if(rank.hasPriorityHigherThanOrEqual(Rank.ADMIN)) {
-                    float randomAmount = (float) Math.floor((Math.random() * 10000000) * 10)/10;
+                    Double randomAmount =  Math.floor((Math.random() * 10000000) * 10)/10;
                     player.getProfile().addCoins(randomAmount);
                     player.getPlayer().sendMessage(ChatColor.GREEN + "You have been given coins");
                 } else {

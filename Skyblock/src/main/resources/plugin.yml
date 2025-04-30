@@ -12,3 +12,5 @@ commands:
     aliases: [sb]
   item:
     aliases: [i]
+  armor:
+    aliases: [a]

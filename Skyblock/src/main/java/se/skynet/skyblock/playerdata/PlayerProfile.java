@@ -6,30 +6,40 @@ import java.util.UUID;
 public class PlayerProfile {
     private Skills skills;
 
-    private Float coins;
+    private Double coins;
+    private Double bankCoins;
     private UUID uuid;
 
     private Profile profile;
+    private UUID profileUUID;
 
-    public PlayerProfile(UUID uuid, List<SkillProgression> skills, float coins) {
+    public PlayerProfile(UUID uuid, UUID profileUUID, List<SkillProgression> skills, Double coins, Double bankCoins) {
         this.skills =  new Skills(skills);
+        this.profileUUID = profileUUID;
         this.uuid = uuid;
         this.coins = coins;
+        this.bankCoins = bankCoins;
     }
 
-    public Float getCoins() {
+    public Double getCoins() {
         return coins;
     }
 
-    public void setCoins(Float coins) {
+    public void setCoins(Double coins) {
         this.coins = coins;
     }
-
-    public void addCoins(Float coins) {
+    public void addCoins(Double coins) {
         this.coins += coins;
     }
 
-    public void removeCoins(float amount) {
+    public Double getBankCoins() {
+        return bankCoins;
+    }
+
+    public void setBankCoins(Double bankCoins) {
+        this.bankCoins = bankCoins;
+    }
+    public void removeCoins(Double amount) {
         this.coins -= amount;
     }
     public List<SkillProgression> getSkillsAsList() {
@@ -50,5 +60,9 @@ public class PlayerProfile {
             totalLevel += skill.getLevel();
         }
         return (float) totalLevel / skills.getSkills().size();
+    }
+
+    public UUID getProfileUUID() {
+        return profileUUID;
     }
 }

@@ -48,7 +48,7 @@ public class SkillProgression {
     }
 
     public float getProgress() {
-        return this.experience / calculateExperienceToReachLEvel(level + 1);
+        return Math.min(this.experience / calculateExperienceToReachLEvel(level + 1), 1);
     }
 
     public String getShorthandExperienceRoof(int level) {

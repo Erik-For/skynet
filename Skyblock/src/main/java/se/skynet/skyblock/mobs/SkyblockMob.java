@@ -3,12 +3,15 @@ package se.skynet.skyblock.mobs;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import se.skynet.skyblock.Skyblock;
+import se.skynet.skyblock.misc.HologramHelper;
 import se.skynet.skyserverbase.manager.HologramManager;
 
 import java.lang.reflect.Field;
@@ -49,21 +52,30 @@ public class SkyblockMob {
     }
     public SkyblockMob(LivingEntity entity, int health, String name, int level, CustomMobPathFinding pathFinding) {
         this.entity = entity;
+
+        World world = entity.getWorld();
+        Location loc = entity.getLocation();
+
         if (!isWrapped(entity)) {
+            //ArmorStand armorStand = HologramHelper.createHologram(loc.add(0, 1.5, 0), customNameFormatted(level, name, health));
             customDataStore.put(entity.getUniqueId(), new CustomMobData(name, health, level, Mob.GRAVEYARD_ZOMBIE));
         }
-        //entity.setCustomName(customNameFormatted(level, name, health));
-        //entity.setCustomNameVisible(true);
+        entity.setCustomName(customNameFormatted(level, name, health));
+        entity.setCustomNameVisible(true);
 
         /* TODO make this work instead of customName because it is visible father back */
+        /*
         int hologram = HologramManager.createHologram(entity.getLocation().add(0, 4, 0), customNameFormatted(level, name, health));
         ArmorStand hologramEntity = (ArmorStand) entity.getWorld().getEntities().stream().filter(e -> e.getEntityId() == hologram).findFirst().orElse(null);
         if (hologramEntity != null) {
-            hologramEntity.setMarker(false);
+            hologramEntity.setVisible(true);
             hologramEntity.setSmall(false);
+            hologramEntity.setBasePlate(true);
+            hologramEntity.setGravity(true);
+            hologramEntity.setMarker(false);
             entity.setPassenger(hologramEntity);
         }
-
+         */
 
 
         net.minecraft.server.v1_8_R3.Entity nmsEntity = ((CraftEntity) entity).getHandle();
@@ -95,7 +107,7 @@ public class SkyblockMob {
             return;
         }
         getCustomMobData().setHealth(health);
-        entity.setCustomName(customNameFormatted(getCustomMobData().getLevel(), getCustomMobData().getName(), health));
+        //getCustomMobData().getArmorStand().setCustomName(customNameFormatted(getCustomMobData().getLevel(), getCustomMobData().getName(), health));
     }
     public LivingEntity getHandle() {
         return entity;

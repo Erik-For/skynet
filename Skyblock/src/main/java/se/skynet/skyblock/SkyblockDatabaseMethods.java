@@ -26,6 +26,7 @@ public class SkyblockDatabaseMethods {
         String sql = "CREATE TABLE IF NOT EXISTS profiles" +
                 "(uuid VARCHAR(36) PRIMARY KEY, " +
                 "name VARCHAR(255), " +
+                "bank_coins DOUBLE DEFAULT 0," +
                 "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)";
 
         // Create PlayerProfile table
@@ -33,7 +34,7 @@ public class SkyblockDatabaseMethods {
                 "(uuid VARCHAR(36) PRIMARY KEY, " +
                 "player_id VARCHAR(36), " +
                 "profile_id VARCHAR(36), " +
-                "coins float DEFAULT 0, " +
+                "coins DOUBLE DEFAULT 0, " +
                 "FOREIGN KEY (player_id) REFERENCES players(uuid), " +
                 "FOREIGN KEY (profile_id) REFERENCES profiles(uuid))";
 
@@ -103,13 +104,15 @@ public class SkyblockDatabaseMethods {
     }
 
     public PlayerProfile loadProfile(UUID player_uuid) {
-        String sql = "SELECT * FROM player_profiles WHERE player_id = ?";
+        String sql = "SELECT * FROM `player_profiles` JOIN profiles ON player_profiles.profile_id = profiles.uuid WHERE player_id = ?;";
         try (PreparedStatement ps = this.databaseConnectionManager.getConnection().prepareStatement(sql)) {
             ps.setString(1, player_uuid.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     String playerProfileUuid = rs.getString("uuid");
-                    float coins = rs.getFloat("coins");
+                    String profileUuid = rs.getString("profile_id");
+                    Double coins = rs.getDouble("coins");
+                    Double bank_coins = rs.getDouble("bank_coins");
                     String skillSql = "SELECT * FROM skills WHERE player_profile_uuid = ?";
                     try (PreparedStatement ps2 = this.databaseConnectionManager.getConnection().prepareStatement(skillSql)) {
                         ps2.setString(1, playerProfileUuid);
@@ -121,7 +124,7 @@ public class SkyblockDatabaseMethods {
                                 float experience = rs2.getFloat("experience");
                                 skills.add(new SkillProgression(SkillType.valueOf(skillName), experience, level));
                             }
-                            return new PlayerProfile(UUID.fromString(playerProfileUuid), skills, coins);
+                            return new PlayerProfile(UUID.fromString(playerProfileUuid), UUID.fromString(profileUuid), skills, coins, bank_coins);
                         }
                     }
                 }
@@ -149,8 +152,17 @@ public class SkyblockDatabaseMethods {
 
         String sql2 = "UPDATE player_profiles SET coins = ? WHERE uuid = ?";
         try (PreparedStatement ps = this.databaseConnectionManager.getConnection().prepareStatement(sql2)) {
-            ps.setFloat(1, playerProfile.getCoins());
+            ps.setDouble(1, playerProfile.getCoins());
             ps.setString(2, playerProfile.getUuid().toString());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        String sql3 = "UPDATE profiles SET bank_coins = ? WHERE uuid = ?";
+        try (PreparedStatement ps = this.databaseConnectionManager.getConnection().prepareStatement(sql3)) {
+            ps.setDouble(1, playerProfile.getBankCoins());
+            ps.setString(2, playerProfile.getProfileUUID().toString());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

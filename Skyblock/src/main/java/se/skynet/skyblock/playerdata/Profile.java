@@ -26,8 +26,14 @@ public class Profile {
         return uuid;
     }
 
+    public Float bankCoins;
+
     public List<PlayerProfile> getMembers() {
         return members;
+    }
+
+    public Float getBankCoins() {
+        return bankCoins;
     }
 
     public PlayerProfile addMember(SkyblockPlayer player) {

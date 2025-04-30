@@ -2,7 +2,6 @@ package se.skynet.skyblock.mobs;
 
 import net.minecraft.server.v1_8_R3.EntityZombie;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Zombie;
 
 public enum Mob {
     GRAVEYARD_ZOMBIE("Graveyard Zombie", 100, 1, EntityType.ZOMBIE, false, entity -> {
